@@ -215,6 +215,20 @@ export default function HomePage() {
     })
   }
 
+  const handleRestoreData = (restored: { person: PersonData; school?: SchoolData; university?: UniversityData }) => {
+    setData(restored.person)
+    if (restored.school) setSchoolData(restored.school)
+    if (restored.university) setUniversityData(restored.university)
+    if (restored.person.state) {
+      updateUrlParams({
+        state: restored.person.state,
+        city: restored.person.city || "",
+        gender: restored.person.gender || "",
+        nameSet: restored.person.nameSet || "",
+      })
+    }
+  }
+
   const handleCopyAll = async () => {
     if (!data) return
 
@@ -359,6 +373,7 @@ export default function HomePage() {
         schoolData={schoolData}
         universityData={universityData}
         visibleFields={visibleFields}
+        onRestore={handleRestoreData}
       />
 
       {/* 官方美高成绩单生成器与打印弹窗 */}
