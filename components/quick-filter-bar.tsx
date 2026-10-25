@@ -2,7 +2,7 @@
 
 import { Button } from "@/components/ui/button"
 import { StateCombobox } from "@/components/state-combobox"
-import { RefreshCw, Copy, Settings, Download, X } from "lucide-react"
+import { RefreshCw, Copy, Settings, Download, FileText, X } from "lucide-react"
 import { US_STATES } from "@/lib/constants"
 
 interface QuickFilterBarProps {
@@ -18,6 +18,7 @@ interface QuickFilterBarProps {
   onCopyAll: () => void
   onOpenConfig: () => void
   onOpenJsonExport: () => void
+  onOpenTranscript?: () => void
 }
 
 const AGE_BRACKETS = [
@@ -48,6 +49,7 @@ export function QuickFilterBar({
   onCopyAll,
   onOpenConfig,
   onOpenJsonExport,
+  onOpenTranscript,
 }: QuickFilterBarProps) {
   return (
     <div className="rounded-2xl border border-slate-200/80 bg-white p-3.5 sm:p-5 shadow-sm">
@@ -137,8 +139,8 @@ export function QuickFilterBar({
             {loading ? "生成中..." : "生成新地址"}
           </Button>
 
-          {/* 次要操作按钮：三列等宽，文案统一为简洁4字，彻底杜绝 ... 截断 */}
-          <div className="grid grid-cols-3 gap-1.5 sm:flex sm:items-center sm:gap-2">
+          {/* 次要操作按钮：4列等宽，文案统一为简洁4字，彻底杜绝 ... 截断 */}
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-1.5 sm:flex sm:items-center sm:gap-2">
             <Button
               variant="outline"
               onClick={onCopyAll}
@@ -156,6 +158,17 @@ export function QuickFilterBar({
               <Settings className="mr-1 h-3.5 w-3.5 text-slate-400 shrink-0" />
               <span>高级筛选</span>
             </Button>
+
+            {onOpenTranscript && (
+              <Button
+                variant="outline"
+                onClick={onOpenTranscript}
+                className="h-9 rounded-lg border-blue-200 bg-blue-50/60 px-2 sm:px-3 text-xs font-semibold text-blue-700 shadow-xs hover:bg-blue-100 hover:text-blue-800 transition-all"
+              >
+                <FileText className="mr-1 h-3.5 w-3.5 text-blue-600 shrink-0" />
+                <span>官方成绩</span>
+              </Button>
+            )}
 
             <Button
               variant="outline"

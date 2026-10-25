@@ -13,6 +13,7 @@ import {
   ExternalLink,
   ChevronDown,
   ChevronUp,
+  FileText,
 } from "lucide-react"
 import { toast } from "@/hooks/use-toast"
 import type { PersonData, SchoolData, UniversityData } from "@/lib/types"
@@ -24,6 +25,7 @@ interface DetailInfoCardProps {
   schoolData: SchoolData | null
   universityData: UniversityData | null
   visibleFields: string[]
+  onOpenTranscript?: () => void
 }
 
 export function DetailInfoCard({
@@ -31,6 +33,7 @@ export function DetailInfoCard({
   schoolData,
   universityData,
   visibleFields,
+  onOpenTranscript,
 }: DetailInfoCardProps) {
   const [copiedKey, setCopiedKey] = useState<string | null>(null)
   const [showPassword, setShowPassword] = useState(false)
@@ -236,9 +239,21 @@ export function DetailInfoCard({
                 <span className="text-xs sm:text-[13px] font-semibold text-slate-700 truncate">
                   就读中学 (NCES 认证公立学校)
                 </span>
-                <span className="inline-flex items-center rounded-full bg-emerald-50 px-2.5 py-0.5 text-xs font-semibold text-emerald-700 border border-emerald-200 shrink-0">
-                  {schoolData.st_grade}-{schoolData.end_grade} 年级
-                </span>
+                <div className="flex items-center gap-1.5 shrink-0">
+                  <span className="inline-flex items-center rounded-full bg-emerald-50 px-2.5 py-0.5 text-xs font-semibold text-emerald-700 border border-emerald-200">
+                    {schoolData.st_grade}-{schoolData.end_grade} 年级
+                  </span>
+                  {onOpenTranscript && (
+                    <button
+                      onClick={onOpenTranscript}
+                      className="inline-flex items-center gap-1 rounded-md bg-blue-50 px-2 py-0.5 text-xs font-bold text-blue-700 border border-blue-200 hover:bg-blue-100 hover:text-blue-800 transition-colors"
+                      title="生成/查看官方成绩单模板"
+                    >
+                      <FileText className="h-3 w-3" />
+                      成绩单
+                    </button>
+                  )}
+                </div>
               </div>
               <div className="mt-1.5 font-mono text-sm sm:text-[15px] font-bold text-slate-900">
                 {formatAddressTitle(schoolData.name)}

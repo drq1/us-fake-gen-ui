@@ -5,6 +5,7 @@ import { useSearchParams, useRouter } from "next/navigation"
 import { toast } from "@/hooks/use-toast"
 import ConfigDialog from "@/components/config-dialog"
 import JsonDownloadDialog from "@/components/json-download-dialog"
+import { TranscriptModal } from "@/components/transcript-modal"
 import { QuickFilterBar } from "@/components/quick-filter-bar"
 import { PresetScenarios } from "@/components/preset-scenarios"
 import { AddressInfoCard } from "@/components/address-info-card"
@@ -21,6 +22,7 @@ export default function HomePage() {
   const [data, setData] = useState<PersonData | null>(null)
   const [loading, setLoading] = useState(false)
   const [configOpen, setConfigOpen] = useState(false)
+  const [transcriptOpen, setTranscriptOpen] = useState(false)
   const [schoolData, setSchoolData] = useState<SchoolData | null>(null)
   const [universityData, setUniversityData] = useState<UniversityData | null>(null)
   const [jsonDialogOpen, setJsonDialogOpen] = useState(false)
@@ -284,6 +286,7 @@ export default function HomePage() {
           onCopyAll={handleCopyAll}
           onOpenConfig={() => setConfigOpen(true)}
           onOpenJsonExport={() => setJsonDialogOpen(true)}
+          onOpenTranscript={() => setTranscriptOpen(true)}
         />
 
         {/* 核心双栏平衡数据展示板 */}
@@ -302,6 +305,7 @@ export default function HomePage() {
                   schoolData={schoolData}
                   universityData={universityData}
                   visibleFields={visibleFields}
+                  onOpenTranscript={() => setTranscriptOpen(true)}
                 />
               </div>
             </div>
@@ -344,6 +348,17 @@ export default function HomePage() {
         universityData={universityData}
         visibleFields={visibleFields}
       />
+
+      {/* 官方美高成绩单生成器与打印弹窗 */}
+      {data && (
+        <TranscriptModal
+          open={transcriptOpen}
+          onOpenChange={setTranscriptOpen}
+          person={data}
+          school={schoolData}
+          seed={seed}
+        />
+      )}
     </div>
   )
 }
