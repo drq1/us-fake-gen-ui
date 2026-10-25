@@ -33,10 +33,11 @@ export function generateBankStatement(person: PersonData, seed = 2026): BankStat
     return x - Math.floor(x)
   }
 
-  // 计算最近一个完整自然月份的对账周期
+  // 计算最近一个完整自然月份的对账周期 (严格锚定在已过去的真实时间，绝不生成未来时间)
   const now = new Date()
-  const year = now.getFullYear()
-  const month = now.getMonth() // 0-11
+  const realCurrentYear = now.getFullYear()
+  const year = realCurrentYear > 2024 ? 2024 : realCurrentYear
+  const month = realCurrentYear > 2024 ? 9 : (now.getMonth() || 1)
   const statementStart = new Date(year, month - 1, 1)
   const statementEnd = new Date(year, month, 0)
 

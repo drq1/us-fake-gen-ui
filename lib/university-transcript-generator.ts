@@ -194,14 +194,25 @@ export function generateUniversityTranscript(
   const catalog = selectCatalog(person.occupation)
   const regOfficer = REGISTRAR_OFFICERS[Math.floor(randomAt(1) * REGISTRAR_OFFICERS.length)]
 
-  // 计算入学与毕业年份 (以 22 岁毕业为基准)
-  const currentYear = 2026
-  let gradYear = currentYear - 2
+  // 计算入学与毕业年份 (以 22 岁毕业为基准，严格限制不超过 2024 年，绝不生成未来时间)
+  let birthYear = 2000
   if (person.birthday) {
-    const birthYear = parseInt(person.birthday.slice(0, 4), 10)
-    if (!isNaN(birthYear)) {
-      gradYear = birthYear + 22
+    const parts = person.birthday.split(/[-/]/)
+    if (parts.length >= 3) {
+      const parsed = parseInt(parts[0], 10) > 1900 ? parseInt(parts[0], 10) : parseInt(parts[2], 10)
+      if (!isNaN(parsed) && parsed > 1940 && parsed < 2020) {
+        birthYear = parsed
+      }
     }
+  }
+
+  const MAX_COMPLETED_YEAR = 2024
+  let gradYear = birthYear + 22
+  if (gradYear > MAX_COMPLETED_YEAR) {
+    gradYear = MAX_COMPLETED_YEAR
+  }
+  if (gradYear < 1980) {
+    gradYear = 2020
   }
   const entryYear = gradYear - 4
 
@@ -319,7 +330,7 @@ export function generateUniversityTranscript(
     studentId: studentUid,
     dob: person.birthday || "2000-05-14",
     ssnMasked: `***-**-${ssnLast4}`,
-    dateIssued: "October 24, 2026",
+    dateIssued: `June 05, ${gradYear}`,
     degreeConferred: catalog.degreeName,
     major: catalog.major,
     minor: catalog.minor,

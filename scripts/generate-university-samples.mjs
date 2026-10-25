@@ -118,7 +118,7 @@ async function buildUniversityTranscriptPdf(options) {
   drawKV(midX, curY, "Conferral Date:", options.conferralDate || "May 18, 2024")
   curY -= 11
 
-  drawKV(leftX, curY, "Date Issued:", options.dateIssued || "October 24, 2026")
+  drawKV(leftX, curY, "Date Issued:", options.dateIssued || "June 05, 2024")
   drawKV(midX, curY, "Graduation Honors:", options.honors || "Magna Cum Laude")
   curY -= 14
 

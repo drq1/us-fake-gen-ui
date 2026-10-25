@@ -85,7 +85,7 @@ export function generateTranscriptData(
 ): StudentTranscript {
   const rand = seededRandom(seed)
 
-  // 1. 推算毕业年份与学年
+  // 1. 推算毕业年份与学年 (严格确保所有学业、毕业与发证时间均为已发生的过去时间，绝不生成未来时间)
   let birthYear = 2004
   if (person.birthday) {
     const parts = person.birthday.split(/[-/]/)
@@ -97,14 +97,14 @@ export function generateTranscriptData(
     }
   }
 
-  // 美国高中毕业一般在 18 周岁
+  // 美国高中正常在 18 周岁毕业；已完成成绩单上限锚定为 2024 年，严禁生成未来学年
+  const MAX_COMPLETED_YEAR = 2024
   let gradYear = birthYear + 18
-  const currentYear = new Date().getFullYear()
-  if (gradYear > currentYear) {
-    gradYear = currentYear
+  if (gradYear > MAX_COMPLETED_YEAR) {
+    gradYear = MAX_COMPLETED_YEAR
   }
-  if (gradYear < 2000) {
-    gradYear = 2022
+  if (gradYear < 1980) {
+    gradYear = 2018
   }
 
   // 2. 学校信息确定
