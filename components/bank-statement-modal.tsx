@@ -57,8 +57,9 @@ export function BankStatementModal({
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="w-[98vw] max-w-5xl max-h-[95vh] overflow-y-auto p-3 sm:p-6 bg-slate-100 print:bg-white print:p-0 print:border-none print:shadow-none print:max-w-none print:w-full print:max-h-none print:overflow-visible rounded-2xl">
-        <DialogHeader className="print:hidden border-b border-slate-200 pb-3">
+      <DialogContent className="w-[98vw] max-w-5xl h-[92vh] max-h-[92vh] flex flex-col p-0 overflow-hidden bg-slate-100 rounded-2xl border border-slate-200 shadow-2xl print:bg-white print:p-0 print:border-none print:shadow-none print:max-w-none print:w-full print:h-auto print:max-h-none print:overflow-visible">
+        {/* 固定顶部操作栏 (独立置顶，绝不跟随滚动) */}
+        <DialogHeader className="print:hidden border-b border-slate-200 bg-white px-4 sm:px-6 py-3.5 shrink-0 z-10 text-left">
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
             <div>
               <DialogTitle className="text-base sm:text-lg font-bold flex items-center gap-2 text-slate-900">
@@ -145,20 +146,22 @@ export function BankStatementModal({
           </div>
         </DialogHeader>
 
-        {/* 账单主体预览区域 */}
-        <div className="my-3 overflow-x-auto print:my-0 print:overflow-visible">
-          {statementData && (
-            <BankStatementSheet
-              data={statementData}
-              isEditable={isEditable}
-              watermark={watermark}
-              onUpdate={setStatementData}
-            />
-          )}
+        {/* 账单主体内容独立滚动区域 */}
+        <div className="flex-1 overflow-y-auto overflow-x-hidden p-3 sm:p-6 print:p-0 print:overflow-visible">
+          <div className="overflow-x-auto print:overflow-visible">
+            {statementData && (
+              <BankStatementSheet
+                data={statementData}
+                isEditable={isEditable}
+                watermark={watermark}
+                onUpdate={setStatementData}
+              />
+            )}
+          </div>
         </div>
 
-        {/* 底部引导栏 */}
-        <div className="print:hidden border-t border-slate-200 pt-3 flex flex-col sm:flex-row items-center justify-between text-xs text-slate-500 gap-2">
+        {/* 底部引导栏 (固定在底部，绝不跟随滚动) */}
+        <div className="print:hidden border-t border-slate-200 bg-white px-4 sm:px-6 py-3 shrink-0 flex flex-col sm:flex-row items-center justify-between text-xs text-slate-500 gap-2">
           <span>
             💡 提示：用于海外金融平台、加密货币或跨国电商验证时，打印「另存为 PDF」并选择 <b>Letter</b> 纸张即可。
           </span>

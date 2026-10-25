@@ -104,15 +104,15 @@ export function ReferenceTemplatesModal({
             </div>
           </div>
 
-          {/* 分类筛选横条 */}
-          <div className="flex items-center gap-1.5 overflow-x-auto pt-3 pb-1 scrollbar-thin">
+          {/* 分类筛选标签群 (自适应整齐折行，彻底消除横向滚动条) */}
+          <div className="flex flex-wrap items-center gap-1.5 pt-3">
             {REFERENCE_CATEGORIES.map((cat) => {
               const isSelected = selectedCat === cat.id
               return (
                 <button
                   key={cat.id}
                   onClick={() => setSelectedCat(cat.id)}
-                  className={`px-2.5 py-1 rounded-lg text-xs font-semibold whitespace-nowrap transition-all shrink-0 ${
+                  className={`px-2.5 py-1 rounded-lg text-xs font-semibold whitespace-nowrap transition-all ${
                     isSelected
                       ? "bg-blue-600 text-white shadow-xs"
                       : "bg-slate-100 text-slate-600 border border-slate-200/80 hover:bg-slate-200"
