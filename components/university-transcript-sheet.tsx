@@ -192,29 +192,29 @@ export function UniversityTranscriptSheet({
                 </div>
 
                 {/* 课程列表 */}
-                <table className="w-full text-left text-[11px]">
+                <table className="w-full text-left text-[11px] border-collapse">
                   <thead>
                     <tr className="bg-slate-100 text-slate-600 border-b border-slate-200">
-                      <th className="py-1 px-1.5 font-semibold w-16">COURSE</th>
+                      <th className="py-1 pl-2 pr-1 font-semibold w-14">COURSE</th>
                       <th className="py-1 px-1 font-semibold">TITLE</th>
-                      <th className="py-1 px-1 font-semibold text-center w-8">ATT</th>
-                      <th className="py-1 px-1 font-semibold text-center w-8">EARN</th>
-                      <th className="py-1 px-1 font-semibold text-center w-8">GRD</th>
-                      <th className="py-1 px-1.5 font-semibold text-right w-10">PTS</th>
+                      <th className="py-1 px-0.5 font-semibold text-center w-7">ATT</th>
+                      <th className="py-1 px-0.5 font-semibold text-center w-7">ERN</th>
+                      <th className="py-1 px-0.5 font-semibold text-center w-7">GRD</th>
+                      <th className="py-1 pl-0.5 pr-2.5 font-semibold text-right w-12">PTS</th>
                     </tr>
                   </thead>
                   <tbody className="divide-y divide-slate-100">
                     {sem.courses.map((c, cIdx) => (
                       <tr key={c.code} className="hover:bg-slate-50">
-                        <td className="py-0.5 px-1.5 font-mono font-semibold text-slate-800 whitespace-nowrap">
+                        <td className="py-0.5 pl-2 pr-1 font-mono font-semibold text-slate-800 whitespace-nowrap">
                           {c.code}
                         </td>
-                        <td className="py-0.5 px-1 text-slate-700 truncate max-w-[150px]" title={c.title}>
+                        <td className="py-0.5 px-1 text-slate-700 truncate max-w-[130px] sm:max-w-[155px]" title={c.title}>
                           {c.title}
                         </td>
-                        <td className="py-0.5 px-1 text-center font-mono">{c.creditsAttempted.toFixed(1)}</td>
-                        <td className="py-0.5 px-1 text-center font-mono">{c.creditsEarned.toFixed(1)}</td>
-                        <td className="py-0.5 px-1 text-center font-mono font-bold text-slate-900">
+                        <td className="py-0.5 px-0.5 text-center font-mono">{c.creditsAttempted.toFixed(1)}</td>
+                        <td className="py-0.5 px-0.5 text-center font-mono">{c.creditsEarned.toFixed(1)}</td>
+                        <td className="py-0.5 px-0.5 text-center font-mono font-bold text-slate-900">
                           {isEditable ? (
                             <input
                               type="text"
@@ -226,7 +226,7 @@ export function UniversityTranscriptSheet({
                             c.grade
                           )}
                         </td>
-                        <td className="py-0.5 px-1.5 text-right font-mono text-slate-700">
+                        <td className="py-0.5 pl-0.5 pr-2.5 text-right font-mono text-slate-700 whitespace-nowrap">
                           {c.gradePoints.toFixed(2)}
                         </td>
                       </tr>

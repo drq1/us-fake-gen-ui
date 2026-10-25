@@ -16,6 +16,7 @@ import {
   Heart,
   FileSpreadsheet,
   FileCheck,
+  Sparkles,
 } from "lucide-react"
 import {
   REFERENCE_CATEGORIES,
@@ -27,12 +28,14 @@ interface ReferenceTemplatesModalProps {
   open: boolean
   onOpenChange: (open: boolean) => void
   onGenerateBankStatement?: () => void
+  onGenerateTranscript?: (tab?: "highSchool" | "university") => void
 }
 
 export function ReferenceTemplatesModal({
   open,
   onOpenChange,
   onGenerateBankStatement,
+  onGenerateTranscript,
 }: ReferenceTemplatesModalProps) {
   const [selectedCat, setSelectedCat] = useState("all")
   const [searchQuery, setSearchQuery] = useState("")
@@ -152,13 +155,56 @@ export function ReferenceTemplatesModal({
                   分类: <b className="text-slate-700">{item.categoryChinese}</b>
                 </span>
 
-                <div className="flex items-center gap-1.5">
+                <div className="flex flex-wrap items-center gap-1.5">
+                  {/* 若支持基于当前人偶一键生成，显示显目一键生成按钮 */}
+                  {item.category === "bank" && onGenerateBankStatement && (
+                    <button
+                      onClick={() => {
+                        onOpenChange(false)
+                        onGenerateBankStatement()
+                      }}
+                      className="inline-flex items-center gap-1 px-2.5 py-1 rounded-md text-xs font-bold bg-red-600 text-white hover:bg-red-700 shadow-2xs transition-colors"
+                      title="使用当前人偶姓名与物理地址，一键生成配套月度账单与资金流水"
+                    >
+                      <Sparkles className="h-3 w-3" />
+                      一键生成本人账单
+                    </button>
+                  )}
+
+                  {item.category === "transcript" && onGenerateTranscript && (
+                    <button
+                      onClick={() => {
+                        onOpenChange(false)
+                        onGenerateTranscript("highSchool")
+                      }}
+                      className="inline-flex items-center gap-1 px-2.5 py-1 rounded-md text-xs font-bold bg-blue-600 text-white hover:bg-blue-700 shadow-2xs transition-colors"
+                      title="一键生成当前人偶美高官方成绩单"
+                    >
+                      <Sparkles className="h-3 w-3" />
+                      一键生成成绩单
+                    </button>
+                  )}
+
+                  {item.category === "act_sat" && onGenerateTranscript && (
+                    <button
+                      onClick={() => {
+                        onOpenChange(false)
+                        onGenerateTranscript("highSchool")
+                      }}
+                      className="inline-flex items-center gap-1 px-2.5 py-1 rounded-md text-xs font-bold bg-indigo-600 text-white hover:bg-indigo-700 shadow-2xs transition-colors"
+                      title="查看并生成当前人偶配套的 SAT / ACT 标化考分"
+                    >
+                      <Sparkles className="h-3 w-3" />
+                      一键生成标化考分
+                    </button>
+                  )}
+
                   <a
                     href={item.filePath}
                     target="_blank"
                     rel="noopener noreferrer"
                     download
-                    className="inline-flex items-center gap-1 px-2.5 py-1 rounded-md text-xs font-semibold bg-blue-50 text-blue-700 border border-blue-200 hover:bg-blue-100 transition-colors"
+                    className="inline-flex items-center gap-1 px-2.5 py-1 rounded-md text-xs font-semibold bg-slate-100 text-slate-700 border border-slate-200 hover:bg-slate-200 transition-colors"
                   >
                     <Download className="h-3 w-3" />
                     下载模板
@@ -172,7 +218,7 @@ export function ReferenceTemplatesModal({
                       className="inline-flex items-center gap-1 px-2 py-1 rounded-md text-xs font-semibold text-slate-600 hover:text-slate-900"
                     >
                       <ExternalLink className="h-3 w-3" />
-                      预览原图
+                      原图
                     </a>
                   )}
                 </div>

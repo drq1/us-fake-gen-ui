@@ -443,6 +443,8 @@ export default function HomePage() {
       <ReferenceTemplatesModal
         open={templatesModalOpen}
         onOpenChange={setTemplatesModalOpen}
+        onGenerateBankStatement={() => setBankModalOpen(true)}
+        onGenerateTranscript={handleOpenTranscript}
       />
     </div>
   )

@@ -180,6 +180,18 @@ const REGISTRAR_OFFICERS = [
   { name: "Dr. Evelyn K. Thorne, Ph.D.", title: "University Registrar & Associate Provost" },
 ]
 
+function parseBirthYear(birthday?: string): number {
+  if (!birthday) return 2000
+  const parts = birthday.trim().split(/[-/.]/)
+  for (const p of parts) {
+    const num = parseInt(p, 10)
+    if (!isNaN(num) && num >= 1940 && num <= 2024) {
+      return num
+    }
+  }
+  return 2000
+}
+
 export function generateUniversityTranscript(
   person: PersonData,
   university: UniversityData | null,
@@ -195,17 +207,7 @@ export function generateUniversityTranscript(
   const regOfficer = REGISTRAR_OFFICERS[Math.floor(randomAt(1) * REGISTRAR_OFFICERS.length)]
 
   // 计算入学与毕业年份 (以 22 岁毕业为基准，严格限制不超过 2024 年，绝不生成未来时间)
-  let birthYear = 2000
-  if (person.birthday) {
-    const parts = person.birthday.split(/[-/]/)
-    if (parts.length >= 3) {
-      const parsed = parseInt(parts[0], 10) > 1900 ? parseInt(parts[0], 10) : parseInt(parts[2], 10)
-      if (!isNaN(parsed) && parsed > 1940 && parsed < 2020) {
-        birthYear = parsed
-      }
-    }
-  }
-
+  const birthYear = parseBirthYear(person.birthday)
   const MAX_COMPLETED_YEAR = 2024
   let gradYear = birthYear + 22
   if (gradYear > MAX_COMPLETED_YEAR) {

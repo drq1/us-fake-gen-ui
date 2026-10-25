@@ -89,10 +89,10 @@ export function TranscriptModal({
   }
 
   const hsSamples = [
-    { name: "加州公立高中", file: "/samples/Sample_1_Public_High_School_CA.pdf" },
-    { name: "德州AAR标准", file: "/samples/Sample_2_Texas_AAR_Style_TX.pdf" },
-    { name: "纽约史岱文森", file: "/samples/Sample_3_New_York_Stuyvesant_NY.pdf" },
-    { name: "俄勒冈林肯高中", file: "/samples/Sample_4_Oregon_Lincoln_OR.pdf" },
+    { name: "Parchment 权威交付电子档", file: "/templates/08_High_School_Transcripts/High_School_Official_Record_Parchment.pdf" },
+    { name: "4年制公立高中官方原样", file: "/templates/08_High_School_Transcripts/High_School_Sample_Standard_Transcript.pdf" },
+    { name: "官方加注 Duplicate 补发本", file: "/templates/08_High_School_Transcripts/High_School_Duplicate_Transcript.pdf" },
+    { name: "真实教务档案实物照", file: "/templates/08_High_School_Transcripts/High_School_Transcript_Full_Record.jpeg" },
   ]
 
   const uniSamples = [
