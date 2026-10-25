@@ -4,10 +4,11 @@ import React, { useState, useEffect, useCallback, useRef } from "react"
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog"
 import { Button } from "@/components/ui/button"
 import { Textarea } from "@/components/ui/textarea"
-import { Copy, Download, Check, FileJson, Link, Upload, RefreshCw, AlertCircle } from "lucide-react"
+import { Copy, Download, Check, FileJson, Link, Upload, RefreshCw, AlertCircle, Share2 } from "lucide-react"
 import { toast } from "@/hooks/use-toast"
 import type { PersonData, SchoolData, UniversityData } from "@/lib/types"
 import { UNIVERSITY_TYPE_MAP } from "@/lib/constants"
+import { generateSnapshotUrl } from "@/lib/snapshot-helper"
 
 interface JsonDownloadDialogProps {
   open: boolean
@@ -33,6 +34,7 @@ export function JsonDownloadDialog({
   const [jsonContent, setJsonContent] = useState("")
   const [copied, setCopied] = useState(false)
   const [copiedLink, setCopiedLink] = useState(false)
+  const [copiedSnapshot, setCopiedSnapshot] = useState(false)
   const [importText, setImportText] = useState("")
   const fileInputRef = useRef<HTMLInputElement>(null)
 
@@ -206,6 +208,58 @@ export function JsonDownloadDialog({
     }
   }
 
+  // 复制完整快照直达链接（将当前数据打包在 URL Hash 中，打开无需上传直接恢复）
+  const handleCopySnapshotLink = async () => {
+    if (!data) return
+    try {
+      const url = generateSnapshotUrl({ person: data, school: schoolData, university: universityData })
+      await navigator.clipboard.writeText(url)
+      setCopiedSnapshot(true)
+      setTimeout(() => setCopiedSnapshot(false), 2000)
+      toast({
+        title: "专属快照直达链接已复制！",
+        description: "任何人打开此链接，无需上传文件，即可完整还原出当前这套身份、地址与学校数据。",
+      })
+    } catch {
+      toast({
+        title: "复制失败",
+        description: "无法复制链接到剪贴板",
+        variant: "destructive",
+      })
+    }
+  }
+
+  // 从输入框的 JSON 直接生成并复制快照直达链接
+  const handleCopySnapshotFromInput = async () => {
+    if (!importText.trim()) {
+      toast({ title: "内容为空", description: "请先粘贴或上传 JSON 数据", variant: "destructive" })
+      return
+    }
+    try {
+      const parsed = JSON.parse(importText)
+      if (!parsed.fullName && !parsed.street) {
+        toast({ title: "格式不符", description: "未能找到标准姓名或地址字段", variant: "destructive" })
+        return
+      }
+      const school = parsed.school as SchoolData | undefined
+      const university = parsed.university as UniversityData | undefined
+      const personClean: Record<string, unknown> = { ...parsed }
+      delete personClean.school
+      delete personClean.university
+
+      const url = generateSnapshotUrl({ person: personClean as unknown as PersonData, school, university })
+      await navigator.clipboard.writeText(url)
+      setCopiedSnapshot(true)
+      setTimeout(() => setCopiedSnapshot(false), 2000)
+      toast({
+        title: "专属快照直达链接已生成并复制！",
+        description: "通过该链接打开浏览器即可免上传文件，直接 100% 还原此份数据。",
+      })
+    } catch {
+      toast({ title: "JSON 格式错误", description: "请确保文本为有效 JSON 格式", variant: "destructive" })
+    }
+  }
+
   const handleDownload = () => {
     try {
       const blob = new Blob([jsonContent], { type: "application/json" })
@@ -351,23 +405,45 @@ export function JsonDownloadDialog({
                 </button>
               </div>
 
-              <div className="flex items-center gap-2">
-                {/* 复制永久还原链接 */}
+              <div className="flex flex-wrap items-center gap-2">
+                {/* 复制轻量还原链接 */}
                 <Button
                   variant="outline"
                   size="sm"
                   onClick={handleCopyRestoreLink}
-                  className="h-8 border-blue-200 bg-blue-50/60 text-xs font-semibold text-blue-700 hover:bg-blue-100 shrink-0"
+                  className="h-8 border-slate-200 text-xs font-medium text-slate-700 hover:bg-slate-50 shrink-0"
+                  title="复制当前种子筛选链接（紧凑URL）"
                 >
                   {copiedLink ? (
                     <>
                       <Check className="h-3.5 w-3.5 mr-1 text-emerald-600" />
-                      已复制链接
+                      已复制
                     </>
                   ) : (
                     <>
-                      <Link className="h-3.5 w-3.5 mr-1 text-blue-600" />
+                      <Link className="h-3.5 w-3.5 mr-1 text-slate-500" />
                       复制还原链接
+                    </>
+                  )}
+                </Button>
+
+                {/* 复制完整快照直达链接（含自定义/上传数据） */}
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={handleCopySnapshotLink}
+                  className="h-8 border-blue-200 bg-blue-50/70 text-xs font-semibold text-blue-700 hover:bg-blue-100 shrink-0 shadow-2xs"
+                  title="打包当前所有信息生成专属直达链接，任何人打开即可直接展示全部内容"
+                >
+                  {copiedSnapshot ? (
+                    <>
+                      <Check className="h-3.5 w-3.5 mr-1 text-emerald-600" />
+                      已复制快照链接
+                    </>
+                  ) : (
+                    <>
+                      <Share2 className="h-3.5 w-3.5 mr-1 text-blue-600" />
+                      复制快照直达链接
                     </>
                   )}
                 </Button>
@@ -468,19 +544,32 @@ export function JsonDownloadDialog({
               />
             </div>
 
-            <div className="flex items-center justify-between pt-2">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pt-2">
               <span className="text-xs text-slate-400 flex items-center gap-1">
-                <AlertCircle className="h-3.5 w-3.5 text-amber-500" />
+                <AlertCircle className="h-3.5 w-3.5 text-amber-500 shrink-0" />
                 恢复后将自动替换当前屏幕展示的所有人设与地址信息
               </span>
-              <Button
-                onClick={() => handleParseAndRestore(importText)}
-                disabled={!importText.trim()}
-                className="bg-blue-600 hover:bg-blue-700 text-white text-xs font-semibold h-9 px-5"
-              >
-                <RefreshCw className="h-3.5 w-3.5 mr-1.5" />
-                立即恢复并展示
-              </Button>
+              <div className="flex items-center gap-2 self-end sm:self-auto">
+                <Button
+                  variant="outline"
+                  onClick={handleCopySnapshotFromInput}
+                  disabled={!importText.trim()}
+                  className="h-9 border-blue-200 bg-blue-50/60 text-blue-700 hover:bg-blue-100 text-xs font-semibold px-3"
+                  title="为上方输入的 JSON 直接生成专属还原链接，其他人点击即可直接查看"
+                >
+                  <Share2 className="h-3.5 w-3.5 mr-1 text-blue-600" />
+                  生成快照直达链接
+                </Button>
+
+                <Button
+                  onClick={() => handleParseAndRestore(importText)}
+                  disabled={!importText.trim()}
+                  className="bg-blue-600 hover:bg-blue-700 text-white text-xs font-semibold h-9 px-4"
+                >
+                  <RefreshCw className="h-3.5 w-3.5 mr-1.5" />
+                  立即恢复并展示
+                </Button>
+              </div>
             </div>
           </div>
         )}

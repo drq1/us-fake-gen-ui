@@ -15,6 +15,7 @@ import { DEFAULT_VISIBLE_FIELDS } from "@/lib/constants"
 import { generatePersonData } from "@/lib/generator"
 import { fetchRealAddressOnline } from "@/lib/real-addresses"
 import { getRealUniversity } from "@/lib/real-universities"
+import { decodeSnapshotFromHash } from "@/lib/snapshot-helper"
 
 const generateSeed = () => Math.floor(Math.random() * 1000000)
 
@@ -26,6 +27,7 @@ export default function HomePage() {
   const [schoolData, setSchoolData] = useState<SchoolData | null>(null)
   const [universityData, setUniversityData] = useState<UniversityData | null>(null)
   const [jsonDialogOpen, setJsonDialogOpen] = useState(false)
+  const [restoredFromSnapshot, setRestoredFromSnapshot] = useState(false)
   const [, startTransition] = useTransition()
 
   const searchParams = useSearchParams()
@@ -172,13 +174,35 @@ export default function HomePage() {
     [state, city, gender, nameSet, minAge, maxAge, highState, highCity, universityState, universityCity],
   )
 
+  // 优先检测 URL Hash 中的快照数据（支持通过一个链接直接恢复上传或生成的信息）
   useEffect(() => {
+    if (typeof window !== "undefined" && window.location.hash.includes("#snapshot=")) {
+      const restored = decodeSnapshotFromHash(window.location.hash)
+      if (restored && restored.person) {
+        setData(restored.person)
+        if (restored.school) setSchoolData(restored.school)
+        if (restored.university) setUniversityData(restored.university)
+        setRestoredFromSnapshot(true)
+        toast({
+          title: "专属快照已直接还原！",
+          description: `已成功加载 ${restored.person.fullName} 的完整人设、地址与教育数据。`,
+        })
+      }
+    }
+  }, [])
+
+  useEffect(() => {
+    if (restoredFromSnapshot) return
     if (searchParams.get("fields") && searchParams.get("seed")) {
       fetchData(seed)
     }
-  }, [searchParams, seed, fetchData])
+  }, [searchParams, seed, fetchData, restoredFromSnapshot])
 
   const handleRegenerate = () => {
+    if (typeof window !== "undefined" && window.location.hash) {
+      window.history.replaceState(null, "", window.location.pathname + window.location.search)
+    }
+    setRestoredFromSnapshot(false)
     updateUrlParams({ seed: generateSeed().toString() })
   }
 
