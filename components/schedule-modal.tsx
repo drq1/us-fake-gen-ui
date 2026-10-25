@@ -145,9 +145,9 @@ export function ScheduleModal({
         </DialogHeader>
 
         {/* 凭单主纸张独立滚动区域 (1:1 还原 MIT 官方原样) */}
-        <div className="flex-1 overflow-y-auto overflow-x-hidden p-4 sm:p-8 flex justify-center print:p-0 print:overflow-visible">
+        <div className="flex-1 overflow-y-auto overflow-x-hidden p-4 sm:p-8 print:p-0 print:overflow-visible">
           {scheduleData && (
-            <div className="w-full max-w-[560px] bg-white rounded-xl shadow-lg border border-slate-200 overflow-hidden font-sans text-slate-800 print:shadow-none print:border-none print:m-0">
+            <div className="mx-auto w-full max-w-[560px] bg-white rounded-xl shadow-lg border border-slate-200 overflow-hidden font-sans text-slate-800 print:shadow-none print:border-none print:m-0">
               {/* Tab 1: 1:1 还原 MIT 真实选课安排表原件 */}
               {activeTab === "schedule" && (
                 <div>

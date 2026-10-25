@@ -123,9 +123,9 @@ export function DriverLicenseModal({
         </DialogHeader>
 
         {/* 驾照卡片主体独立滚动区域 */}
-        <div className="flex-1 overflow-y-auto overflow-x-hidden p-4 sm:p-6 flex items-center justify-center print:p-0 print:overflow-visible">
+        <div className="flex-1 overflow-y-auto overflow-x-hidden p-4 sm:p-6 print:p-0 print:overflow-visible">
           {cardData && (
-            <div className="w-full flex justify-center print:m-0">
+            <div className="my-6 mx-auto w-full flex justify-center print:m-0">
               {!showBack ? (
                 /* ========== 卡片正面 ========== */
                 <div className="relative w-full max-w-[500px] aspect-[1.586] rounded-2xl bg-gradient-to-br from-amber-50/90 via-sky-50/70 to-slate-100 border-2 border-slate-400/60 shadow-xl overflow-hidden font-sans select-none text-slate-800 print:shadow-none print:border-black">

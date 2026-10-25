@@ -35,6 +35,11 @@ interface ReferenceTemplatesModalProps {
   onGenerateVitalRecord?: (docType?: "birth" | "ged" | "marriage" | "skill") => void
 }
 
+// 跨弹窗显隐记忆用户的滚动位置、筛选分类与搜索词
+let persistedScrollTop = 0
+let persistedCategory = "all"
+let persistedSearchQuery = ""
+
 export function ReferenceTemplatesModal({
   open,
   onOpenChange,
@@ -45,8 +50,54 @@ export function ReferenceTemplatesModal({
   onGenerateDriverLicense,
   onGenerateVitalRecord,
 }: ReferenceTemplatesModalProps) {
-  const [selectedCat, setSelectedCat] = useState("all")
-  const [searchQuery, setSearchQuery] = useState("")
+  const [selectedCat, setSelectedCat] = useState(persistedCategory)
+  const [searchQuery, setSearchQuery] = useState(persistedSearchQuery)
+  const scrollContainerRef = React.useRef<HTMLDivElement>(null)
+
+  // 当弹窗打开时，毫秒级精准恢复用户上次浏览的精确滚动条高度
+  React.useEffect(() => {
+    if (open) {
+      setSelectedCat(persistedCategory)
+      setSearchQuery(persistedSearchQuery)
+
+      const restoreScroll = () => {
+        if (scrollContainerRef.current && persistedScrollTop > 0) {
+          scrollContainerRef.current.scrollTop = persistedScrollTop
+        }
+      }
+      requestAnimationFrame(restoreScroll)
+      const t1 = setTimeout(restoreScroll, 50)
+      const t2 = setTimeout(restoreScroll, 120)
+      return () => {
+        clearTimeout(t1)
+        clearTimeout(t2)
+      }
+    }
+  }, [open])
+
+  const handleSelectCategory = (catId: string) => {
+    setSelectedCat(catId)
+    persistedCategory = catId
+    persistedScrollTop = 0
+    if (scrollContainerRef.current) scrollContainerRef.current.scrollTop = 0
+  }
+
+  const handleSearchChange = (q: string) => {
+    setSearchQuery(q)
+    persistedSearchQuery = q
+    persistedScrollTop = 0
+  }
+
+  const handleScroll = (e: React.UIEvent<HTMLDivElement>) => {
+    persistedScrollTop = e.currentTarget.scrollTop
+  }
+
+  const saveScrollAndTrigger = (action?: () => void) => {
+    if (scrollContainerRef.current) {
+      persistedScrollTop = scrollContainerRef.current.scrollTop
+    }
+    action?.()
+  }
 
   const filtered = REFERENCE_TEMPLATES.filter((t) => {
     const matchesCat = selectedCat === "all" || t.category === selectedCat
@@ -97,7 +148,7 @@ export function ReferenceTemplatesModal({
               <input
                 type="text"
                 value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
+                onChange={(e) => handleSearchChange(e.target.value)}
                 placeholder="搜索模板名称、类别..."
                 className="w-full pl-8 pr-3 py-1.5 text-xs bg-slate-50 border border-slate-200 rounded-lg focus:outline-hidden focus:ring-2 focus:ring-blue-500/20 focus:bg-white transition-colors"
               />
@@ -111,7 +162,7 @@ export function ReferenceTemplatesModal({
               return (
                 <button
                   key={cat.id}
-                  onClick={() => setSelectedCat(cat.id)}
+                  onClick={() => handleSelectCategory(cat.id)}
                   className={`px-2.5 py-1 rounded-lg text-xs font-semibold whitespace-nowrap transition-all ${
                     isSelected
                       ? "bg-blue-600 text-white shadow-xs"
@@ -125,8 +176,12 @@ export function ReferenceTemplatesModal({
           </div>
         </DialogHeader>
 
-        {/* 模板网格卡片滚动区域 */}
-        <div className="flex-1 overflow-y-auto overflow-x-hidden p-4 sm:p-5">
+        {/* 模板网格卡片滚动区域 (记忆并恢复滚动位置) */}
+        <div
+          ref={scrollContainerRef}
+          onScroll={handleScroll}
+          className="flex-1 overflow-y-auto overflow-x-hidden p-4 sm:p-5"
+        >
           <div className="grid grid-cols-1 md:grid-cols-2 gap-3.5">
             {filtered.map((item) => (
               <div
@@ -169,7 +224,7 @@ export function ReferenceTemplatesModal({
                     {item.category === "bank" && onGenerateBankStatement && (
                       <button
                         onClick={() => {
-                          onGenerateBankStatement()
+                          saveScrollAndTrigger(() => onGenerateBankStatement())
                         }}
                         className="inline-flex items-center gap-1 px-2.5 py-1 rounded-md text-xs font-bold bg-red-600 text-white hover:bg-red-700 shadow-2xs transition-colors shrink-0"
                         title="使用当前人偶姓名与物理地址，一键生成配套月度账单与资金流水"
@@ -183,7 +238,7 @@ export function ReferenceTemplatesModal({
                     {item.category === "transcript" && item.categoryChinese === "大学成绩单" && onGenerateTranscript && (
                       <button
                         onClick={() => {
-                          onGenerateTranscript("university")
+                          saveScrollAndTrigger(() => onGenerateTranscript("university"))
                         }}
                         className="inline-flex items-center gap-1 px-2.5 py-1 rounded-md text-xs font-bold bg-indigo-600 text-white hover:bg-indigo-700 shadow-2xs transition-colors shrink-0"
                         title="一键生成当前人偶大学官方教务成绩单"
@@ -197,7 +252,7 @@ export function ReferenceTemplatesModal({
                     {item.category === "transcript" && item.categoryChinese !== "大学成绩单" && onGenerateTranscript && (
                       <button
                         onClick={() => {
-                          onGenerateTranscript("highSchool")
+                          saveScrollAndTrigger(() => onGenerateTranscript("highSchool"))
                         }}
                         className="inline-flex items-center gap-1 px-2.5 py-1 rounded-md text-xs font-bold bg-blue-600 text-white hover:bg-blue-700 shadow-2xs transition-colors shrink-0"
                         title="一键生成当前人偶美高官方成绩单"
@@ -211,7 +266,7 @@ export function ReferenceTemplatesModal({
                     {item.category === "act_sat" && onGenerateTranscript && (
                       <button
                         onClick={() => {
-                          onGenerateTranscript("highSchool")
+                          saveScrollAndTrigger(() => onGenerateTranscript("highSchool"))
                         }}
                         className="inline-flex items-center gap-1 px-2.5 py-1 rounded-md text-xs font-bold bg-purple-600 text-white hover:bg-purple-700 shadow-2xs transition-colors shrink-0"
                         title="查看并生成当前人偶配套的 SAT / ACT 标化考分"
@@ -229,7 +284,7 @@ export function ReferenceTemplatesModal({
                             item.name.toLowerCase().includes("mit") ? "mit" :
                             item.name.toLowerCase().includes("harvard") ? "harvard" :
                             item.name.toLowerCase().includes("chicago") ? "uchicago" : undefined
-                          onGenerateAdmissionLetter(schoolKey)
+                          saveScrollAndTrigger(() => onGenerateAdmissionLetter(schoolKey))
                         }}
                         className="inline-flex items-center gap-1 px-2.5 py-1 rounded-md text-xs font-bold bg-blue-700 text-white hover:bg-blue-800 shadow-2xs transition-colors shrink-0"
                         title="使用当前人设一键生成官方录取信"
@@ -244,7 +299,7 @@ export function ReferenceTemplatesModal({
                       <button
                         onClick={() => {
                           const isTuition = item.name.toLowerCase().includes("tuition") || item.name.toLowerCase().includes("statement")
-                          onGenerateSchedule(isTuition ? "tuition" : "schedule")
+                          saveScrollAndTrigger(() => onGenerateSchedule(isTuition ? "tuition" : "schedule"))
                         }}
                         className="inline-flex items-center gap-1 px-2.5 py-1 rounded-md text-xs font-bold bg-emerald-600 text-white hover:bg-emerald-700 shadow-2xs transition-colors shrink-0"
                         title="一键生成当期在读选课表与学费账单"
@@ -260,7 +315,7 @@ export function ReferenceTemplatesModal({
                         onClick={() => {
                           const stateKey = item.name.toLowerCase().includes("york") ? "NY" :
                             item.name.toLowerCase().includes("wisconsin") ? "WI" : undefined
-                          onGenerateDriverLicense(stateKey)
+                          saveScrollAndTrigger(() => onGenerateDriverLicense(stateKey))
                         }}
                         className="inline-flex items-center gap-1 px-2.5 py-1 rounded-md text-xs font-bold bg-amber-600 text-white hover:bg-amber-700 shadow-2xs transition-colors shrink-0"
                         title="一键生成当前人设美国 REAL ID 驾照实体卡面"
@@ -273,7 +328,7 @@ export function ReferenceTemplatesModal({
                     {/* 出生证明一键生成 */}
                     {item.category === "birth" && onGenerateVitalRecord && (
                       <button
-                        onClick={() => onGenerateVitalRecord("birth")}
+                        onClick={() => saveScrollAndTrigger(() => onGenerateVitalRecord("birth"))}
                         className="inline-flex items-center gap-1 px-2.5 py-1 rounded-md text-xs font-bold bg-rose-600 text-white hover:bg-rose-700 shadow-2xs transition-colors shrink-0"
                         title="一键生成州卫生厅官方出生证明"
                       >
@@ -285,7 +340,7 @@ export function ReferenceTemplatesModal({
                     {/* GED 文凭一键生成 */}
                     {item.category === "ged" && onGenerateVitalRecord && (
                       <button
-                        onClick={() => onGenerateVitalRecord("ged")}
+                        onClick={() => saveScrollAndTrigger(() => onGenerateVitalRecord("ged"))}
                         className="inline-flex items-center gap-1 px-2.5 py-1 rounded-md text-xs font-bold bg-teal-600 text-white hover:bg-teal-700 shadow-2xs transition-colors shrink-0"
                         title="一键生成官方 GED 高中文凭证书"
                       >
@@ -297,7 +352,7 @@ export function ReferenceTemplatesModal({
                     {/* 结婚证明一键生成 */}
                     {item.category === "marriage" && onGenerateVitalRecord && (
                       <button
-                        onClick={() => onGenerateVitalRecord("marriage")}
+                        onClick={() => saveScrollAndTrigger(() => onGenerateVitalRecord("marriage"))}
                         className="inline-flex items-center gap-1 px-2.5 py-1 rounded-md text-xs font-bold bg-pink-600 text-white hover:bg-pink-700 shadow-2xs transition-colors shrink-0"
                         title="一键生成官方结婚登记证明"
                       >
@@ -309,7 +364,7 @@ export function ReferenceTemplatesModal({
                     {/* 技能证书一键生成 */}
                     {item.category === "skill" && onGenerateVitalRecord && (
                       <button
-                        onClick={() => onGenerateVitalRecord("skill")}
+                        onClick={() => saveScrollAndTrigger(() => onGenerateVitalRecord("skill"))}
                         className="inline-flex items-center gap-1 px-2.5 py-1 rounded-md text-xs font-bold bg-cyan-700 text-white hover:bg-cyan-800 shadow-2xs transition-colors shrink-0"
                         title="一键生成急救与技能资格证书"
                       >
