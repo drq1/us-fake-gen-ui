@@ -144,161 +144,184 @@ export function ScheduleModal({
           </div>
         </DialogHeader>
 
-        {/* 凭单主纸张独立滚动区域 */}
-        <div className="flex-1 overflow-y-auto overflow-x-hidden p-4 sm:p-6 print:p-0 print:overflow-visible">
+        {/* 凭单主纸张独立滚动区域 (1:1 还原 MIT 官方原样) */}
+        <div className="flex-1 overflow-y-auto overflow-x-hidden p-4 sm:p-8 flex justify-center print:p-0 print:overflow-visible">
           {scheduleData && (
-            <div className="mx-auto w-full max-w-[800px] bg-white rounded-lg shadow-md border border-slate-200/80 p-6 sm:p-10 font-sans print:shadow-none print:border-none print:m-0 print:p-6 text-slate-800">
-              {/* 顶栏官方题头 */}
-              <div className="border-b-2 border-slate-800 pb-4 mb-5 flex justify-between items-start">
-                <div>
-                  <h1 className="text-xl font-bold tracking-tight text-slate-900 uppercase">
-                    {scheduleData.universityName}
-                  </h1>
-                  <p className="text-xs font-bold text-slate-600 uppercase mt-0.5">
-                    Office of the Registrar · Student Financial Services
-                  </p>
-                  <p className="text-[11px] text-slate-400">Official Enrollment & Account Verification Record</p>
-                </div>
-
-                <div className="text-right text-xs">
-                  <span className="font-mono text-slate-500">Date Issued: </span>
-                  <span className="font-bold text-slate-900">{scheduleData.statementDate}</span>
-                  <div className="mt-1">
-                    <span className="inline-block px-2 py-0.5 rounded text-[10px] font-bold bg-emerald-100 text-emerald-800 border border-emerald-300">
-                      STATUS: FULL-TIME ENROLLED
-                    </span>
-                  </div>
-                </div>
-              </div>
-
-              {/* 学生基本信息条 */}
-              <div className="bg-slate-50 border border-slate-200 rounded-lg p-3.5 grid grid-cols-2 sm:grid-cols-4 gap-3 text-xs mb-6">
-                <div>
-                  <span className="text-slate-400 block text-[10px] uppercase font-semibold">Student Name</span>
-                  <span className="font-bold text-slate-900">{scheduleData.studentName}</span>
-                </div>
-                <div>
-                  <span className="text-slate-400 block text-[10px] uppercase font-semibold">Student ID</span>
-                  <span className="font-mono font-bold text-slate-900">{scheduleData.studentId}</span>
-                </div>
-                <div>
-                  <span className="text-slate-400 block text-[10px] uppercase font-semibold">Academic Term</span>
-                  <span className="font-bold text-slate-900">{scheduleData.term}</span>
-                </div>
-                <div>
-                  <span className="text-slate-400 block text-[10px] uppercase font-semibold">Major / Program</span>
-                  <span className="font-medium text-slate-800 truncate block">{scheduleData.major}</span>
-                </div>
-              </div>
-
-              {/* Tab 1: 选课时间表 */}
+            <div className="w-full max-w-[560px] bg-white rounded-xl shadow-lg border border-slate-200 overflow-hidden font-sans text-slate-800 print:shadow-none print:border-none print:m-0">
+              {/* Tab 1: 1:1 还原 MIT 真实选课安排表原件 */}
               {activeTab === "schedule" && (
                 <div>
-                  <div className="flex items-center justify-between mb-2">
-                    <h2 className="text-sm font-bold uppercase text-slate-800 tracking-wide">
-                      Registered Course Schedule ({scheduleData.totalCredits} Enrolled Credits)
-                    </h2>
-                  </div>
-                  <div className="overflow-x-auto border border-slate-200 rounded-lg">
-                    <table className="w-full text-left text-xs border-collapse">
-                      <thead className="bg-slate-100 text-slate-700 font-bold border-b border-slate-200">
-                        <tr>
-                          <th className="py-2.5 px-3">Course Code</th>
-                          <th className="py-2.5 px-3">Course Title</th>
-                          <th className="py-2.5 px-2">Sec</th>
-                          <th className="py-2.5 px-2 text-center">Units</th>
-                          <th className="py-2.5 px-3">Days & Time</th>
-                          <th className="py-2.5 px-3">Location</th>
-                          <th className="py-2.5 px-3">Instructor</th>
-                        </tr>
-                      </thead>
-                      <tbody className="divide-y divide-slate-100">
-                        {scheduleData.courses.map((c, i) => (
-                          <tr key={i} className="hover:bg-slate-50/60 font-medium text-slate-700">
-                            <td className="py-2.5 px-3 font-mono font-bold text-blue-900">{c.courseCode}</td>
-                            <td className="py-2.5 px-3 font-semibold text-slate-900">{c.title}</td>
-                            <td className="py-2.5 px-2 font-mono text-slate-500">{c.section}</td>
-                            <td className="py-2.5 px-2 text-center font-bold text-slate-900">{c.credits}</td>
-                            <td className="py-2.5 px-3">{c.schedule}</td>
-                            <td className="py-2.5 px-3 font-mono text-slate-600">{c.room}</td>
-                            <td className="py-2.5 px-3 text-slate-600">{c.instructor}</td>
-                          </tr>
-                        ))}
-                      </tbody>
-                    </table>
-                  </div>
-                </div>
-              )}
-
-              {/* Tab 2: 学费账户账单 */}
-              {activeTab === "tuition" && (
-                <div>
-                  <div className="flex items-center justify-between mb-2">
-                    <h2 className="text-sm font-bold uppercase text-slate-800 tracking-wide">
-                      Tuition & Fee Activity ({scheduleData.term})
-                    </h2>
-                  </div>
-                  <div className="overflow-x-auto border border-slate-200 rounded-lg mb-4">
-                    <table className="w-full text-left text-xs border-collapse">
-                      <thead className="bg-slate-100 text-slate-700 font-bold border-b border-slate-200">
-                        <tr>
-                          <th className="py-2.5 px-3">Trans Date</th>
-                          <th className="py-2.5 px-3">Description</th>
-                          <th className="py-2.5 px-3 text-right">Charges ($)</th>
-                          <th className="py-2.5 px-3 text-right">Payments / Credits ($)</th>
-                          <th className="py-2.5 px-3 text-right">Balance ($)</th>
-                        </tr>
-                      </thead>
-                      <tbody className="divide-y divide-slate-100 font-mono text-xs">
-                        {scheduleData.tuitionItems.map((item, i) => (
-                          <tr key={i} className="hover:bg-slate-50/60">
-                            <td className="py-2.5 px-3 text-slate-500">{item.date}</td>
-                            <td className="py-2.5 px-3 font-sans font-medium text-slate-800">{item.description}</td>
-                            <td className="py-2.5 px-3 text-right text-slate-800">
-                              {item.charges > 0 ? item.charges.toLocaleString("en-US", { minimumFractionDigits: 2 }) : "-"}
-                            </td>
-                            <td className="py-2.5 px-3 text-right text-emerald-700 font-semibold">
-                              {item.payments > 0 ? item.payments.toLocaleString("en-US", { minimumFractionDigits: 2 }) : "-"}
-                            </td>
-                            <td className="py-2.5 px-3 text-right font-bold text-slate-900">
-                              {item.balance.toLocaleString("en-US", { minimumFractionDigits: 2 })}
-                            </td>
-                          </tr>
-                        ))}
-                      </tbody>
-                      <tfoot className="bg-slate-50 font-bold border-t-2 border-slate-300">
-                        <tr>
-                          <td colSpan={2} className="py-2.5 px-3 font-sans text-right">Term Account Totals:</td>
-                          <td className="py-2.5 px-3 text-right font-mono">${scheduleData.totalCharges.toLocaleString("en-US", { minimumFractionDigits: 2 })}</td>
-                          <td className="py-2.5 px-3 text-right font-mono text-emerald-700">${scheduleData.totalPayments.toLocaleString("en-US", { minimumFractionDigits: 2 })}</td>
-                          <td className="py-2.5 px-3 text-right font-mono text-blue-900">${scheduleData.currentBalance.toFixed(2)}</td>
-                        </tr>
-                      </tfoot>
-                    </table>
+                  {/* MIT 经典深酒红官方题头 */}
+                  <div className="bg-[#8b152b] text-white py-4 px-6 text-center">
+                    <h1 className="text-lg sm:text-xl font-bold tracking-tight">
+                      Massachusetts Institute of Technology
+                    </h1>
+                    <p className="text-xs text-rose-100 font-medium mt-0.5">
+                      Student Course Schedule
+                    </p>
                   </div>
 
-                  {/* 结清印戳 */}
-                  <div className="p-3.5 bg-emerald-50 border border-emerald-200 rounded-lg flex items-center justify-between">
-                    <div className="flex items-center gap-2.5">
-                      <CheckCircle2 className="h-5 w-5 text-emerald-600" />
-                      <div>
-                        <div className="text-xs font-bold text-emerald-900">ACCOUNT STATUS: PAID IN FULL</div>
-                        <div className="text-[11px] text-emerald-700">No holds or outstanding dues on student record. Eligible for course registration & transcripts.</div>
+                  {/* 次级题头条 */}
+                  <div className="bg-slate-50 border-b border-slate-200 py-2.5 text-center">
+                    <h2 className="text-xs sm:text-sm font-black tracking-widest text-slate-800 uppercase">
+                      COURSE SCHEDULE - {scheduleData.term.toUpperCase()}
+                    </h2>
+                  </div>
+
+                  <div className="p-5 sm:p-7">
+                    {/* 学生基本信息 */}
+                    <div className="space-y-1.5 text-xs sm:text-[13px] border-b border-dotted border-slate-300 pb-3 mb-4">
+                      <div className="flex justify-between items-center">
+                        <span className="font-bold text-slate-700">Student:</span>
+                        <span className="font-medium text-slate-900">{scheduleData.studentName}</span>
+                      </div>
+                      <div className="flex justify-between items-center">
+                        <span className="font-bold text-slate-700">ID:</span>
+                        <span className="font-mono font-medium text-slate-900">{scheduleData.studentId.replace(/\D/g, "") || "202675507"}</span>
                       </div>
                     </div>
-                    <div className="text-right">
-                      <span className="text-[10px] text-slate-500 uppercase block font-semibold">Current Due</span>
-                      <span className="text-base font-bold font-mono text-emerald-900">$0.00</span>
+
+                    {/* 课程清单表格 (1:1 对齐真实样本) */}
+                    <table className="w-full text-left text-xs sm:text-[12.5px] border-collapse">
+                      <thead>
+                        <tr className="border-b border-slate-200 text-slate-700 font-bold">
+                          <th className="pb-2">Course</th>
+                          <th className="pb-2">Description</th>
+                          <th className="pb-2 text-center">Cr</th>
+                          <th className="pb-2">Days</th>
+                          <th className="pb-2">Time</th>
+                          <th className="pb-2 text-right">Location</th>
+                        </tr>
+                      </thead>
+                      <tbody className="divide-y divide-slate-100 text-slate-700">
+                        <tr className="hover:bg-slate-50/60">
+                          <td className="py-2.5 font-medium">CMST 1101</td>
+                          <td className="py-2.5">Business Statistics</td>
+                          <td className="py-2.5 text-center font-bold">3</td>
+                          <td className="py-2.5">Mon, Wed</td>
+                          <td className="py-2.5">10:00 AM</td>
+                          <td className="py-2.5 text-right font-mono text-slate-600">DPRH 210</td>
+                        </tr>
+                        <tr className="hover:bg-slate-50/60">
+                          <td className="py-2.5 font-medium">BLAW 2201</td>
+                          <td className="py-2.5">Legal Environment</td>
+                          <td className="py-2.5 text-center font-bold">3</td>
+                          <td className="py-2.5">Tue, Thu</td>
+                          <td className="py-2.5">10:05 AM</td>
+                          <td className="py-2.5 text-right font-mono text-slate-600">DPRH 238</td>
+                        </tr>
+                        <tr className="hover:bg-slate-50/60">
+                          <td className="py-2.5 font-medium">MRKT 2101</td>
+                          <td className="py-2.5">Professional Selling</td>
+                          <td className="py-2.5 text-center font-bold">4</td>
+                          <td className="py-2.5">Mon, Wed, Fri</td>
+                          <td className="py-2.5">10:05 AM</td>
+                          <td className="py-2.5 text-right font-mono text-slate-600">Williams</td>
+                        </tr>
+                        <tr className="hover:bg-slate-50/60">
+                          <td className="py-2.5 font-medium">FINC 3310</td>
+                          <td className="py-2.5">Principles of Finance</td>
+                          <td className="py-2.5 text-center font-bold">4</td>
+                          <td className="py-2.5">Mon, Wed</td>
+                          <td className="py-2.5">10:05 AM</td>
+                          <td className="py-2.5 text-right font-mono text-slate-600">Online</td>
+                        </tr>
+                      </tbody>
+                    </table>
+
+                    {/* 底部学分合计 */}
+                    <div className="mt-6 pt-3 border-t border-slate-200 text-right">
+                      <span className="text-xs sm:text-[13px] font-bold text-slate-900">
+                        Total Registered Credits: 14
+                      </span>
                     </div>
                   </div>
                 </div>
               )}
 
-              {/* 官方认证注脚 */}
-              <div className="mt-8 pt-4 border-t border-slate-200 flex items-center justify-between text-[11px] text-slate-400">
-                <span>Electronic Record Certified by University Student Information System</span>
-                <span className="font-mono">VERIFIED HASH: {Math.abs(seed * 7919).toString(16).toUpperCase()}</span>
-              </div>
+              {/* Tab 2: 1:1 还原 MIT 真实学费账户对账单原件 */}
+              {activeTab === "tuition" && (
+                <div>
+                  {/* MIT 经典深酒红官方题头 */}
+                  <div className="bg-[#8b152b] text-white py-4 px-6 text-center">
+                    <h1 className="text-lg sm:text-xl font-bold tracking-tight">
+                      Massachusetts Institute of Technology
+                    </h1>
+                    <p className="text-xs text-rose-100 font-medium mt-0.5">
+                      Student Business Services
+                    </p>
+                  </div>
+
+                  {/* 次级题头条 */}
+                  <div className="bg-slate-50 border-b border-slate-200 py-2.5 text-center">
+                    <h2 className="text-xs sm:text-sm font-black tracking-widest text-slate-800 uppercase">
+                      ACCOUNT STATEMENT
+                    </h2>
+                  </div>
+
+                  <div className="p-5 sm:p-7">
+                    {/* 学生基本信息 */}
+                    <div className="space-y-1.5 text-xs sm:text-[13px] border-b border-dotted border-slate-300 pb-3 mb-4">
+                      <div className="flex justify-between items-center">
+                        <span className="font-bold text-slate-700">To:</span>
+                        <span className="font-medium text-slate-900">{scheduleData.studentName}</span>
+                      </div>
+                      <div className="flex justify-between items-center">
+                        <span className="font-bold text-slate-700">Student ID:</span>
+                        <span className="font-mono font-medium text-slate-900">{scheduleData.studentId.replace(/\D/g, "") || "202675507"}</span>
+                      </div>
+                      <div className="flex justify-between items-center">
+                        <span className="font-bold text-slate-700">Term:</span>
+                        <span className="font-medium text-slate-900">{scheduleData.term}</span>
+                      </div>
+                    </div>
+
+                    {/* 学费扣缴清单表格 (1:1 对齐真实样本) */}
+                    <table className="w-full text-left text-xs sm:text-[12.5px] border-collapse">
+                      <thead>
+                        <tr className="border-b border-slate-200 text-slate-700 font-bold">
+                          <th className="pb-2">Description</th>
+                          <th className="pb-2 text-right">Amount</th>
+                        </tr>
+                      </thead>
+                      <tbody className="divide-y divide-slate-100 text-slate-700">
+                        <tr>
+                          <td className="py-2 font-medium">Tuition - Undergraduate (14 Credits)</td>
+                          <td className="py-2 text-right font-mono">$5,480.00</td>
+                        </tr>
+                        <tr>
+                          <td className="py-2 font-medium">University Tuition</td>
+                          <td className="py-2 text-right font-mono">$1,710.00</td>
+                        </tr>
+                        <tr>
+                          <td className="py-2 font-medium">Computer Service Fee</td>
+                          <td className="py-2 text-right font-mono">$210.00</td>
+                        </tr>
+                        <tr>
+                          <td className="py-2 font-medium">Library Fee</td>
+                          <td className="py-2 text-right font-mono">$125.00</td>
+                        </tr>
+                        <tr>
+                          <td className="py-2 font-medium">Health Insurance</td>
+                          <td className="py-2 text-right font-mono">$1,850.00</td>
+                        </tr>
+                        <tr className="bg-slate-50 font-bold border-t border-b border-slate-200 text-slate-900">
+                          <td className="py-2.5 px-2">TOTAL CHARGES</td>
+                          <td className="py-2.5 px-2 text-right font-mono">$9,375.00</td>
+                        </tr>
+                        <tr className="text-slate-600">
+                          <td className="py-2">Payments/Credits</td>
+                          <td className="py-2 text-right font-mono">-$9,375.00</td>
+                        </tr>
+                        <tr className="font-bold border-t border-slate-200 text-emerald-600 text-sm">
+                          <td className="py-2.5">BALANCE DUE</td>
+                          <td className="py-2.5 text-right font-mono">$0.00</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              )}
             </div>
           )}
         </div>
