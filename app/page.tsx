@@ -8,6 +8,10 @@ import JsonDownloadDialog from "@/components/json-download-dialog"
 import { TranscriptModal } from "@/components/transcript-modal"
 import { BankStatementModal } from "@/components/bank-statement-modal"
 import { ReferenceTemplatesModal } from "@/components/reference-templates-modal"
+import { AdmissionLetterModal } from "@/components/admission-letter-modal"
+import { ScheduleModal } from "@/components/schedule-modal"
+import { DriverLicenseModal } from "@/components/driver-license-modal"
+import { VitalRecordsModal } from "@/components/vital-records-modal"
 import { QuickFilterBar } from "@/components/quick-filter-bar"
 import { PresetScenarios } from "@/components/preset-scenarios"
 import { AddressInfoCard } from "@/components/address-info-card"
@@ -30,6 +34,14 @@ export default function HomePage() {
   const [bankModalOpen, setBankModalOpen] = useState(false)
   const [templatesModalOpen, setTemplatesModalOpen] = useState(false)
   const [fromTemplatesModal, setFromTemplatesModal] = useState(false)
+  const [admissionModalOpen, setAdmissionModalOpen] = useState(false)
+  const [admissionSchoolId, setAdmissionSchoolId] = useState<string | undefined>(undefined)
+  const [scheduleModalOpen, setScheduleModalOpen] = useState(false)
+  const [scheduleTab, setScheduleTab] = useState<"schedule" | "tuition">("schedule")
+  const [licenseModalOpen, setLicenseModalOpen] = useState(false)
+  const [licenseState, setLicenseState] = useState<string | undefined>(undefined)
+  const [vitalModalOpen, setVitalModalOpen] = useState(false)
+  const [vitalDocType, setVitalDocType] = useState<"birth" | "ged" | "marriage" | "skill">("birth")
   const [schoolData, setSchoolData] = useState<SchoolData | null>(null)
   const [universityData, setUniversityData] = useState<UniversityData | null>(null)
   const [jsonDialogOpen, setJsonDialogOpen] = useState(false)
@@ -481,7 +493,120 @@ export default function HomePage() {
           setTemplatesModalOpen(false)
           handleOpenTranscript(tab)
         }}
+        onGenerateAdmissionLetter={(schoolId) => {
+          setFromTemplatesModal(true)
+          setTemplatesModalOpen(false)
+          setAdmissionSchoolId(schoolId)
+          setAdmissionModalOpen(true)
+        }}
+        onGenerateSchedule={(tab = "schedule") => {
+          setFromTemplatesModal(true)
+          setTemplatesModalOpen(false)
+          setScheduleTab(tab)
+          setScheduleModalOpen(true)
+        }}
+        onGenerateDriverLicense={(st) => {
+          setFromTemplatesModal(true)
+          setTemplatesModalOpen(false)
+          setLicenseState(st)
+          setLicenseModalOpen(true)
+        }}
+        onGenerateVitalRecord={(docType = "birth") => {
+          setFromTemplatesModal(true)
+          setTemplatesModalOpen(false)
+          setVitalDocType(docType)
+          setVitalModalOpen(true)
+        }}
       />
+
+      {/* 1. 名校官方录取通知书生成器 (Offer Letter) */}
+      {data && (
+        <AdmissionLetterModal
+          open={admissionModalOpen}
+          onOpenChange={(isOpen) => {
+            setAdmissionModalOpen(isOpen)
+            if (!isOpen && fromTemplatesModal) {
+              setFromTemplatesModal(false)
+              setTemplatesModalOpen(true)
+            }
+          }}
+          onBackToTemplates={() => {
+            setAdmissionModalOpen(false)
+            setFromTemplatesModal(false)
+            setTemplatesModalOpen(true)
+          }}
+          person={data}
+          university={universityData}
+          seed={seed}
+          defaultSchoolId={admissionSchoolId}
+        />
+      )}
+
+      {/* 2. 大学选课表与在读/学费账单生成器 (Schedule & Tuition) */}
+      {data && (
+        <ScheduleModal
+          open={scheduleModalOpen}
+          onOpenChange={(isOpen) => {
+            setScheduleModalOpen(isOpen)
+            if (!isOpen && fromTemplatesModal) {
+              setFromTemplatesModal(false)
+              setTemplatesModalOpen(true)
+            }
+          }}
+          onBackToTemplates={() => {
+            setScheduleModalOpen(false)
+            setFromTemplatesModal(false)
+            setTemplatesModalOpen(true)
+          }}
+          person={data}
+          university={universityData}
+          seed={seed}
+          defaultTab={scheduleTab}
+        />
+      )}
+
+      {/* 3. 美国驾驶执照与 REAL ID 实体卡面生成器 (Driver License) */}
+      {data && (
+        <DriverLicenseModal
+          open={licenseModalOpen}
+          onOpenChange={(isOpen) => {
+            setLicenseModalOpen(isOpen)
+            if (!isOpen && fromTemplatesModal) {
+              setFromTemplatesModal(false)
+              setTemplatesModalOpen(true)
+            }
+          }}
+          onBackToTemplates={() => {
+            setLicenseModalOpen(false)
+            setFromTemplatesModal(false)
+            setTemplatesModalOpen(true)
+          }}
+          person={data}
+          defaultState={licenseState}
+        />
+      )}
+
+      {/* 4. 官方民政与资格文凭生成器 (Birth / GED / Marriage / Skill) */}
+      {data && (
+        <VitalRecordsModal
+          open={vitalModalOpen}
+          onOpenChange={(isOpen) => {
+            setVitalModalOpen(isOpen)
+            if (!isOpen && fromTemplatesModal) {
+              setFromTemplatesModal(false)
+              setTemplatesModalOpen(true)
+            }
+          }}
+          onBackToTemplates={() => {
+            setVitalModalOpen(false)
+            setFromTemplatesModal(false)
+            setTemplatesModalOpen(true)
+          }}
+          person={data}
+          seed={seed}
+          defaultDocType={vitalDocType}
+        />
+      )}
     </div>
   )
 }

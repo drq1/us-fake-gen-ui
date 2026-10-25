@@ -224,7 +224,7 @@ export function QuickFilterBar({
                 className="h-9 rounded-lg border-purple-200 bg-purple-50/60 px-2 sm:px-3 text-xs font-semibold text-purple-700 shadow-xs hover:bg-purple-100 hover:text-purple-800 transition-all"
               >
                 <FolderArchive className="mr-1 h-3.5 w-3.5 text-purple-600 shrink-0" />
-                <span>模板库 (24)</span>
+                <span>模板库 (39)</span>
               </Button>
             )}
 

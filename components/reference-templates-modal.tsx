@@ -29,6 +29,10 @@ interface ReferenceTemplatesModalProps {
   onOpenChange: (open: boolean) => void
   onGenerateBankStatement?: () => void
   onGenerateTranscript?: (tab?: "highSchool" | "university") => void
+  onGenerateAdmissionLetter?: (schoolId?: string) => void
+  onGenerateSchedule?: (tab?: "schedule" | "tuition") => void
+  onGenerateDriverLicense?: (state?: string) => void
+  onGenerateVitalRecord?: (docType?: "birth" | "ged" | "marriage" | "skill") => void
 }
 
 export function ReferenceTemplatesModal({
@@ -36,6 +40,10 @@ export function ReferenceTemplatesModal({
   onOpenChange,
   onGenerateBankStatement,
   onGenerateTranscript,
+  onGenerateAdmissionLetter,
+  onGenerateSchedule,
+  onGenerateDriverLicense,
+  onGenerateVitalRecord,
 }: ReferenceTemplatesModalProps) {
   const [selectedCat, setSelectedCat] = useState("all")
   const [searchQuery, setSearchQuery] = useState("")
@@ -210,6 +218,103 @@ export function ReferenceTemplatesModal({
                       >
                         <Sparkles className="h-3 w-3" />
                         一键生成标化考分
+                      </button>
+                    )}
+
+                    {/* 名校录取通知书一键生成 */}
+                    {item.category === "offer" && onGenerateAdmissionLetter && (
+                      <button
+                        onClick={() => {
+                          const schoolKey = item.name.toLowerCase().includes("berkeley") ? "berkeley" :
+                            item.name.toLowerCase().includes("mit") ? "mit" :
+                            item.name.toLowerCase().includes("harvard") ? "harvard" :
+                            item.name.toLowerCase().includes("chicago") ? "uchicago" : undefined
+                          onGenerateAdmissionLetter(schoolKey)
+                        }}
+                        className="inline-flex items-center gap-1 px-2.5 py-1 rounded-md text-xs font-bold bg-blue-700 text-white hover:bg-blue-800 shadow-2xs transition-colors shrink-0"
+                        title="使用当前人设一键生成官方录取信"
+                      >
+                        <Sparkles className="h-3 w-3" />
+                        一键生成录取信
+                      </button>
+                    )}
+
+                    {/* 选课表与学费账单一键生成 */}
+                    {item.category === "schedule" && onGenerateSchedule && (
+                      <button
+                        onClick={() => {
+                          const isTuition = item.name.toLowerCase().includes("tuition") || item.name.toLowerCase().includes("statement")
+                          onGenerateSchedule(isTuition ? "tuition" : "schedule")
+                        }}
+                        className="inline-flex items-center gap-1 px-2.5 py-1 rounded-md text-xs font-bold bg-emerald-600 text-white hover:bg-emerald-700 shadow-2xs transition-colors shrink-0"
+                        title="一键生成当期在读选课表与学费账单"
+                      >
+                        <Sparkles className="h-3 w-3" />
+                        一键生成课表账单
+                      </button>
+                    )}
+
+                    {/* 驾照卡面一键生成 */}
+                    {item.category === "license" && onGenerateDriverLicense && (
+                      <button
+                        onClick={() => {
+                          const stateKey = item.name.toLowerCase().includes("york") ? "NY" :
+                            item.name.toLowerCase().includes("wisconsin") ? "WI" : undefined
+                          onGenerateDriverLicense(stateKey)
+                        }}
+                        className="inline-flex items-center gap-1 px-2.5 py-1 rounded-md text-xs font-bold bg-amber-600 text-white hover:bg-amber-700 shadow-2xs transition-colors shrink-0"
+                        title="一键生成当前人设美国 REAL ID 驾照实体卡面"
+                      >
+                        <Sparkles className="h-3 w-3" />
+                        一键生成驾照卡
+                      </button>
+                    )}
+
+                    {/* 出生证明一键生成 */}
+                    {item.category === "birth" && onGenerateVitalRecord && (
+                      <button
+                        onClick={() => onGenerateVitalRecord("birth")}
+                        className="inline-flex items-center gap-1 px-2.5 py-1 rounded-md text-xs font-bold bg-rose-600 text-white hover:bg-rose-700 shadow-2xs transition-colors shrink-0"
+                        title="一键生成州卫生厅官方出生证明"
+                      >
+                        <Sparkles className="h-3 w-3" />
+                        一键生成出生证明
+                      </button>
+                    )}
+
+                    {/* GED 文凭一键生成 */}
+                    {item.category === "ged" && onGenerateVitalRecord && (
+                      <button
+                        onClick={() => onGenerateVitalRecord("ged")}
+                        className="inline-flex items-center gap-1 px-2.5 py-1 rounded-md text-xs font-bold bg-teal-600 text-white hover:bg-teal-700 shadow-2xs transition-colors shrink-0"
+                        title="一键生成官方 GED 高中文凭证书"
+                      >
+                        <Sparkles className="h-3 w-3" />
+                        一键生成GED文凭
+                      </button>
+                    )}
+
+                    {/* 结婚证明一键生成 */}
+                    {item.category === "marriage" && onGenerateVitalRecord && (
+                      <button
+                        onClick={() => onGenerateVitalRecord("marriage")}
+                        className="inline-flex items-center gap-1 px-2.5 py-1 rounded-md text-xs font-bold bg-pink-600 text-white hover:bg-pink-700 shadow-2xs transition-colors shrink-0"
+                        title="一键生成官方结婚登记证明"
+                      >
+                        <Sparkles className="h-3 w-3" />
+                        一键生成结婚证明
+                      </button>
+                    )}
+
+                    {/* 技能证书一键生成 */}
+                    {item.category === "skill" && onGenerateVitalRecord && (
+                      <button
+                        onClick={() => onGenerateVitalRecord("skill")}
+                        className="inline-flex items-center gap-1 px-2.5 py-1 rounded-md text-xs font-bold bg-cyan-700 text-white hover:bg-cyan-800 shadow-2xs transition-colors shrink-0"
+                        title="一键生成急救与技能资格证书"
+                      >
+                        <Sparkles className="h-3 w-3" />
+                        一键生成技能证书
                       </button>
                     )}
 
