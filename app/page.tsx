@@ -24,6 +24,7 @@ export default function HomePage() {
   const [loading, setLoading] = useState(false)
   const [configOpen, setConfigOpen] = useState(false)
   const [transcriptOpen, setTranscriptOpen] = useState(false)
+  const [transcriptTab, setTranscriptTab] = useState<"highSchool" | "university">("highSchool")
   const [schoolData, setSchoolData] = useState<SchoolData | null>(null)
   const [universityData, setUniversityData] = useState<UniversityData | null>(null)
   const [jsonDialogOpen, setJsonDialogOpen] = useState(false)
@@ -253,6 +254,11 @@ export default function HomePage() {
     }
   }
 
+  const handleOpenTranscript = (tab: "highSchool" | "university" = "highSchool") => {
+    setTranscriptTab(tab)
+    setTranscriptOpen(true)
+  }
+
   const handleCopyAll = async () => {
     if (!data) return
 
@@ -335,7 +341,7 @@ export default function HomePage() {
           onCopyAll={handleCopyAll}
           onOpenConfig={() => setConfigOpen(true)}
           onOpenJsonExport={() => setJsonDialogOpen(true)}
-          onOpenTranscript={() => setTranscriptOpen(true)}
+          onOpenTranscript={handleOpenTranscript}
         />
 
         {/* 核心双栏平衡数据展示板 */}
@@ -354,7 +360,7 @@ export default function HomePage() {
                   schoolData={schoolData}
                   universityData={universityData}
                   visibleFields={visibleFields}
-                  onOpenTranscript={() => setTranscriptOpen(true)}
+                  onOpenTranscript={handleOpenTranscript}
                 />
               </div>
             </div>
@@ -400,14 +406,16 @@ export default function HomePage() {
         onRestore={handleRestoreData}
       />
 
-      {/* 官方美高成绩单生成器与打印弹窗 */}
+      {/* 官方教育成绩单生成器与打印弹窗 (美高 + 大学双轨) */}
       {data && (
         <TranscriptModal
           open={transcriptOpen}
           onOpenChange={setTranscriptOpen}
           person={data}
           school={schoolData}
+          university={universityData}
           seed={seed}
+          defaultTab={transcriptTab}
         />
       )}
     </div>

@@ -20,7 +20,7 @@ interface QuickFilterBarProps {
   onCopyAll: () => void
   onOpenConfig: () => void
   onOpenJsonExport: () => void
-  onOpenTranscript?: () => void
+  onOpenTranscript?: (tab?: "highSchool" | "university") => void
 }
 
 const AGE_BRACKETS = [
@@ -194,7 +194,7 @@ export function QuickFilterBar({
             {onOpenTranscript && (
               <Button
                 variant="outline"
-                onClick={onOpenTranscript}
+                onClick={() => onOpenTranscript()}
                 className="h-9 rounded-lg border-blue-200 bg-blue-50/60 px-2 sm:px-3 text-xs font-semibold text-blue-700 shadow-xs hover:bg-blue-100 hover:text-blue-800 transition-all"
               >
                 <FileText className="mr-1 h-3.5 w-3.5 text-blue-600 shrink-0" />

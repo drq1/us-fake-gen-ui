@@ -25,7 +25,7 @@ interface DetailInfoCardProps {
   schoolData: SchoolData | null
   universityData: UniversityData | null
   visibleFields: string[]
-  onOpenTranscript?: () => void
+  onOpenTranscript?: (tab?: "highSchool" | "university") => void
 }
 
 export function DetailInfoCard({
@@ -200,9 +200,21 @@ export function DetailInfoCard({
             <div className="py-3 px-3 rounded-xl hover:bg-slate-50/80 transition-colors">
               <div className="flex items-center justify-between gap-2">
                 <span className="text-xs sm:text-[13px] font-semibold text-slate-700 truncate">就读大学 (IPEDS 官方认证)</span>
-                <span className="inline-flex items-center rounded-full bg-blue-50 px-2.5 py-0.5 text-xs font-semibold text-blue-700 border border-blue-200 shrink-0">
-                  {UNIVERSITY_TYPE_MAP[universityData.type] || universityData.type}
-                </span>
+                <div className="flex items-center gap-1.5 shrink-0">
+                  <span className="inline-flex items-center rounded-full bg-blue-50 px-2.5 py-0.5 text-xs font-semibold text-blue-700 border border-blue-200 shrink-0">
+                    {UNIVERSITY_TYPE_MAP[universityData.type] || universityData.type}
+                  </span>
+                  {onOpenTranscript && (
+                    <button
+                      onClick={() => onOpenTranscript("university")}
+                      className="inline-flex items-center gap-1 rounded-md bg-indigo-50 px-2 py-0.5 text-xs font-bold text-indigo-700 border border-indigo-200 hover:bg-indigo-100 hover:text-indigo-800 transition-colors"
+                      title="生成/查看大学官方教务成绩单"
+                    >
+                      <GraduationCap className="h-3 w-3" />
+                      大学成绩单
+                    </button>
+                  )}
+                </div>
               </div>
               <div className="mt-1.5 font-mono text-sm sm:text-[15px] font-bold text-slate-900">
                 {universityData.name}
@@ -245,12 +257,12 @@ export function DetailInfoCard({
                   </span>
                   {onOpenTranscript && (
                     <button
-                      onClick={onOpenTranscript}
+                      onClick={() => onOpenTranscript("highSchool")}
                       className="inline-flex items-center gap-1 rounded-md bg-blue-50 px-2 py-0.5 text-xs font-bold text-blue-700 border border-blue-200 hover:bg-blue-100 hover:text-blue-800 transition-colors"
-                      title="生成/查看官方成绩单模板"
+                      title="生成/查看美高官方成绩单模板"
                     >
                       <FileText className="h-3 w-3" />
-                      成绩单
+                      美高成绩单
                     </button>
                   )}
                 </div>

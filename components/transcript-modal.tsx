@@ -3,18 +3,23 @@
 import { useState, useEffect } from "react"
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog"
 import { Button } from "@/components/ui/button"
-import { Printer, Edit3, Eye, RefreshCw, FileText, Check } from "lucide-react"
-import type { PersonData, SchoolData } from "@/lib/types"
+import { Printer, Edit3, Eye, RefreshCw, GraduationCap, School, Download, ExternalLink } from "lucide-react"
+import type { PersonData, SchoolData, UniversityData } from "@/lib/types"
 import type { StudentTranscript } from "@/lib/transcript-types"
+import type { UniversityTranscriptData } from "@/lib/university-transcript-types"
 import { generateTranscriptData } from "@/lib/transcript-generator"
+import { generateUniversityTranscript } from "@/lib/university-transcript-generator"
 import { TranscriptSheet } from "./transcript-sheet"
+import { UniversityTranscriptSheet } from "./university-transcript-sheet"
 
 interface TranscriptModalProps {
   open: boolean
   onOpenChange: (open: boolean) => void
   person: PersonData
   school?: SchoolData | null
+  university?: UniversityData | null
   seed?: number
+  defaultTab?: "highSchool" | "university"
 }
 
 export function TranscriptModal({
@@ -22,20 +27,32 @@ export function TranscriptModal({
   onOpenChange,
   person,
   school,
+  university,
   seed = 2026,
+  defaultTab = "highSchool",
 }: TranscriptModalProps) {
-  const [transcriptData, setTranscriptData] = useState<StudentTranscript | null>(null)
+  const [activeTab, setActiveTab] = useState<"highSchool" | "university">(defaultTab)
+  const [highSchoolData, setHighSchoolData] = useState<StudentTranscript | null>(null)
+  const [universityData, setUniversityData] = useState<UniversityTranscriptData | null>(null)
   const [isEditable, setIsEditable] = useState(false)
-  const [watermark, setWatermark] = useState("OFFICIAL TRANSCRIPT")
+  const [watermark, setWatermark] = useState<"OFFICIAL" | "ISSUED_TO_STUDENT" | "SAMPLE" | "NONE">("OFFICIAL")
   const [currentSeed, setCurrentSeed] = useState(seed)
 
-  // 当外部人偶或学校变化时重新生成数据
+  useEffect(() => {
+    if (defaultTab && open) {
+      setActiveTab(defaultTab)
+    }
+  }, [defaultTab, open])
+
+  // 当外部数据或 seed 变化时重新生成数据
   useEffect(() => {
     if (person) {
-      const generated = generateTranscriptData(person, school, currentSeed)
-      setTranscriptData(generated)
+      const hs = generateTranscriptData(person, school, currentSeed)
+      const uni = generateUniversityTranscript(person, university || null, currentSeed)
+      setHighSchoolData(hs)
+      setUniversityData(uni)
     }
-  }, [person, school, currentSeed])
+  }, [person, school, university, currentSeed])
 
   // 触发打印 / 另存为 PDF
   const handlePrint = () => {
@@ -50,106 +67,198 @@ export function TranscriptModal({
 
   // 导出 JSON
   const handleExportJson = () => {
-    if (!transcriptData) return
-    const blob = new Blob([JSON.stringify(transcriptData, null, 2)], { type: "application/json" })
+    const isHS = activeTab === "highSchool"
+    const payload = isHS ? highSchoolData : universityData
+    if (!payload) return
+    const blob = new Blob([JSON.stringify(payload, null, 2)], { type: "application/json" })
     const url = URL.createObjectURL(blob)
     const a = document.createElement("a")
     a.href = url
-    a.download = `Transcript_${transcriptData.studentName.replace(/\s+/g, "_")}.json`
+    a.download = `${isHS ? "HighSchool" : "University"}_Transcript_${person?.fullName?.replace(/\s+/g, "_") || "student"}.json`
     document.body.appendChild(a)
     a.click()
     document.body.removeChild(a)
     URL.revokeObjectURL(url)
   }
 
+  const watermarkStringMap = {
+    OFFICIAL: "OFFICIAL TRANSCRIPT",
+    ISSUED_TO_STUDENT: "SAMPLE COPY",
+    SAMPLE: "SAMPLE COPY",
+    NONE: "",
+  }
+
+  const hsSamples = [
+    { name: "加州公立高中", file: "/samples/Sample_1_Public_High_School_CA.pdf" },
+    { name: "德州AAR标准", file: "/samples/Sample_2_Texas_AAR_Style_TX.pdf" },
+    { name: "纽约史岱文森", file: "/samples/Sample_3_New_York_Stuyvesant_NY.pdf" },
+    { name: "俄勒冈林肯高中", file: "/samples/Sample_4_Oregon_Lincoln_OR.pdf" },
+  ]
+
+  const uniSamples = [
+    { name: "加州大学伯克利 UC Berkeley", file: "/samples/Sample_University_1_UC_Berkeley_CA.pdf" },
+    { name: "德州农工 Texas A&M", file: "/samples/Sample_University_2_Texas_AM_TX.pdf" },
+    { name: "纽大斯特恩 NYU Stern", file: "/samples/Sample_University_3_NYU_Stern_NY.pdf" },
+    { name: "华盛顿大学 UW Seattle", file: "/samples/Sample_University_4_UW_Seattle_WA.pdf" },
+  ]
+
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="w-[98vw] max-w-5xl max-h-[94vh] overflow-y-auto p-3 sm:p-6 bg-slate-100 print:bg-white print:p-0 print:border-none print:shadow-none print:max-w-none print:w-full print:max-h-none print:overflow-visible">
+      <DialogContent className="w-[98vw] max-w-5xl max-h-[95vh] overflow-y-auto p-3 sm:p-6 bg-slate-100 print:bg-white print:p-0 print:border-none print:shadow-none print:max-w-none print:w-full print:max-h-none print:overflow-visible rounded-2xl">
         <DialogHeader className="print:hidden border-b border-slate-200 pb-3">
-          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
-            <div>
-              <DialogTitle className="text-base sm:text-lg font-bold flex items-center gap-2 text-slate-900">
-                <FileText className="h-5 w-5 text-blue-600" />
-                美高官方成绩单生成器 (Official High School Transcript)
-              </DialogTitle>
-              <p className="text-xs text-slate-500 mt-0.5">
-                根据当前人偶档案与真实学校数据自动生成，支持在线双击微调并高保真导出 PDF
-              </p>
-            </div>
-
-            {/* 控制条操作按钮群 */}
-            <div className="flex flex-wrap items-center gap-2">
-              {/* 编辑模式切换 */}
-              <Button
-                variant={isEditable ? "default" : "outline"}
-                size="sm"
-                onClick={() => setIsEditable(!isEditable)}
-                className={`h-8 text-xs font-semibold ${isEditable ? "bg-amber-600 hover:bg-amber-700 text-white" : ""}`}
-              >
-                {isEditable ? (
-                  <>
-                    <Eye className="mr-1.5 h-3.5 w-3.5" />
-                    完成编辑
-                  </>
-                ) : (
-                  <>
-                    <Edit3 className="mr-1.5 h-3.5 w-3.5" />
-                    在线微调
-                  </>
-                )}
-              </Button>
-
-              {/* 水印切换 */}
-              <div className="inline-flex items-center rounded-lg border border-slate-300 bg-white p-0.5 text-xs">
-                {["OFFICIAL", "SAMPLE", "无水印"].map((item) => {
-                  const val = item === "无水印" ? "" : item === "OFFICIAL" ? "OFFICIAL TRANSCRIPT" : "SAMPLE COPY"
-                  const isSelected = watermark === val
-                  return (
-                    <button
-                      key={item}
-                      onClick={() => setWatermark(val)}
-                      className={`px-2 py-1 rounded-md text-[11px] font-semibold transition-all ${
-                        isSelected ? "bg-slate-900 text-white" : "text-slate-600 hover:text-slate-900"
-                      }`}
-                    >
-                      {item}
-                    </button>
-                  )
-                })}
+          <div className="flex flex-col gap-3">
+            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+              <div>
+                <DialogTitle className="text-base sm:text-lg font-bold flex items-center gap-2 text-slate-900">
+                  {activeTab === "highSchool" ? (
+                    <>
+                      <School className="h-5 w-5 text-blue-600" />
+                      美高官方成绩单生成器 (Official High School Transcript)
+                    </>
+                  ) : (
+                    <>
+                      <GraduationCap className="h-5 w-5 text-indigo-600" />
+                      美国大学官方教务成绩单 (Official University Academic Record)
+                    </>
+                  )}
+                </DialogTitle>
+                <p className="text-xs text-slate-500 mt-0.5">
+                  全美真实学校数据库自动映射，支持在线修改微调、加减防伪水印与高保真矢量 PDF 导出
+                </p>
               </div>
 
-              {/* 随机成绩刷新 */}
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={handleRegenerate}
-                className="h-8 text-xs font-semibold bg-white"
-              >
-                <RefreshCw className="mr-1.5 h-3.5 w-3.5" />
-                换一批成绩
-              </Button>
+              {/* 学历阶段 Tab 切换器 */}
+              <div className="inline-flex items-center rounded-xl border border-slate-300 bg-white p-1 text-xs shrink-0 self-start sm:self-auto shadow-2xs">
+                <button
+                  onClick={() => setActiveTab("highSchool")}
+                  className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg font-bold transition-all ${
+                    activeTab === "highSchool"
+                      ? "bg-blue-600 text-white shadow-xs"
+                      : "text-slate-600 hover:text-slate-900"
+                  }`}
+                >
+                  <School className="h-3.5 w-3.5" />
+                  美高成绩单
+                </button>
+                <button
+                  onClick={() => setActiveTab("university")}
+                  className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg font-bold transition-all ${
+                    activeTab === "university"
+                      ? "bg-indigo-600 text-white shadow-xs"
+                      : "text-slate-600 hover:text-slate-900"
+                  }`}
+                >
+                  <GraduationCap className="h-3.5 w-3.5" />
+                  大学成绩单
+                </button>
+              </div>
+            </div>
 
-              {/* 核心：导出 PDF / 打印 */}
-              <Button
-                size="sm"
-                onClick={handlePrint}
-                className="h-8 text-xs font-semibold bg-blue-600 hover:bg-blue-700 text-white shadow-xs"
-              >
-                <Printer className="mr-1.5 h-3.5 w-3.5" />
-                打印 / 导出 PDF
-              </Button>
+            {/* 控制条操作工具栏 */}
+            <div className="flex flex-wrap items-center justify-between gap-2 pt-1 border-t border-slate-200/80">
+              {/* 左侧：参考官方真实 PDF 样本下载比对 */}
+              <div className="flex flex-wrap items-center gap-1.5 text-xs text-slate-600">
+                <span className="font-semibold text-slate-700 whitespace-nowrap">参考真实样本:</span>
+                {(activeTab === "highSchool" ? hsSamples : uniSamples).map((s) => (
+                  <a
+                    key={s.name}
+                    href={s.file}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-1 px-2 py-1 rounded-md bg-white border border-slate-200 text-[11px] font-medium text-slate-700 hover:text-blue-600 hover:border-blue-300 transition-colors"
+                  >
+                    <ExternalLink className="h-3 w-3 text-slate-400" />
+                    {s.name}
+                  </a>
+                ))}
+              </div>
+
+              {/* 右侧：动作按钮 */}
+              <div className="flex flex-wrap items-center gap-2">
+                {/* 在线微调 */}
+                <Button
+                  variant={isEditable ? "default" : "outline"}
+                  size="sm"
+                  onClick={() => setIsEditable(!isEditable)}
+                  className={`h-8 text-xs font-semibold ${
+                    isEditable ? "bg-amber-600 hover:bg-amber-700 text-white" : "bg-white"
+                  }`}
+                >
+                  {isEditable ? (
+                    <>
+                      <Eye className="mr-1.5 h-3.5 w-3.5" />
+                      完成编辑
+                    </>
+                  ) : (
+                    <>
+                      <Edit3 className="mr-1.5 h-3.5 w-3.5" />
+                      在线微调
+                    </>
+                  )}
+                </Button>
+
+                {/* 防伪水印 */}
+                <div className="inline-flex items-center rounded-lg border border-slate-300 bg-white p-0.5 text-xs">
+                  {[
+                    { id: "OFFICIAL", label: "OFFICIAL" },
+                    { id: "ISSUED_TO_STUDENT", label: "STUDENT" },
+                    { id: "SAMPLE", label: "SAMPLE" },
+                    { id: "NONE", label: "无水印" },
+                  ].map((w) => (
+                    <button
+                      key={w.id}
+                      onClick={() => setWatermark(w.id as typeof watermark)}
+                      className={`px-2 py-1 rounded text-[11px] font-semibold transition-all ${
+                        watermark === w.id ? "bg-slate-900 text-white" : "text-slate-600 hover:text-slate-900"
+                      }`}
+                    >
+                      {w.label}
+                    </button>
+                  ))}
+                </div>
+
+                {/* 随机成绩 */}
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={handleRegenerate}
+                  className="h-8 text-xs font-semibold bg-white"
+                >
+                  <RefreshCw className="mr-1.5 h-3.5 w-3.5" />
+                  换一批
+                </Button>
+
+                {/* 核心：导出 PDF / 打印 */}
+                <Button
+                  size="sm"
+                  onClick={handlePrint}
+                  className="h-8 text-xs font-semibold bg-blue-600 hover:bg-blue-700 text-white shadow-xs"
+                >
+                  <Printer className="mr-1.5 h-3.5 w-3.5" />
+                  打印 / 另存为 PDF
+                </Button>
+              </div>
             </div>
           </div>
         </DialogHeader>
 
         {/* 成绩单主体预览区域 */}
-        <div className="my-4 overflow-x-auto print:my-0 print:overflow-visible">
-          {transcriptData && (
+        <div className="my-3 overflow-x-auto print:my-0 print:overflow-visible">
+          {activeTab === "highSchool" && highSchoolData && (
             <TranscriptSheet
-              data={transcriptData}
+              data={highSchoolData}
               isEditable={isEditable}
-              watermarkText={watermark}
-              onChange={setTranscriptData}
+              watermarkText={watermarkStringMap[watermark]}
+              onChange={setHighSchoolData}
+            />
+          )}
+
+          {activeTab === "university" && universityData && (
+            <UniversityTranscriptSheet
+              data={universityData}
+              watermark={watermark}
+              isEditable={isEditable}
+              onUpdate={setUniversityData}
             />
           )}
         </div>
@@ -160,10 +269,13 @@ export function TranscriptModal({
             💡 提示：在浏览器打印预览窗口中，将「目标打印机」选择为<b>「另存为 PDF」</b>，纸张选 <b>Letter</b> 或 <b>A4</b> 即可导出高保真矢量文件。
           </span>
           <Button variant="ghost" size="sm" onClick={handleExportJson} className="h-7 text-xs text-slate-600">
-            下载数据 JSON
+            <Download className="mr-1 h-3 w-3" />
+            下载本单 JSON
           </Button>
         </div>
       </DialogContent>
     </Dialog>
   )
 }
+
+export default TranscriptModal
