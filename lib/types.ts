@@ -5,6 +5,7 @@ export interface PersonData {
   gender: string
   birthday: string
   title: string
+  nameSet?: string
   hairColor: string
   country: string
   street: string

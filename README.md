@@ -44,6 +44,10 @@
 - **在线所见即所得微调**：支持在弹窗预览中直接修改任意学科名称、成绩、学校抬头及水印（OFFICIAL / SAMPLE / 无水印）。
 - **高保真矢量打印与 PDF 导出**：深度适配 `@media print` 与标准 US Letter 纸张规范，浏览器原生一键「另存为 PDF」，输出带官方防伪钢印的高清矢量文件。
 
+### 7. 🌐 多族裔文化姓名生成体系 (Multi-Ethnic Name Sets)
+- **多文化族裔一键直切**：支持 🇺🇸 欧美经典 (American)、🇨🇳 华裔/华人 (Chinese - 拼音名如 Wei Chen / 美籍英文名如 Kevin Zhang)、🇯🇵 日裔/日本 (Japanese - 如 Kenji Sato)、🇰🇷 韩裔/韩国 (Korean - 如 Min-Jun Kim) 以及 🇪🇸 西班牙/拉美裔 (Hispanic - 如 Carlos Rodriguez)。
+- **全链路真实语义对齐**：根据所选族裔姓名，自动联动生成符合拼音/罗马字规则的专属邮箱（如 `kevin.zhang98@gmail.com`）、用户名与身份卡片，全面满足硅谷亚裔码农、留学生、西裔等多元场景需求。
+
 ---
 
 ## 🛠️ 技术栈

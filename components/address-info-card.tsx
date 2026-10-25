@@ -239,16 +239,30 @@ Tel: ${data.phone}`
 
       {/* 模块 2：个人身份与特征 */}
       <div className="rounded-2xl border border-slate-200/80 bg-white p-4 sm:p-5 shadow-sm">
-        <div className="flex items-center gap-2.5 border-b border-slate-100 pb-3.5">
-          <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-rose-50 text-rose-600 border border-rose-100/80">
-            <User className="h-4.5 w-4.5" />
+        <div className="flex items-center justify-between gap-2 border-b border-slate-100 pb-3.5">
+          <div className="flex items-center gap-2.5 min-w-0">
+            <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-rose-50 text-rose-600 border border-rose-100/80">
+              <User className="h-4.5 w-4.5" />
+            </div>
+            <div className="min-w-0">
+              <h3 className="text-[15px] sm:text-base font-bold text-slate-900 tracking-tight">
+                个人身份与特征
+              </h3>
+              <p className="text-xs text-slate-400 font-mono">Personal & Physical Profile</p>
+            </div>
           </div>
-          <div>
-            <h3 className="text-[15px] sm:text-base font-bold text-slate-900 tracking-tight">
-              个人身份与特征
-            </h3>
-            <p className="text-xs text-slate-400 font-mono">Personal & Physical Profile</p>
-          </div>
+
+          {data.nameSet && data.nameSet !== "american" && (
+            <span className="inline-flex items-center gap-1 rounded-full bg-blue-50 px-2.5 py-0.5 text-xs font-semibold text-blue-700 border border-blue-200 shrink-0">
+              {data.nameSet === "chinese"
+                ? "🇨🇳 华裔姓名"
+                : data.nameSet === "japanese"
+                  ? "🇯🇵 日裔姓名"
+                  : data.nameSet === "korean"
+                    ? "🇰🇷 韩裔姓名"
+                    : "🇪🇸 西裔/拉美"}
+            </span>
+          )}
         </div>
 
         <div className="mt-2 divide-y divide-slate-100">

@@ -8,11 +8,13 @@ import { US_STATES } from "@/lib/constants"
 interface QuickFilterBarProps {
   state: string
   gender: string
+  nameSet?: string
   minAge: number
   maxAge: number
   loading: boolean
   onStateChange: (state: string) => void
   onGenderChange: (gender: string) => void
+  onNameSetChange?: (nameSet: string) => void
   onAgeChange: (minAge: number, maxAge: number) => void
   onRegenerate: () => void
   onCopyAll: () => void
@@ -39,11 +41,13 @@ const TAX_FREE_STATES = [
 export function QuickFilterBar({
   state,
   gender,
+  nameSet,
   minAge,
   maxAge,
   loading,
   onStateChange,
   onGenderChange,
+  onNameSetChange,
   onAgeChange,
   onRegenerate,
   onCopyAll,
@@ -68,6 +72,34 @@ export function QuickFilterBar({
           </div>
 
           <div className="flex flex-wrap items-center gap-2">
+            {/* 姓名族裔风格切换（欧美/华裔/日裔/韩裔/拉美裔） */}
+            {onNameSetChange && (
+              <div className="inline-flex items-center rounded-lg border border-slate-200/80 bg-slate-100/70 p-0.5 text-xs overflow-x-auto max-w-full [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
+                {[
+                  { id: "american", label: "🇺🇸 欧美" },
+                  { id: "chinese", label: "🇨🇳 华裔" },
+                  { id: "japanese", label: "🇯🇵 日裔" },
+                  { id: "korean", label: "🇰🇷 韩裔" },
+                  { id: "hispanic", label: "🇪🇸 拉美" },
+                ].map((ns) => {
+                  const isSelected = (nameSet || "american") === ns.id
+                  return (
+                    <button
+                      key={ns.id}
+                      onClick={() => onNameSetChange(ns.id)}
+                      className={`rounded-md px-2 py-1.5 font-medium whitespace-nowrap transition-all duration-150 ${
+                        isSelected
+                          ? "bg-blue-600 text-white shadow-xs font-semibold"
+                          : "text-slate-600 hover:text-slate-900"
+                      }`}
+                    >
+                      {ns.label}
+                    </button>
+                  )
+                })}
+              </div>
+            )}
+
             {/* 性别快捷切换 */}
             <div className="inline-flex items-center rounded-lg border border-slate-200/80 bg-slate-100/70 p-0.5 text-xs">
               <button
@@ -78,7 +110,7 @@ export function QuickFilterBar({
                     : "text-slate-600 hover:text-slate-900"
                 }`}
               >
-                不限性别
+                随机
               </button>
               <button
                 onClick={() => onGenderChange("Male")}

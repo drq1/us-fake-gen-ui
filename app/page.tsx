@@ -35,6 +35,7 @@ export default function HomePage() {
   const state = searchParams.get("state") || ""
   const city = searchParams.get("city") || ""
   const gender = searchParams.get("gender") || ""
+  const nameSet = searchParams.get("nameSet") || "american"
   const minAge = Number.parseInt(searchParams.get("minAge") || "0", 10) || 0
   const maxAge = Number.parseInt(searchParams.get("maxAge") || "0", 10) || 0
   
@@ -148,6 +149,7 @@ export default function HomePage() {
           state,
           city,
           gender,
+          nameSet,
           minAge,
           maxAge,
           seed: targetSeed,
@@ -167,7 +169,7 @@ export default function HomePage() {
         setLoading(false)
       }
     },
-    [state, city, gender, minAge, maxAge, highState, highCity, universityState, universityCity],
+    [state, city, gender, nameSet, minAge, maxAge, highState, highCity, universityState, universityCity],
   )
 
   useEffect(() => {
@@ -186,6 +188,13 @@ export default function HomePage() {
 
   const handleGenderChange = (newGender: string) => {
     updateUrlParams({ gender: newGender, seed: generateSeed().toString() })
+  }
+
+  const handleNameSetChange = (newNameSet: string) => {
+    updateUrlParams({
+      nameSet: newNameSet === "american" ? "" : newNameSet,
+      seed: generateSeed().toString(),
+    })
   }
 
   const handleAgeChange = (newMin: number, newMax: number) => {
@@ -276,11 +285,13 @@ export default function HomePage() {
         <QuickFilterBar
           state={state}
           gender={gender}
+          nameSet={nameSet}
           minAge={minAge}
           maxAge={maxAge}
           loading={loading}
           onStateChange={handleStateChange}
           onGenderChange={handleGenderChange}
+          onNameSetChange={handleNameSetChange}
           onAgeChange={handleAgeChange}
           onRegenerate={handleRegenerate}
           onCopyAll={handleCopyAll}
@@ -327,6 +338,7 @@ export default function HomePage() {
           state,
           city,
           gender,
+          nameSet,
           minAge,
           maxAge,
           visibleFields,

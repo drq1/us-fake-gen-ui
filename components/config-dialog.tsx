@@ -22,6 +22,7 @@ interface ConfigDialogProps {
     state: string
     city: string
     gender: string
+    nameSet?: string
     minAge: number
     maxAge: number
     visibleFields: string[]
@@ -39,6 +40,7 @@ function ConfigDialog({ open, onOpenChange, currentConfig }: ConfigDialogProps) 
   const [city, setCity] = useState(currentConfig.city)
   const [cities, setCities] = useState<string[]>(() => getCitiesForState(currentConfig.state))
   const [gender, setGender] = useState(currentConfig.gender)
+  const [nameSet, setNameSet] = useState(currentConfig.nameSet || "american")
   const [minAge, setMinAge] = useState(currentConfig.minAge || 18)
   const [maxAge, setMaxAge] = useState(currentConfig.maxAge || 65)
   const [visibleFields, setVisibleFields] = useState<string[]>(currentConfig.visibleFields)
@@ -61,6 +63,7 @@ function ConfigDialog({ open, onOpenChange, currentConfig }: ConfigDialogProps) 
     setState(currentConfig.state)
     setCity(currentConfig.city)
     setGender(currentConfig.gender)
+    setNameSet(currentConfig.nameSet || "american")
     setMinAge(currentConfig.minAge || 18)
     setMaxAge(currentConfig.maxAge || 65)
     setVisibleFields(currentConfig.visibleFields)
@@ -112,6 +115,7 @@ function ConfigDialog({ open, onOpenChange, currentConfig }: ConfigDialogProps) 
     if (state && state !== "random") params.set("state", state)
     if (city && city !== "random") params.set("city", city)
     if (gender && gender !== "random") params.set("gender", gender)
+    if (nameSet && nameSet !== "american") params.set("nameSet", nameSet)
     if (minAge > 0) params.set("minAge", minAge.toString())
     if (maxAge > 0) params.set("maxAge", maxAge.toString())
     if (seed) params.set("seed", seed)
@@ -219,6 +223,26 @@ function ConfigDialog({ open, onOpenChange, currentConfig }: ConfigDialogProps) 
               </div>
 
               <div className="space-y-4">
+                <div>
+                  <Label htmlFor="nameSet">姓名文化族裔风格 (可选)</Label>
+                  <Select
+                    value={nameSet || "american"}
+                    onValueChange={(val) => setNameSet(val)}
+                  >
+                    <SelectTrigger>
+                      <SelectValue placeholder="选择姓名风格" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="american">🇺🇸 欧美经典 (American - 如 James Smith)</SelectItem>
+                      <SelectItem value="chinese">🇨🇳 华裔/华人 (Chinese - 如 Wei Chen / Kevin Zhang)</SelectItem>
+                      <SelectItem value="japanese">🇯🇵 日裔/日本 (Japanese - 如 Kenji Sato / Sakura Tanaka)</SelectItem>
+                      <SelectItem value="korean">🇰🇷 韩裔/韩国 (Korean - 如 Min-Jun Kim / Ji-Woo Park)</SelectItem>
+                      <SelectItem value="hispanic">🇪🇸 西裔/拉美 (Hispanic - 如 Carlos Rodriguez / Sofia Garcia)</SelectItem>
+                    </SelectContent>
+                  </Select>
+                  <p className="text-sm text-gray-500 mt-1">自动生成符合该文化族裔特征的真实拼写姓名、邮箱与账号</p>
+                </div>
+
                 <div>
                   <Label htmlFor="gender">性别过滤 (可选)</Label>
                   <Select

@@ -1,11 +1,13 @@
 import { fakerEN_US as faker } from "@faker-js/faker"
 import type { PersonData } from "./types"
 import { type RealAddress, getRealAddressOffline } from "./real-addresses"
+import { generateCulturalName, type NameSetType } from "./name-sets"
 
 export interface GenerateOptions {
   state?: string
   city?: string
   gender?: string
+  nameSet?: string
   minAge?: number
   maxAge?: number
   seed?: number
@@ -43,13 +45,30 @@ export function generatePersonData(options: GenerateOptions = {}): PersonData {
   const genderType = isFemale ? "female" : isMale ? "male" : faker.datatype.boolean() ? "male" : "female"
   const gender = genderType === "male" ? "Male" : "Female"
 
-  // Names
-  const firstName = faker.person.firstName(genderType)
-  const lastName = faker.person.lastName()
+  // Names (支持多族裔风格：欧美经典、华裔、日裔、韩裔、拉美裔)
+  let firstName = ""
+  let lastName = ""
+  let fullName = ""
+
+  const nameSet = (options.nameSet || "american").toLowerCase() as NameSetType
+  if (nameSet && nameSet !== "american") {
+    const cultural = generateCulturalName(nameSet, genderType, () => faker.number.float({ min: 0, max: 1 }))
+    if (cultural.firstName && cultural.lastName) {
+      firstName = cultural.firstName
+      lastName = cultural.lastName
+      fullName = cultural.fullName
+    }
+  }
+
+  if (!fullName) {
+    firstName = faker.person.firstName(genderType)
+    lastName = faker.person.lastName()
+    fullName = `${firstName} ${lastName}`
+  }
+
   const title = genderType === "male" 
     ? faker.helpers.arrayElement(["Mr.", "Dr."]) 
     : faker.helpers.arrayElement(["Ms.", "Mrs.", "Miss", "Dr."])
-  const fullName = `${firstName} ${lastName}`
 
   // 100% 真实美国物理地址（门牌、街道、城市、州、邮编五位一体完全匹配）
   const address = options.realAddress || getRealAddressOffline(options.state, options.city, options.seed)
@@ -99,9 +118,17 @@ export function generatePersonData(options: GenerateOptions = {}): PersonData {
   const salary = `$${salaryNum.toLocaleString("en-US")}`
 
   // Account
-  const username = faker.internet.username({ firstName, lastName }).toLowerCase()
+  const cleanFirst = firstName.toLowerCase().replace(/[^a-z0-9]/g, "")
+  const cleanLast = lastName.toLowerCase().replace(/[^a-z0-9]/g, "")
+  const emailDomains = ["gmail.com", "outlook.com", "yahoo.com", "icloud.com"]
+  const emailDomain = faker.helpers.arrayElement(emailDomains)
+  const email = faker.helpers.arrayElement([
+    `${cleanFirst}.${cleanLast}${birthYear % 100}@${emailDomain}`,
+    `${cleanFirst}${cleanLast[0] || ""}${faker.number.int({ min: 10, max: 99 })}@${emailDomain}`,
+    `${cleanLast}.${cleanFirst}@${emailDomain}`,
+  ])
+  const username = `${cleanFirst}_${cleanLast}${faker.number.int({ min: 1, max: 99 })}`
   const password = faker.internet.password({ length: 12, memorable: true })
-  const email = faker.internet.email({ firstName, lastName }).toLowerCase()
   const phone = faker.phone.number({ style: "national" })
   const securityQuestion = faker.helpers.arrayElement(SECURITY_QUESTIONS)
   const securityAnswer = faker.word.words({ count: 1 })
@@ -126,6 +153,7 @@ export function generatePersonData(options: GenerateOptions = {}): PersonData {
     gender,
     birthday,
     title,
+    nameSet: options.nameSet || "american",
     hairColor: faker.helpers.arrayElement(HAIR_COLORS),
     country: "United States",
     street,
