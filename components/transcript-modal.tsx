@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react"
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog"
 import { Button } from "@/components/ui/button"
-import { Printer, Edit3, Eye, RefreshCw, GraduationCap, School, Download, ExternalLink } from "lucide-react"
+import { Printer, Edit3, Eye, RefreshCw, GraduationCap, School, Download, ExternalLink, ArrowLeft } from "lucide-react"
 import type { PersonData, SchoolData, UniversityData } from "@/lib/types"
 import type { StudentTranscript } from "@/lib/transcript-types"
 import type { UniversityTranscriptData } from "@/lib/university-transcript-types"
@@ -20,6 +20,7 @@ interface TranscriptModalProps {
   university?: UniversityData | null
   seed?: number
   defaultTab?: "highSchool" | "university"
+  onBackToTemplates?: () => void
 }
 
 export function TranscriptModal({
@@ -30,6 +31,7 @@ export function TranscriptModal({
   university,
   seed = 2026,
   defaultTab = "highSchool",
+  onBackToTemplates,
 }: TranscriptModalProps) {
   const [activeTab, setActiveTab] = useState<"highSchool" | "university">(defaultTab)
   const [highSchoolData, setHighSchoolData] = useState<StudentTranscript | null>(null)
@@ -176,6 +178,18 @@ export function TranscriptModal({
 
               {/* 右侧：动作按钮 */}
               <div className="flex flex-wrap items-center gap-2">
+                {onBackToTemplates && (
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={onBackToTemplates}
+                    className="h-8 text-xs font-bold bg-blue-50 border-blue-200 text-blue-700 hover:bg-blue-100 hover:text-blue-800 shadow-2xs"
+                  >
+                    <ArrowLeft className="mr-1.5 h-3.5 w-3.5" />
+                    返回参考模板库
+                  </Button>
+                )}
+
                 {/* 在线微调 */}
                 <Button
                   variant={isEditable ? "default" : "outline"}
@@ -269,10 +283,23 @@ export function TranscriptModal({
           <span>
             💡 提示：在浏览器打印预览窗口中，将「目标打印机」选择为<b>「另存为 PDF」</b>，纸张选 <b>Letter</b> 或 <b>A4</b> 即可导出高保真矢量文件。
           </span>
-          <Button variant="ghost" size="sm" onClick={handleExportJson} className="h-7 text-xs text-slate-600">
-            <Download className="mr-1 h-3 w-3" />
-            下载本单 JSON
-          </Button>
+          <div className="flex items-center gap-2">
+            {onBackToTemplates && (
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={onBackToTemplates}
+                className="h-7 text-xs border-slate-300 text-blue-700 bg-blue-50/50 hover:bg-blue-100/80 font-medium"
+              >
+                <ArrowLeft className="mr-1 h-3 w-3" />
+                返回参考模板库
+              </Button>
+            )}
+            <Button variant="ghost" size="sm" onClick={handleExportJson} className="h-7 text-xs text-slate-600">
+              <Download className="mr-1 h-3 w-3" />
+              下载本单 JSON
+            </Button>
+          </div>
         </div>
       </DialogContent>
     </Dialog>

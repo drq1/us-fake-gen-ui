@@ -29,6 +29,7 @@ export default function HomePage() {
   const [transcriptTab, setTranscriptTab] = useState<"highSchool" | "university">("highSchool")
   const [bankModalOpen, setBankModalOpen] = useState(false)
   const [templatesModalOpen, setTemplatesModalOpen] = useState(false)
+  const [fromTemplatesModal, setFromTemplatesModal] = useState(false)
   const [schoolData, setSchoolData] = useState<SchoolData | null>(null)
   const [universityData, setUniversityData] = useState<UniversityData | null>(null)
   const [jsonDialogOpen, setJsonDialogOpen] = useState(false)
@@ -420,7 +421,18 @@ export default function HomePage() {
       {data && (
         <TranscriptModal
           open={transcriptOpen}
-          onOpenChange={setTranscriptOpen}
+          onOpenChange={(isOpen) => {
+            setTranscriptOpen(isOpen)
+            if (!isOpen && fromTemplatesModal) {
+              setFromTemplatesModal(false)
+              setTemplatesModalOpen(true)
+            }
+          }}
+          onBackToTemplates={() => {
+            setTranscriptOpen(false)
+            setFromTemplatesModal(false)
+            setTemplatesModalOpen(true)
+          }}
           person={data}
           school={schoolData}
           university={universityData}
@@ -433,7 +445,18 @@ export default function HomePage() {
       {data && (
         <BankStatementModal
           open={bankModalOpen}
-          onOpenChange={setBankModalOpen}
+          onOpenChange={(isOpen) => {
+            setBankModalOpen(isOpen)
+            if (!isOpen && fromTemplatesModal) {
+              setFromTemplatesModal(false)
+              setTemplatesModalOpen(true)
+            }
+          }}
+          onBackToTemplates={() => {
+            setBankModalOpen(false)
+            setFromTemplatesModal(false)
+            setTemplatesModalOpen(true)
+          }}
           person={data}
           seed={seed}
         />
@@ -442,9 +465,22 @@ export default function HomePage() {
       {/* 真实凭证与参考模板库浏览下载弹窗 */}
       <ReferenceTemplatesModal
         open={templatesModalOpen}
-        onOpenChange={setTemplatesModalOpen}
-        onGenerateBankStatement={() => setBankModalOpen(true)}
-        onGenerateTranscript={handleOpenTranscript}
+        onOpenChange={(isOpen) => {
+          setTemplatesModalOpen(isOpen)
+          if (!isOpen) {
+            setFromTemplatesModal(false)
+          }
+        }}
+        onGenerateBankStatement={() => {
+          setFromTemplatesModal(true)
+          setTemplatesModalOpen(false)
+          setBankModalOpen(true)
+        }}
+        onGenerateTranscript={(tab = "highSchool") => {
+          setFromTemplatesModal(true)
+          setTemplatesModalOpen(false)
+          handleOpenTranscript(tab)
+        }}
       />
     </div>
   )

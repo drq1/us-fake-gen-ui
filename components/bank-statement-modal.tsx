@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from "react"
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog"
 import { Button } from "@/components/ui/button"
-import { Printer, Edit3, Eye, RefreshCw, Landmark, Download, FileText } from "lucide-react"
+import { Printer, Edit3, Eye, RefreshCw, Landmark, Download, FileText, ArrowLeft } from "lucide-react"
 import type { PersonData } from "@/lib/types"
 import { generateBankStatement, type BankStatementData } from "@/lib/bank-statement-generator"
 import { BankStatementSheet } from "./bank-statement-sheet"
@@ -13,6 +13,7 @@ interface BankStatementModalProps {
   onOpenChange: (open: boolean) => void
   person: PersonData
   seed?: number
+  onBackToTemplates?: () => void
 }
 
 export function BankStatementModal({
@@ -20,6 +21,7 @@ export function BankStatementModal({
   onOpenChange,
   person,
   seed = 2026,
+  onBackToTemplates,
 }: BankStatementModalProps) {
   const [statementData, setStatementData] = useState<BankStatementData | null>(null)
   const [isEditable, setIsEditable] = useState(false)
@@ -70,6 +72,18 @@ export function BankStatementModal({
 
             {/* 控制条操作工具栏 */}
             <div className="flex flex-wrap items-center gap-2">
+              {onBackToTemplates && (
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={onBackToTemplates}
+                  className="h-8 text-xs font-bold bg-blue-50 border-blue-200 text-blue-700 hover:bg-blue-100 hover:text-blue-800 shadow-2xs"
+                >
+                  <ArrowLeft className="mr-1.5 h-3.5 w-3.5" />
+                  返回参考模板库
+                </Button>
+              )}
+
               <Button
                 variant={isEditable ? "default" : "outline"}
                 size="sm"
@@ -148,10 +162,23 @@ export function BankStatementModal({
           <span>
             💡 提示：用于海外金融平台、加密货币或跨国电商验证时，打印「另存为 PDF」并选择 <b>Letter</b> 纸张即可。
           </span>
-          <Button variant="ghost" size="sm" onClick={handleExportJson} className="h-7 text-xs text-slate-600">
-            <Download className="mr-1 h-3 w-3" />
-            下载本单 JSON
-          </Button>
+          <div className="flex items-center gap-2">
+            {onBackToTemplates && (
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={onBackToTemplates}
+                className="h-7 text-xs border-slate-300 text-blue-700 bg-blue-50/50 hover:bg-blue-100/80 font-medium"
+              >
+                <ArrowLeft className="mr-1 h-3 w-3" />
+                返回参考模板库
+              </Button>
+            )}
+            <Button variant="ghost" size="sm" onClick={handleExportJson} className="h-7 text-xs text-slate-600">
+              <Download className="mr-1 h-3 w-3" />
+              下载本单 JSON
+            </Button>
+          </div>
         </div>
       </DialogContent>
     </Dialog>
