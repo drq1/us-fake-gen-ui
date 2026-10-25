@@ -1,7 +1,7 @@
 "use client"
 
 import { useState } from "react"
-import { Copy, Check, MapPin, CreditCard, ExternalLink, Sparkles, FileText, User } from "lucide-react"
+import { Copy, Check, MapPin, CreditCard, ExternalLink, Sparkles, FileText, User, Landmark } from "lucide-react"
 import { toast } from "@/hooks/use-toast"
 import type { PersonData } from "@/lib/types"
 import { STATE_TAX_RATES, TAX_FREE_STATE_CODES, US_STATES } from "@/lib/constants"
@@ -10,9 +10,10 @@ import { CreditCardWidget } from "@/components/credit-card-widget"
 interface AddressInfoCardProps {
   data: PersonData
   visibleFields: string[]
+  onOpenBankStatement?: () => void
 }
 
-export function AddressInfoCard({ data, visibleFields }: AddressInfoCardProps) {
+export function AddressInfoCard({ data, visibleFields, onOpenBankStatement }: AddressInfoCardProps) {
   const [copiedKey, setCopiedKey] = useState<string | null>(null)
   const [showHelper, setShowHelper] = useState(false)
 
@@ -160,6 +161,16 @@ Tel: ${data.phone}`
                 <ExternalLink className="h-3.5 w-3.5 text-slate-400" />
                 地图
               </a>
+              {onOpenBankStatement && (
+                <button
+                  onClick={onOpenBankStatement}
+                  className="inline-flex h-7 sm:h-8 items-center gap-1 rounded-lg bg-red-50 px-2.5 sm:px-3 text-xs font-semibold text-red-700 shadow-xs border border-red-200/80 hover:bg-red-100 transition-colors"
+                  title="生成官方银行流水对账单 (作为真实地址证明 Proof of Address)"
+                >
+                  <Landmark className="h-3.5 w-3.5 text-red-600" />
+                  地址证明账单
+                </button>
+              )}
             </div>
           </div>
 

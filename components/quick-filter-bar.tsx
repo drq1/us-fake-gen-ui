@@ -2,7 +2,7 @@
 
 import { Button } from "@/components/ui/button"
 import { StateCombobox } from "@/components/state-combobox"
-import { RefreshCw, Copy, Settings, Download, FileText, X } from "lucide-react"
+import { RefreshCw, Copy, Settings, Download, FileText, X, FolderArchive, Landmark } from "lucide-react"
 import { US_STATES } from "@/lib/constants"
 
 interface QuickFilterBarProps {
@@ -21,6 +21,8 @@ interface QuickFilterBarProps {
   onOpenConfig: () => void
   onOpenJsonExport: () => void
   onOpenTranscript?: (tab?: "highSchool" | "university") => void
+  onOpenBankStatement?: () => void
+  onOpenTemplates?: () => void
 }
 
 const AGE_BRACKETS = [
@@ -54,6 +56,8 @@ export function QuickFilterBar({
   onOpenConfig,
   onOpenJsonExport,
   onOpenTranscript,
+  onOpenBankStatement,
+  onOpenTemplates,
 }: QuickFilterBarProps) {
   return (
     <div className="rounded-2xl border border-slate-200/80 bg-white p-3.5 sm:p-5 shadow-sm">
@@ -199,6 +203,28 @@ export function QuickFilterBar({
               >
                 <FileText className="mr-1 h-3.5 w-3.5 text-blue-600 shrink-0" />
                 <span>官方成绩</span>
+              </Button>
+            )}
+
+            {onOpenBankStatement && (
+              <Button
+                variant="outline"
+                onClick={onOpenBankStatement}
+                className="h-9 rounded-lg border-red-200 bg-red-50/60 px-2 sm:px-3 text-xs font-semibold text-red-700 shadow-xs hover:bg-red-100 hover:text-red-800 transition-all"
+              >
+                <Landmark className="mr-1 h-3.5 w-3.5 text-red-600 shrink-0" />
+                <span>银行流水</span>
+              </Button>
+            )}
+
+            {onOpenTemplates && (
+              <Button
+                variant="outline"
+                onClick={onOpenTemplates}
+                className="h-9 rounded-lg border-purple-200 bg-purple-50/60 px-2 sm:px-3 text-xs font-semibold text-purple-700 shadow-xs hover:bg-purple-100 hover:text-purple-800 transition-all"
+              >
+                <FolderArchive className="mr-1 h-3.5 w-3.5 text-purple-600 shrink-0" />
+                <span>模板库 (24)</span>
               </Button>
             )}
 

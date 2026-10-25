@@ -6,6 +6,8 @@ import { toast } from "@/hooks/use-toast"
 import ConfigDialog from "@/components/config-dialog"
 import JsonDownloadDialog from "@/components/json-download-dialog"
 import { TranscriptModal } from "@/components/transcript-modal"
+import { BankStatementModal } from "@/components/bank-statement-modal"
+import { ReferenceTemplatesModal } from "@/components/reference-templates-modal"
 import { QuickFilterBar } from "@/components/quick-filter-bar"
 import { PresetScenarios } from "@/components/preset-scenarios"
 import { AddressInfoCard } from "@/components/address-info-card"
@@ -25,6 +27,8 @@ export default function HomePage() {
   const [configOpen, setConfigOpen] = useState(false)
   const [transcriptOpen, setTranscriptOpen] = useState(false)
   const [transcriptTab, setTranscriptTab] = useState<"highSchool" | "university">("highSchool")
+  const [bankModalOpen, setBankModalOpen] = useState(false)
+  const [templatesModalOpen, setTemplatesModalOpen] = useState(false)
   const [schoolData, setSchoolData] = useState<SchoolData | null>(null)
   const [universityData, setUniversityData] = useState<UniversityData | null>(null)
   const [jsonDialogOpen, setJsonDialogOpen] = useState(false)
@@ -342,6 +346,8 @@ export default function HomePage() {
           onOpenConfig={() => setConfigOpen(true)}
           onOpenJsonExport={() => setJsonDialogOpen(true)}
           onOpenTranscript={handleOpenTranscript}
+          onOpenBankStatement={() => setBankModalOpen(true)}
+          onOpenTemplates={() => setTemplatesModalOpen(true)}
         />
 
         {/* 核心双栏平衡数据展示板 */}
@@ -350,7 +356,11 @@ export default function HomePage() {
             <div className="grid grid-cols-1 gap-5 lg:grid-cols-2">
               {/* 左栏（地址核心 + 个人身份特征 + 仿真信用卡金融） */}
               <div className="space-y-5">
-                <AddressInfoCard data={data} visibleFields={visibleFields} />
+                <AddressInfoCard
+                  data={data}
+                  visibleFields={visibleFields}
+                  onOpenBankStatement={() => setBankModalOpen(true)}
+                />
               </div>
 
               {/* 右栏（工作就职 + 账号安全 + 权威教育背景 + 设备技术指纹） */}
@@ -418,6 +428,22 @@ export default function HomePage() {
           defaultTab={transcriptTab}
         />
       )}
+
+      {/* 银行流水对账单与官方地址证明生成器 */}
+      {data && (
+        <BankStatementModal
+          open={bankModalOpen}
+          onOpenChange={setBankModalOpen}
+          person={data}
+          seed={seed}
+        />
+      )}
+
+      {/* 真实凭证与参考模板库浏览下载弹窗 */}
+      <ReferenceTemplatesModal
+        open={templatesModalOpen}
+        onOpenChange={setTemplatesModalOpen}
+      />
     </div>
   )
 }
