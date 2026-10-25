@@ -12,9 +12,11 @@ export interface ReferenceTemplate {
 }
 
 export const REFERENCE_CATEGORIES = [
-  { id: "all", name: "全部资料", count: 24 },
+  { id: "all", name: "全部资料", count: 39 },
+  { id: "transcript", name: "成绩单 / 学业记录", count: 14 },
+  { id: "offer", name: "名校录取通知书", count: 7 },
+  { id: "schedule", name: "选课表 / 学费账单", count: 2 },
   { id: "bank", name: "银行对账单 / 流水", count: 2 },
-  { id: "transcript", name: "成绩单 / 学业记录", count: 9 },
   { id: "act_sat", name: "ACT / SAT 标化考分", count: 2 },
   { id: "license", name: "驾照 / 州身份证件", count: 3 },
   { id: "birth", name: "出生证明", count: 4 },
@@ -24,7 +26,181 @@ export const REFERENCE_CATEGORIES = [
 ]
 
 export const REFERENCE_TEMPLATES: ReferenceTemplate[] = [
-  // 1. 银行流水单
+  // 1. 名校真实大学成绩单原件 (来自 Scribd 实物)
+  {
+    id: "uni-real-1",
+    name: "Texas A&M University Official Security Transcript",
+    chineseName: "德州农工大学 (Texas A&M) 真实防伪粉底官方成绩单",
+    category: "transcript",
+    categoryChinese: "大学成绩单",
+    fileType: "image",
+    filePath: "/templates/12_Genuine_University_Transcripts/Texas_AM_Official_Security_Transcript.jpeg",
+    fileSize: "180 KB",
+    description: "Scribd 真实原件：带有 Texas A&M 大学官方粉底防伪底纹、教务长 Venesa A. Heidick 亲笔签字与官方钢印。",
+    canGenerate: true,
+  },
+  {
+    id: "uni-real-2",
+    name: "NYU Stern School of Business Undergraduate Record",
+    chineseName: "纽约大学斯特恩商学院 (NYU Stern) 真实成绩单原件",
+    category: "transcript",
+    categoryChinese: "大学成绩单",
+    fileType: "image",
+    filePath: "/templates/12_Genuine_University_Transcripts/NYU_Stern_Undergraduate_Transcript.png",
+    fileSize: "43 KB",
+    description: "Scribd 真实原件：纽约大学金融与商业管理本科 5 学期完整学业记录，带有 Unofficial 官方背景透光防伪水印。",
+    canGenerate: true,
+  },
+  {
+    id: "uni-real-3",
+    name: "Harvard University Official Academic Transcript",
+    chineseName: "哈佛大学 (Harvard) 官方教务成绩单扫描件",
+    category: "transcript",
+    categoryChinese: "大学成绩单",
+    fileType: "image",
+    filePath: "/templates/12_Genuine_University_Transcripts/Harvard_University_Academic_Transcript.jpeg",
+    fileSize: "42 KB",
+    description: "Scribd 真实原件：哈佛大学文学院工程专业官方学籍记录，含专业课程等第、质量绩点与 GPA 3.62。",
+    canGenerate: true,
+  },
+  {
+    id: "uni-real-4",
+    name: "UCLA University Official Academic Transcript",
+    chineseName: "加州大学洛杉矶分校 (UCLA) 官方成绩单原件",
+    category: "transcript",
+    categoryChinese: "大学成绩单",
+    fileType: "image",
+    filePath: "/templates/12_Genuine_University_Transcripts/UCLA_University_Academic_Transcript.jpeg",
+    fileSize: "71 KB",
+    description: "Scribd 真实原件：UCLA 计算机科学理学士官方档案，包含经典深蓝题头、各学期尝试学分与修得学分明细。",
+    canGenerate: true,
+  },
+  {
+    id: "uni-real-5",
+    name: "MIT Official Academic Transcript",
+    chineseName: "麻省理工学院 (MIT) 官方教务成绩单原件",
+    category: "transcript",
+    categoryChinese: "大学成绩单",
+    fileType: "image",
+    filePath: "/templates/12_Genuine_University_Transcripts/MIT_Academic_Transcript_Official.png",
+    fileSize: "22 KB",
+    description: "Scribd 真实原件：MIT 教务长办公室 (Office of the University Registrar) 官方学业记录。",
+    canGenerate: true,
+  },
+
+  // 2. 名校官方录取通知书 (Offer Letters)
+  {
+    id: "offer-1",
+    name: "UC Berkeley Graduate Admission Offer Letter",
+    chineseName: "加州大学伯克利分校 (UC Berkeley) 研究生官方录取通知书",
+    category: "offer",
+    categoryChinese: "录取通知书",
+    fileType: "image",
+    filePath: "/templates/10_Admission_Offer_Letters/UC_Berkeley_Graduate_Admission_Letter.jpeg",
+    fileSize: "85 KB",
+    description: "Scribd 真实原件：伯克利工程学院生物工程录取信，包含副教务长 Lisa Garcia Bedolla 亲笔签署与伯克利校徽印鉴。",
+    canGenerate: true,
+  },
+  {
+    id: "offer-2",
+    name: "MIT Sloan School of Management Admission Letter",
+    chineseName: "麻省理工斯隆管理学院 (MIT Sloan) 本科金融录取信",
+    category: "offer",
+    categoryChinese: "录取通知书",
+    fileType: "image",
+    filePath: "/templates/10_Admission_Offer_Letters/MIT_Sloan_School_Admission_Letter.jpeg",
+    fileSize: "70 KB",
+    description: "Scribd 真实原件：MIT 斯隆管理学院金融学士录取信，带有红白 MIT 经典抬头与研究生录取主任签字。",
+    canGenerate: true,
+  },
+  {
+    id: "offer-3",
+    name: "Harvard Medical School Admission Letter",
+    chineseName: "哈佛大学医学院 (Harvard Medical) 理学硕士录取信",
+    category: "offer",
+    categoryChinese: "录取通知书",
+    fileType: "image",
+    filePath: "/templates/10_Admission_Offer_Letters/Harvard_Medical_School_Admission_Letter.jpeg",
+    fileSize: "94 KB",
+    description: "Scribd 真实原件：哈佛医学院红盾徽章抬头，包含项目联合主任 Neal Baer 教授与 Jason Silverstein 博士双签名。",
+    canGenerate: true,
+  },
+  {
+    id: "offer-4",
+    name: "University of Chicago Harris Admission Letter",
+    chineseName: "芝加哥大学 (UChicago) 公共政策学院硕士录取通知书",
+    category: "offer",
+    categoryChinese: "录取通知书",
+    fileType: "image",
+    filePath: "/templates/10_Admission_Offer_Letters/UChicago_Harris_Admission_Letter.jpeg",
+    fileSize: "223 KB",
+    description: "Scribd 真实原件：芝加哥大学 Harris 公共政策学院官方录取信，副院长 Ranjan Daniels 签名原件。",
+    canGenerate: true,
+  },
+  {
+    id: "offer-5",
+    name: "California State University Fullerton Admission Offer",
+    chineseName: "加州州立大学富勒顿分校 (CSU Fullerton) 本科录取信",
+    category: "offer",
+    categoryChinese: "录取通知书",
+    fileType: "image",
+    filePath: "/templates/10_Admission_Offer_Letters/CSU_Fullerton_Admission_Offer_Letter.png",
+    fileSize: "60 KB",
+    description: "Scribd 真实原件：加州州立大学官方招生办出具的标准录取通知函，带有录取主任 Jessica M. Wagoner 签名。",
+    canGenerate: true,
+  },
+  {
+    id: "offer-6",
+    name: "Temple University Admission Letter & Scholarship",
+    chineseName: "天普大学 (Temple Univ) 录取信与 $20,000 奖学金颁发函",
+    category: "offer",
+    categoryChinese: "录取通知书",
+    fileType: "image",
+    filePath: "/templates/10_Admission_Offer_Letters/Temple_University_Admission_Letter_Scholarship.png",
+    fileSize: "46 KB",
+    description: "Scribd 真实原件：戏剧影视学院录取信，附带大学学者 $20,000 奖学金官方确认函。",
+    canGenerate: true,
+  },
+  {
+    id: "offer-7",
+    name: "Victoria University Australia Letter of Offer",
+    chineseName: "澳洲维多利亚大学 (Victoria Univ) 商业分析录取信",
+    category: "offer",
+    categoryChinese: "录取通知书",
+    fileType: "image",
+    filePath: "/templates/10_Admission_Offer_Letters/Victoria_University_Admission_Offer_Letter.png",
+    fileSize: "45 KB",
+    description: "Scribd 真实原件：涵盖海外留学生 CRICOS 代码、奖学金资格与分校总监签名。",
+    canGenerate: true,
+  },
+
+  // 3. 选课表与学费账单 (Student Schedule & Tuition)
+  {
+    id: "sched-1",
+    name: "MIT Student Course Schedule (Fall)",
+    chineseName: "麻省理工学院 (MIT) 学生在读选课课表 (Course Schedule)",
+    category: "schedule",
+    categoryChinese: "选课表 / 在读证明",
+    fileType: "image",
+    filePath: "/templates/11_Student_Schedules_Tuition/MIT_Student_Course_Schedule_Fall_2024.png",
+    fileSize: "22 KB",
+    description: "Scribd 真实原件：GitHub Student Pack / UNiDAYS / Spotify 学生优惠核验通用凭证，包含各门课时间教室与 15 学分注册证明。",
+    canGenerate: true,
+  },
+  {
+    id: "sched-2",
+    name: "MIT Student Tuition Account Statement",
+    chineseName: "麻省理工学院 (MIT) 学生学费账单与缴费发票",
+    category: "schedule",
+    categoryChinese: "学费账单",
+    fileType: "image",
+    filePath: "/templates/11_Student_Schedules_Tuition/MIT_Student_Tuition_Account_Statement.png",
+    fileSize: "20 KB",
+    description: "Scribd 真实原件：大学学生财务处出具的学费收据账单，包含学费、计算机服务费、健康保险与清零证明。",
+    canGenerate: true,
+  },
+
+  // 4. 银行流水单
   {
     id: "bank-1",
     name: "Bank of America Monthly Statement",
@@ -50,7 +226,7 @@ export const REFERENCE_TEMPLATES: ReferenceTemplate[] = [
     canGenerate: true,
   },
 
-  // 2. ACT / SAT 标化成绩单
+  // 5. ACT / SAT 标化成绩单
   {
     id: "act-1",
     name: "ACT Official Student Score Report",
@@ -76,7 +252,7 @@ export const REFERENCE_TEMPLATES: ReferenceTemplate[] = [
     canGenerate: true,
   },
 
-  // 3. 驾照 / 州身份证件
+  // 6. 驾照 / 州身份证件
   {
     id: "dl-1",
     name: "New York DMV Driver License",
@@ -114,7 +290,7 @@ export const REFERENCE_TEMPLATES: ReferenceTemplate[] = [
     canGenerate: true,
   },
 
-  // 4. 出生证明
+  // 7. 出生证明
   {
     id: "birth-1",
     name: "Birth Certificate Standard Hospital",
@@ -164,7 +340,7 @@ export const REFERENCE_TEMPLATES: ReferenceTemplate[] = [
     canGenerate: true,
   },
 
-  // 5. GED 毕业文凭
+  // 8. GED 毕业文凭
   {
     id: "ged-1",
     name: "GED Official Test Results",
@@ -190,7 +366,7 @@ export const REFERENCE_TEMPLATES: ReferenceTemplate[] = [
     canGenerate: true,
   },
 
-  // 6. 结婚证明
+  // 9. 结婚证明
   {
     id: "marriage-1",
     name: "Marriage Certificate Official Certified Copy",
@@ -204,7 +380,7 @@ export const REFERENCE_TEMPLATES: ReferenceTemplate[] = [
     canGenerate: true,
   },
 
-  // 7. 个人技能证书
+  // 10. 个人技能证书
   {
     id: "skill-1",
     name: "Personal Trainer Certification & Transcript",
@@ -218,47 +394,47 @@ export const REFERENCE_TEMPLATES: ReferenceTemplate[] = [
     canGenerate: true,
   },
 
-  // 8. 高中官方成绩单参考资料
+  // 11. 美高官方成绩单 (来自 Scribd 真实扫描与排版文件)
   {
     id: "hs-1",
     name: "High School Official Record (Parchment)",
-    chineseName: "官方高中学业档案标准规范 (Parchment 交付格式)",
+    chineseName: "美高官方学业档案 (Parchment 平台官方电子交付原件)",
     category: "transcript",
     categoryChinese: "美高成绩单",
     fileType: "pdf",
     filePath: "/templates/08_High_School_Transcripts/High_School_Official_Record_Parchment.pdf",
     fileSize: "429 KB",
-    description: "全美电子成绩单主流平台 Parchment 交付的官方矢量 PDF 模板。",
+    description: "Scribd 真实原件：全美电子成绩单主流平台 Parchment 交付的官方真实 PDF 档案。",
     canGenerate: true,
   },
   {
     id: "hs-2",
     name: "High School Sample Standard Transcript",
-    chineseName: "标准公立高中 4 年制成绩单官方样张",
+    chineseName: "4年制标准公立高中成绩单真实扫描件",
     category: "transcript",
     categoryChinese: "美高成绩单",
     fileType: "pdf",
     filePath: "/templates/08_High_School_Transcripts/High_School_Sample_Standard_Transcript.pdf",
     fileSize: "463 KB",
-    description: "包含 9-12 年级课程排布、加权/不加权 GPA、毕业评语与官方防伪底纹。",
+    description: "Scribd 真实原件：包含 9-12 年级课程排布、加权/不加权 GPA、毕业评语与官方防伪底纹。",
     canGenerate: true,
   },
   {
     id: "hs-3",
     name: "High School Duplicate Transcript",
-    chineseName: "高中成绩单官方补发本 (Duplicate Record)",
+    chineseName: "高中成绩单官方加注 Duplicate 补发本扫描件",
     category: "transcript",
     categoryChinese: "美高成绩单",
     fileType: "pdf",
     filePath: "/templates/08_High_School_Transcripts/High_School_Duplicate_Transcript.pdf",
     fileSize: "288 KB",
-    description: "加注 'DUPLICATE' 官方教务章的正式学籍记录原件扫描件。",
+    description: "Scribd 真实原件：加注 'DUPLICATE' 官方教务章的正式学籍记录原件扫描件。",
     canGenerate: true,
   },
   {
     id: "hs-4",
     name: "High School Transcript Boss Model",
-    chineseName: "美高学分计算与排课排版 Excel 模板",
+    chineseName: "美高排课与 GPA 自动核算 Excel 模型",
     category: "transcript",
     categoryChinese: "美高成绩单",
     fileType: "xlsx",
@@ -282,7 +458,7 @@ export const REFERENCE_TEMPLATES: ReferenceTemplate[] = [
   {
     id: "hs-6",
     name: "High School Transcript Full Record",
-    chineseName: "美高成绩单完整实物标本实拍",
+    chineseName: "真实高中教务档案实拍标本",
     category: "transcript",
     categoryChinese: "美高成绩单",
     fileType: "image",

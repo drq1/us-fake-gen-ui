@@ -96,10 +96,11 @@ export function TranscriptModal({
   ]
 
   const uniSamples = [
-    { name: "加州大学伯克利 UC Berkeley", file: "/samples/Sample_University_1_UC_Berkeley_CA.pdf" },
-    { name: "德州农工 Texas A&M", file: "/samples/Sample_University_2_Texas_AM_TX.pdf" },
-    { name: "纽大斯特恩 NYU Stern", file: "/samples/Sample_University_3_NYU_Stern_NY.pdf" },
-    { name: "华盛顿大学 UW Seattle", file: "/samples/Sample_University_4_UW_Seattle_WA.pdf" },
+    { name: "德州农工 Texas A&M 真实防伪原件", file: "/templates/12_Genuine_University_Transcripts/Texas_AM_Official_Security_Transcript.jpeg" },
+    { name: "纽大斯特恩 NYU Stern 成绩单实物", file: "/templates/12_Genuine_University_Transcripts/NYU_Stern_Undergraduate_Transcript.png" },
+    { name: "加州大学 UCLA 官方学业档案", file: "/templates/12_Genuine_University_Transcripts/UCLA_University_Academic_Transcript.jpeg" },
+    { name: "麻省理工 MIT 官方成绩单", file: "/templates/12_Genuine_University_Transcripts/MIT_Academic_Transcript_Official.png" },
+    { name: "哈佛大学 Harvard 成绩单原件", file: "/templates/12_Genuine_University_Transcripts/Harvard_University_Academic_Transcript.jpeg" },
   ]
 
   return (
