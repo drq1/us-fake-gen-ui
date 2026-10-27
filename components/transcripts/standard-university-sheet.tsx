@@ -3,7 +3,7 @@
 import React from "react"
 import type { UniversityTranscriptData } from "@/lib/university-transcript-types"
 import { Award, CheckCircle2 } from "lucide-react"
-import { getUniversityLogoUrl, OfficialStateEducationSeal } from "@/components/brand-logos"
+import { getUniversityLogoUrl, getHighSchoolLogoUrl } from "@/components/brand-logos"
 
 export interface StandardUniversitySheetProps {
   data: UniversityTranscriptData
@@ -93,10 +93,10 @@ export function StandardUniversitySheet({
                 )
               }
               return (
-                <OfficialStateEducationSeal
-                  stateName={data.state || "UNIVERSITY"}
+                <img
+                  src={getHighSchoolLogoUrl(undefined, data.state)}
+                  alt="State Department of Higher Education Seal"
                   className="h-16 w-16 sm:h-20 sm:w-20 object-contain shrink-0 drop-shadow-sm"
-                  color={themeColor}
                 />
               )
             })()}
@@ -321,10 +321,10 @@ export function StandardUniversitySheet({
                 )
               }
               return (
-                <OfficialStateEducationSeal
-                  stateName={data.state || "UNIVERSITY"}
-                  className="h-22 w-22 sm:h-26 sm:w-26 md:h-28 md:w-28 drop-shadow-sm"
-                  color={themeColor}
+                <img
+                  src={getHighSchoolLogoUrl(undefined, data.state)}
+                  alt="State Department of Higher Education Official Seal"
+                  className="h-22 w-22 sm:h-26 sm:w-26 md:h-28 md:w-28 object-contain shrink-0 drop-shadow-sm"
                 />
               )
             })()}

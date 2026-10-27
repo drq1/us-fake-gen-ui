@@ -381,13 +381,16 @@ export function TranscriptSheet({
             </div>
           </div>
 
-          {/* 官方州教育厅 / 学区防伪钢印大印 */}
+          {/* 官方州教育厅 / 官方注册处正规大印 (使用真实官方州徽/教育厅大印) */}
           <div className="flex flex-col items-center justify-center shrink-0">
-            <OfficialStateEducationSeal
-              stateName={data.schoolState || "STATE"}
-              className="h-24 w-24 sm:h-28 sm:w-28 md:h-32 md:w-32 drop-shadow-sm"
-              color="#991b1b"
+            <img
+              src={getHighSchoolLogoUrl(data.schoolName, data.schoolState)}
+              alt="Official Accredited Registrar Seal"
+              className="h-24 w-24 sm:h-28 sm:w-28 md:h-32 md:w-32 object-contain drop-shadow-md"
             />
+            <span className="text-[7.5px] font-sans font-bold text-slate-500 uppercase tracking-widest mt-1">
+              OFFICIAL EMBOSSED SEAL
+            </span>
           </div>
 
           {/* 教务主任/注册处 */}

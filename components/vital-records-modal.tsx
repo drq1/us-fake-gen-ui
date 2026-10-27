@@ -8,6 +8,7 @@ import {
   OfficialStateEducationSeal,
   HospitalOfficialSeal,
   GoldExcellenceMedallion,
+  getHighSchoolLogoUrl,
 } from "@/components/brand-logos"
 import type { PersonData } from "@/lib/types"
 import { generateVitalRecords, type VitalRecordsData } from "@/lib/vital-records-generator"
@@ -372,10 +373,10 @@ export function VitalRecordsModal({
                         {birthVariant === "michigan" ? "State Registrar of Michigan" : "State Registrar of Vital Statistics"}
                       </span>
                     </div>
-                    <OfficialStateEducationSeal
-                      stateName={birthVariant === "michigan" ? "MICHIGAN" : records.birth.state}
-                      className="h-20 w-20 sm:h-24 sm:w-24 drop-shadow-sm shrink-0"
-                      color="#92400e"
+                    <img
+                      src={getHighSchoolLogoUrl(undefined, birthVariant === "michigan" ? "MICHIGAN" : records.birth.state)}
+                      alt="State Department of Health Official Seal"
+                      className="h-20 w-20 sm:h-24 sm:w-24 drop-shadow-sm shrink-0 object-contain"
                     />
                   </div>
                 </div>
@@ -482,10 +483,10 @@ export function VitalRecordsModal({
                         <span className="block text-slate-700 font-bold mt-0.5">Issue Date: {records.ged.issueDate}</span>
                       </div>
                       <div className="flex flex-col items-center">
-                        <OfficialStateEducationSeal
-                          stateName={records.ged.stateBoardName.replace(/Board of Education|Department of Education/i, "").trim() || "STATE"}
-                          className="h-20 w-20 sm:h-24 sm:w-24 drop-shadow-sm shrink-0"
-                          color="#b45309"
+                        <img
+                          src={getHighSchoolLogoUrl(undefined, records.ged.state)}
+                          alt="State Board of Education Official Seal"
+                          className="h-20 w-20 sm:h-24 sm:w-24 drop-shadow-sm shrink-0 object-contain"
                         />
                       </div>
                       <div className="text-right">
@@ -532,10 +533,10 @@ export function VitalRecordsModal({
                       <span className="text-[9.5px] text-slate-500 font-sans block">Ordained Minister / Officiant</span>
                     </div>
                     <div className="flex flex-col items-center">
-                      <OfficialStateEducationSeal
-                        stateName={records.marriage.state || "STATE"}
-                        className="h-20 w-20 sm:h-24 sm:w-24 drop-shadow-sm shrink-0"
-                        color="#78350f"
+                      <img
+                        src={getHighSchoolLogoUrl(undefined, records.marriage.state)}
+                        alt="County & State Official Marriage Seal"
+                        className="h-20 w-20 sm:h-24 sm:w-24 drop-shadow-sm shrink-0 object-contain"
                       />
                     </div>
                     <div className="text-right">

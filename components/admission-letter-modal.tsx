@@ -19,7 +19,7 @@ import {
   BerkeleyOfficialSeal,
   CsufOfficialSeal,
   VictoriaUniversityLogo,
-  OfficialStateEducationSeal,
+  getHighSchoolLogoUrl,
   getUniversityLogoUrl,
 } from "@/components/brand-logos"
 
@@ -336,10 +336,10 @@ export function AdmissionLetterModal({
                       className="h-16 w-16 sm:h-20 sm:w-20 object-contain drop-shadow-sm shrink-0"
                     />
                   ) : (
-                    <OfficialStateEducationSeal
-                      stateName={letterData.cityStateZip.split(",")[1]?.trim() || "UNIVERSITY"}
-                      className="h-16 w-16 sm:h-20 sm:w-20 drop-shadow-sm shrink-0"
-                      color="#0f172a"
+                    <img
+                      src={getHighSchoolLogoUrl(undefined, letterData.cityStateZip.split(",")[1]?.trim())}
+                      alt="State Department of Higher Education Official Seal"
+                      className="h-16 w-16 sm:h-20 sm:w-20 object-contain drop-shadow-sm shrink-0"
                     />
                   )}
                 </div>
