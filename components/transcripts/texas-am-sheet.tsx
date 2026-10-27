@@ -24,8 +24,7 @@ export function TexasAmSheet({
   return (
     <div
       id="printable-university-transcript"
-      className="relative w-full max-w-[850px] mx-auto bg-[#fdf2f4] text-slate-900 shadow-2xl rounded-sm p-6 sm:p-9 border-4 border-double border-[#7c1d30] print:shadow-none print:p-2 sm:print:p-4 font-mono leading-tight selection:bg-rose-100"
-      style={{ minHeight: "1120px" }}
+      className="relative w-full max-w-[850px] mx-auto bg-[#fdf2f4] text-slate-900 shadow-2xl rounded-sm p-6 sm:p-8 border-4 border-double border-[#7c1d30] print:shadow-none print:m-0 print:p-2 font-mono leading-tight selection:bg-rose-100"
     >
       {/* 德州农工粉色防伪底纹微缩网点 */}
       <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(#d88b9a_1px,transparent_1px)] [background-size:12px_12px] opacity-40 print:opacity-30" />
@@ -66,7 +65,7 @@ export function TexasAmSheet({
 
         {/* 学生档案元数据网格 (打字机对齐风格) */}
         <div className="border border-slate-400 bg-white/70 p-3 rounded-xs text-[11px] mb-4 space-y-1">
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-1">
+          <div className="grid grid-cols-2 print:grid-cols-2 gap-x-4 gap-y-1">
             <div className="flex justify-between">
               <span className="text-slate-600">RECORD OF:</span>
               <span className="font-bold text-slate-950 uppercase">{data.studentName}</span>
@@ -103,7 +102,7 @@ export function TexasAmSheet({
         </div>
 
         {/* 1:1 双栏打字机排版课程记录 */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 border-t border-b border-slate-400 py-3 text-[10.5px]">
+        <div className="grid grid-cols-2 print:grid-cols-2 gap-3 border-t border-b border-slate-400 py-2.5 text-[10px]">
           {/* 左栏 */}
           <div className="space-y-4 sm:border-r sm:border-slate-300 sm:pr-3">
             {leftSemesters.map((sem) => (

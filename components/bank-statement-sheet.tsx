@@ -31,10 +31,9 @@ export function BankStatementSheet({
   return (
     <div
       id="printable-bank-statement"
-      className={`relative w-full max-w-[850px] mx-auto bg-white text-slate-900 shadow-2xl rounded-sm p-6 sm:p-10 border border-slate-300 print:shadow-none print:border-none print:p-2 sm:print:p-4 font-sans leading-tight ${
+      className={`relative w-full max-w-[850px] mx-auto bg-white text-slate-900 shadow-2xl rounded-sm p-6 sm:p-8 border border-slate-300 print:shadow-none print:border-none print:m-0 print:p-2 font-sans leading-tight ${
         isUsBank ? "selection:bg-blue-100" : "selection:bg-red-100"
       }`}
-      style={{ minHeight: "1050px" }}
     >
       {/* 水印 */}
       {watermark !== "NONE" && (

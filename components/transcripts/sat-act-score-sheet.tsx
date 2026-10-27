@@ -41,8 +41,7 @@ export function SatActScoreSheet({ data, initialType = "SAT" }: SatActScoreSheet
       {reportType === "SAT" && (
         <div
           id="printable-sat-report"
-          className="relative bg-white text-slate-900 shadow-2xl rounded-sm p-6 sm:p-10 border border-slate-300 font-sans leading-tight selection:bg-blue-100 print:shadow-none print:border-none print:p-2 sm:print:p-4"
-          style={{ minHeight: "1100px" }}
+          className="relative bg-white text-slate-900 shadow-2xl rounded-sm p-6 sm:p-8 border border-slate-300 font-sans leading-tight selection:bg-blue-100 print:shadow-none print:border-none print:m-0 print:p-2"
         >
           {/* 顶栏：College Board 标志性官方题头 */}
           <div className="border-b-4 border-[#0077c8] pb-4 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
@@ -61,9 +60,9 @@ export function SatActScoreSheet({ data, initialType = "SAT" }: SatActScoreSheet
           </div>
 
           {/* 考生信息与成绩主卡 */}
-          <div className="grid grid-cols-1 sm:grid-cols-12 gap-6 my-6">
+          <div className="grid grid-cols-12 print:grid-cols-12 gap-5 my-5">
             {/* 左侧：考生个人与学校档案 (5 列) */}
-            <div className="sm:col-span-5 bg-slate-50 p-4 rounded-lg border border-slate-200 text-xs space-y-1.5">
+            <div className="col-span-5 print:col-span-5 bg-slate-50 p-4 rounded-lg border border-slate-200 text-xs space-y-1.5">
               <div className="text-[11px] font-bold text-[#0077c8] uppercase border-b border-slate-200 pb-1 mb-2">
                 Student & Testing Information
               </div>
@@ -91,7 +90,7 @@ export function SatActScoreSheet({ data, initialType = "SAT" }: SatActScoreSheet
             </div>
 
             {/* 右侧：SAT 巨幅总分主卡 (7 列) */}
-            <div className="sm:col-span-7 bg-gradient-to-br from-[#0077c8]/10 via-blue-50 to-white p-5 rounded-lg border-2 border-[#0077c8] flex flex-col justify-between">
+            <div className="col-span-7 print:col-span-7 bg-gradient-to-br from-[#0077c8]/10 via-blue-50 to-white p-5 rounded-lg border-2 border-[#0077c8] flex flex-col justify-between">
               <div>
                 <div className="text-xs uppercase font-bold tracking-wider text-[#0077c8] flex items-center justify-between">
                   <span>Your Total Score</span>
@@ -181,8 +180,7 @@ export function SatActScoreSheet({ data, initialType = "SAT" }: SatActScoreSheet
       {reportType === "ACT" && (
         <div
           id="printable-act-report"
-          className="relative bg-white text-slate-900 shadow-2xl rounded-sm p-6 sm:p-10 border border-slate-300 font-sans leading-tight selection:bg-blue-100 print:shadow-none print:border-none print:p-2 sm:print:p-4"
-          style={{ minHeight: "1100px" }}
+          className="relative bg-white text-slate-900 shadow-2xl rounded-sm p-6 sm:p-8 border border-slate-300 font-sans leading-tight selection:bg-blue-100 print:shadow-none print:border-none print:m-0 print:p-2"
         >
           {/* 顶栏：ACT 标志性官方题头 */}
           <div className="border-b-4 border-[#002f6c] pb-4 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
@@ -231,7 +229,7 @@ export function SatActScoreSheet({ data, initialType = "SAT" }: SatActScoreSheet
           </div>
 
           {/* 四大单项成绩卡矩阵 */}
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-6">
+          <div className="grid grid-cols-4 print:grid-cols-4 gap-3 mb-5">
             <div className="border border-slate-300 rounded p-3 text-center bg-white shadow-2xs">
               <div className="text-xs font-bold text-slate-600 uppercase">Math</div>
               <div className="text-3xl font-black text-slate-900 font-mono my-1">{data.act.mathScore}</div>

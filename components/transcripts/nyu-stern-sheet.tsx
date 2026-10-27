@@ -24,8 +24,7 @@ export function NyuSternSheet({
   return (
     <div
       id="printable-university-transcript"
-      className="relative w-full max-w-[850px] mx-auto bg-white text-slate-900 shadow-2xl rounded-sm p-6 sm:p-10 border border-slate-300 print:shadow-none print:border-none print:p-2 sm:print:p-4 font-sans leading-tight selection:bg-purple-100"
-      style={{ minHeight: "1120px" }}
+      className="relative w-full max-w-[850px] mx-auto bg-white text-slate-900 shadow-2xl rounded-sm p-6 sm:p-8 border border-slate-300 print:shadow-none print:border-none print:m-0 print:p-2 font-sans leading-tight selection:bg-purple-100"
     >
       {/* 纽大斯特恩标志性 1:1 巨幅半透明 Unofficial 倾斜防伪水印 */}
       <div className="pointer-events-none absolute inset-0 flex items-center justify-center overflow-hidden z-10 select-none">
@@ -66,7 +65,7 @@ export function NyuSternSheet({
       </div>
 
       {/* 学生元数据与学位授予双栏 */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4 text-xs bg-slate-50 p-3 rounded border border-slate-200">
+      <div className="grid grid-cols-2 print:grid-cols-2 gap-3 mb-3 text-xs bg-slate-50 p-2.5 rounded border border-slate-200">
         <div className="space-y-1">
           <div className="text-[11px] font-bold text-[#57068c] uppercase border-b border-slate-200 pb-0.5">
             Student Identification
@@ -116,7 +115,7 @@ export function NyuSternSheet({
       </div>
 
       {/* 纽大斯特恩双栏学期成绩表 (AHRS EHRS QHRS QPTS GPA) */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 border-t border-slate-300 pt-3 text-[11px]">
+      <div className="grid grid-cols-2 print:grid-cols-2 gap-3 border-t border-slate-300 pt-2 text-[10.5px]">
         {/* 左栏 */}
         <div className="space-y-3 sm:border-r sm:border-slate-200 sm:pr-3">
           {leftSemesters.map((sem) => (

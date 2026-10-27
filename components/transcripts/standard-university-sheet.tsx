@@ -61,8 +61,7 @@ export function StandardUniversitySheet({
   return (
     <div
       id="printable-university-transcript"
-      className="relative w-full max-w-[850px] mx-auto bg-white text-slate-900 shadow-2xl rounded-sm p-6 sm:p-10 border border-slate-300 print:shadow-none print:border-none print:p-2 sm:print:p-4 font-serif leading-tight selection:bg-blue-100"
-      style={{ minHeight: "1100px" }}
+      className="relative w-full max-w-[850px] mx-auto bg-white text-slate-900 shadow-2xl rounded-sm p-6 sm:p-8 border border-slate-300 print:shadow-none print:border-none print:m-0 print:p-2 font-serif leading-tight selection:bg-blue-100"
     >
       {/* 水印层 */}
       {watermark !== "NONE" && (
@@ -132,7 +131,7 @@ export function StandardUniversitySheet({
         </div>
 
         {/* 学生与学位信息双栏 */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-6 py-3 border-b border-slate-400 font-sans text-xs">
+        <div className="grid grid-cols-2 print:grid-cols-2 gap-3 py-2.5 print:py-2 border-b border-slate-400 font-sans text-xs">
           <div className="space-y-1 bg-slate-50/80 p-2.5 rounded border border-slate-200">
             <div className="font-bold text-slate-900 uppercase tracking-wider text-[11px] border-b border-slate-200 pb-1 mb-1.5 flex items-center justify-between">
               <span>Student Identification</span>
@@ -198,7 +197,7 @@ export function StandardUniversitySheet({
             Complete Academic Coursework Record
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div className="grid grid-cols-2 print:grid-cols-2 gap-3 print:gap-2">
             {data.semesters.map((sem, sIdx) => (
               <div key={sem.term} className="border border-slate-300 rounded overflow-hidden text-xs font-sans">
                 <div

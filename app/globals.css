@@ -173,7 +173,7 @@ code, kbd, samp, pre, .font-mono {
     box-shadow: none !important;
     border: none !important;
     margin: 0 auto !important;
-    padding: 0.1in !important;
+    padding: 0 !important;
     width: 100% !important;
     max-width: 100% !important;
     min-height: 0 !important;
@@ -185,13 +185,8 @@ code, kbd, samp, pre, .font-mono {
     print-color-adjust: exact !important;
   }
 
-  #printable-transcript {
-    zoom: 0.88;
-    max-height: 10.4in !important;
-  }
-
   @page {
     size: auto;
-    margin: 0.15in;
+    margin: 0.25in 0.3in;
   }
 }
