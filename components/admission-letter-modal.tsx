@@ -158,7 +158,7 @@ export function AdmissionLetterModal({
         <div className="flex-1 overflow-y-auto overflow-x-hidden p-4 sm:p-8 print:p-0 print:overflow-visible">
           {letterData && (
             <div className="mx-auto w-full max-w-[760px] bg-white rounded-lg shadow-md border border-slate-200 p-8 sm:p-14 text-slate-800 font-serif leading-relaxed print:shadow-none print:border-none print:m-0 print:p-8">
-              {/* UC 伯克利 1:1 官方原版题头 */}
+              {/* 院校 1:1 官方原版题头 */}
               {letterData.sealType === "berkeley" ? (
                 <div className="mb-8">
                   <div className="text-center font-serif tracking-widest text-base sm:text-lg font-bold text-slate-900 uppercase">
@@ -170,6 +170,109 @@ export function AdmissionLetterModal({
                       CAL
                     </div>
                     <span className="truncate">SAN DIEGO · SAN FRANCISCO · SANTA BARBARA · SANTA CRUZ</span>
+                  </div>
+                </div>
+              ) : letterData.sealType === "mit" ? (
+                <div className="mb-8 border-b-2 border-[#a31f34] pb-4 flex flex-col sm:flex-row items-center justify-between gap-4 font-sans">
+                  {/* MIT Sloan 官方左侧标识 */}
+                  <div className="flex items-center gap-3">
+                    <div>
+                      <div className="text-2xl font-black text-[#a31f34] tracking-tight">MITSloan</div>
+                      <div className="text-[10px] tracking-[0.25em] font-bold text-slate-700 uppercase -mt-1">MANAGEMENT</div>
+                    </div>
+                  </div>
+                  {/* MIT 经典五条杠条纹几何标 */}
+                  <div className="flex items-end gap-1.5 h-7">
+                    <div className="w-1.5 h-7 bg-[#a31f34]" />
+                    <div className="w-1.5 h-4.5 bg-[#a31f34]" />
+                    <div className="w-1.5 h-7 bg-[#a31f34]" />
+                    <div className="w-1.5 h-5 bg-[#a31f34]" />
+                    <div className="w-1.5 h-7 bg-[#a31f34]" />
+                  </div>
+                  {/* MIT Sloan 官方地址 */}
+                  <div className="text-right text-[11px] text-slate-600 leading-snug">
+                    <div className="font-bold text-slate-900">Massachusetts Institute of Technology</div>
+                    <div>Sloan School of Management</div>
+                    <div>77 Massachusetts Avenue, Room E52-359</div>
+                    <div>Cambridge, MA 02139</div>
+                  </div>
+                </div>
+              ) : letterData.sealType === "harvard" ? (
+                <div className="mb-8 border-b-2 border-[#a51c30] pb-4 flex items-center justify-between font-serif">
+                  <div className="flex items-center gap-3">
+                    <div className="h-12 w-10 bg-[#a51c30] text-white flex flex-col items-center justify-center rounded-b-md shadow-xs p-1">
+                      <span className="text-[9px] font-bold tracking-widest uppercase">VE</span>
+                      <span className="text-[9px] font-bold tracking-widest uppercase">RI</span>
+                      <span className="text-[8px] font-bold tracking-widest uppercase">TAS</span>
+                    </div>
+                    <div>
+                      <h1 className="text-lg sm:text-xl font-bold tracking-tight text-[#a51c30] uppercase">
+                        HARVARD MEDICAL SCHOOL
+                      </h1>
+                      <p className="text-xs font-sans tracking-widest text-slate-700 uppercase font-semibold">
+                        Graduate Education · Master of Science
+                      </p>
+                    </div>
+                  </div>
+                  <div className="text-right text-[11px] font-sans text-slate-600 leading-tight">
+                    <div className="font-bold text-slate-900">Gordon Hall</div>
+                    <div>25 Shattuck Street</div>
+                    <div>Boston, MA 02115</div>
+                  </div>
+                </div>
+              ) : letterData.sealType === "uchicago" ? (
+                <div className="mb-8 border-b-2 border-[#800000] pb-4 flex items-center justify-between font-serif">
+                  <div className="flex items-center gap-3">
+                    <div className="h-11 w-11 rounded-full border-2 border-[#800000] flex items-center justify-center bg-stone-50 text-[#800000] font-bold text-xs">
+                      PHOENIX
+                    </div>
+                    <div>
+                      <h1 className="text-lg sm:text-xl font-bold tracking-tight text-[#800000] uppercase">
+                        THE UNIVERSITY OF CHICAGO
+                      </h1>
+                      <p className="text-xs font-sans tracking-wide text-slate-700 font-semibold">
+                        Harris School of Public Policy
+                      </p>
+                    </div>
+                  </div>
+                  <div className="text-right text-[11px] font-sans text-slate-600 leading-tight">
+                    <div>1307 East 60th Street</div>
+                    <div>Chicago, IL 60637</div>
+                  </div>
+                </div>
+              ) : letterData.sealType === "csuf" ? (
+                <div className="mb-8 border-b-2 border-[#00274c] pb-3 flex items-center justify-between font-sans">
+                  <div>
+                    <h1 className="text-lg sm:text-xl font-black tracking-tight text-[#00274c] uppercase">
+                      CALIFORNIA STATE UNIVERSITY, FULLERTON
+                    </h1>
+                    <p className="text-xs tracking-wider text-[#f26a36] font-bold uppercase">
+                      Office of Admissions and Records
+                    </p>
+                  </div>
+                  <div className="text-right text-[11px] text-slate-600 leading-tight">
+                    <div>P.O. Box 6900</div>
+                    <div>Fullerton, CA 92834</div>
+                  </div>
+                </div>
+              ) : letterData.sealType === "temple" ? (
+                <div className="mb-8 border-b-2 border-[#9d2235] pb-3 flex items-center justify-between font-sans">
+                  <div className="flex items-center gap-2.5">
+                    <div className="h-9 w-9 bg-[#9d2235] text-white flex items-center justify-center font-bold text-xl rounded-sm">
+                      T
+                    </div>
+                    <div>
+                      <h1 className="text-lg sm:text-xl font-black tracking-tight text-[#9d2235] uppercase">
+                        TEMPLE UNIVERSITY
+                      </h1>
+                      <p className="text-xs tracking-wide text-slate-600 font-medium">
+                        Office of Undergraduate Admissions · Conwell Hall
+                      </p>
+                    </div>
+                  </div>
+                  <div className="text-right text-[11px] text-slate-600 leading-tight">
+                    <div>1801 N. Broad Street</div>
+                    <div>Philadelphia, PA 19122</div>
                   </div>
                 </div>
               ) : (
@@ -188,7 +291,7 @@ export function AdmissionLetterModal({
                 </div>
               )}
 
-              {/* 发件人与地址 (对齐伯克利 Sproul Hall 格式) */}
+              {/* 发件人与地址 (对齐官方公函格式) */}
               <div className="text-xs font-serif leading-snug text-slate-800 mb-6 space-y-0.5">
                 <p className="font-bold text-slate-900">{letterData.signatoryName}</p>
                 <p>{letterData.signatoryTitle}</p>
@@ -203,44 +306,129 @@ export function AdmissionLetterModal({
                 <p className="text-slate-900 font-bold text-sm">Dear {letterData.recipientName},</p>
               </div>
 
-              {/* 信件正文 (1:1 还原 UC 伯克利研究生院真实录取文书措辞) */}
-              <div className="space-y-3.5 text-[12.5px] sm:text-[13px] leading-relaxed text-slate-800 text-justify">
-                <p>
-                  <b>Congratulations!</b> I am delighted to offer you admission to graduate study in the{" "}
-                  <b>{letterData.degreeProgram}</b> program, beginning <b>{letterData.admitTerm}</b>. Please accept my warmest congratulations on the many accomplishments and achievements that have earned you admission to this unique institution. We hope that you will accept our offer.
-                </p>
-                <p>
-                  Berkeley is an incomparable place to earn a graduate degree. You will have the opportunity to work with and learn from a world-renowned and devoted faculty, alongside diverse and talented student colleagues. As a Berkeley graduate student, you will join a vibrant scholarly community that will support you in pursuing your particular academic or professional interests. In addition, you will be able to take advantage of a wider intellectual context engaged in cutting-edge teaching, research, professional activities, and public service in more than 100 top-ranked graduate programs.
-                </p>
-                <p>
-                  Berkeley offers you access to state-of-the-art research facilities and world-class libraries with the largest public collections in North America. For relaxation, the scenic 1,200 acre campus lies in the heart of one of America's most exciting and multicultural metropolitan areas. Outstanding recreational opportunities are easily accessible, locally and throughout California.
-                </p>
-                <p>
-                  When you complete your degree, you will join a flourishing network of graduate alumni throughout the world. I hear repeatedly from them that Berkeley played a pivotal role in shaping their lives and subsequent successes.
-                </p>
-                <p>
-                  Along with this letter you will find instructions on how to respond to our offer of admission. Because many other applicants are hoping for the place reserved for you, we would appreciate it if you could respond as soon as possible (no later than <b>{letterData.responseDeadline}</b> for full admission). If you have questions, please contact your department directly or send an email to our office at <code className="text-blue-900 font-sans text-xs">gradadm@berkeley.edu</code>.
-                </p>
-                <p>
-                  This letter notifies you of our admission offer only. In recognition of your academic excellence, you have been nominated for the <b>{letterData.scholarshipTitle}</b> in the amount of <b>{letterData.scholarshipAmount}</b>. You will receive detailed information about financial support separately from your department or the university.
-                </p>
-                <p>
-                  Again, many congratulations. I look forward to welcoming you to Berkeley soon!
-                </p>
-              </div>
-
-              {/* 落款与亲笔签字 */}
-              <div className="mt-8 pt-2">
-                <p className="text-xs font-serif text-slate-700 mb-2">Sincerely yours,</p>
-                <div className="font-serif italic text-2xl font-bold text-blue-950 font-script tracking-wide py-1">
-                  {letterData.signatoryName}
+              {/* 信件正文 (学校定制化 1:1 官方文书措辞) */}
+              {letterData.sealType === "berkeley" ? (
+                <div className="space-y-3.5 text-[12.5px] sm:text-[13px] leading-relaxed text-slate-800 text-justify">
+                  <p>
+                    <b>Congratulations!</b> I am delighted to offer you admission to graduate study in the{" "}
+                    <b>{letterData.degreeProgram}</b> program, beginning <b>{letterData.admitTerm}</b>. Please accept my warmest congratulations on the many accomplishments and achievements that have earned you admission to this unique institution. We hope that you will accept our offer.
+                  </p>
+                  <p>
+                    Berkeley is an incomparable place to earn a graduate degree. You will have the opportunity to work with and learn from a world-renowned and devoted faculty, alongside diverse and talented student colleagues. As a Berkeley graduate student, you will join a vibrant scholarly community that will support you in pursuing your particular academic or professional interests. In addition, you will be able to take advantage of a wider intellectual context engaged in cutting-edge teaching, research, professional activities, and public service in more than 100 top-ranked graduate programs.
+                  </p>
+                  <p>
+                    Berkeley offers you access to state-of-the-art research facilities and world-class libraries with the largest public collections in North America. For relaxation, the scenic 1,200 acre campus lies in the heart of one of America's most exciting and multicultural metropolitan areas.
+                  </p>
+                  <p>
+                    Along with this letter you will find instructions on how to respond to our offer of admission. Because many other applicants are hoping for the place reserved for you, we would appreciate it if you could respond as soon as possible (no later than <b>{letterData.responseDeadline}</b> for full admission).
+                  </p>
+                  <p>
+                    This letter notifies you of our admission offer only. In recognition of your academic excellence, you have been nominated for the <b>{letterData.scholarshipTitle}</b> in the amount of <b>{letterData.scholarshipAmount}</b>. You will receive detailed information about financial support separately from your department.
+                  </p>
+                  <p>
+                    Again, many congratulations. I look forward to welcoming you to Berkeley soon!
+                  </p>
                 </div>
-                <p className="text-xs font-serif font-bold text-slate-900 mt-1">
-                  {letterData.signatoryName}
-                </p>
-                <p className="text-[11px] font-serif text-slate-600 max-w-sm leading-snug">
-                  {letterData.signatoryTitle}
-                </p>
+              ) : letterData.sealType === "mit" ? (
+                <div className="space-y-3.5 text-[12.5px] sm:text-[13px] leading-relaxed text-slate-800 text-justify">
+                  <p>
+                    <b>Congratulations!</b> On behalf of the Sloan School of Management Admissions Committee, I am delighted to offer you admission to the <b>{letterData.degreeProgram}</b> program for the academic session entering in <b>{letterData.admitTerm}</b>.
+                  </p>
+                  <p>
+                    Your application was selected from an exceptionally competitive and accomplished global applicant pool. The Admissions Committee was deeply impressed by your analytical prowess, demonstrated leadership acumen, and commitment to driving innovation in management practice. At MIT Sloan, you will collaborate with faculty renowned for groundbreaking research and peers dedicated to inventing the future.
+                  </p>
+                  <p>
+                    In recognition of your exceptional academic credentials and leadership potential, the Committee has awarded you the <b>{letterData.scholarshipTitle}</b> in the amount of <b>{letterData.scholarshipAmount}</b>, to be credited toward your tuition across your enrolled terms.
+                  </p>
+                  <p>
+                    To accept our offer and secure your seat in the incoming class, please submit your formal reply and enrollment deposit via your MIT Sloan Applicant Portal no later than <b>{letterData.responseDeadline}</b>.
+                  </p>
+                  <p>
+                    We are thrilled to welcome you to the MIT community. I wish you every success in your studies and look forward to meeting you on campus this fall.
+                  </p>
+                </div>
+              ) : letterData.sealType === "harvard" ? (
+                <div className="space-y-3.5 text-[12.5px] sm:text-[13px] leading-relaxed text-slate-800 text-justify">
+                  <p>
+                    <b>Congratulations!</b> On behalf of the Harvard Medical School faculty and the Graduate Education Admissions Committee, it is our privilege to offer you admission to the <b>{letterData.degreeProgram}</b> program beginning in <b>{letterData.admitTerm}</b>.
+                  </p>
+                  <p>
+                    The Committee reviewed hundreds of outstanding applications from across the globe, and your dedication to the intersection of health, evidence-based science, and public communication distinguished your portfolio. At Harvard Medical School, you will learn and collaborate alongside pioneering clinicians, scholars, and public health innovators in the Longwood Medical Area.
+                  </p>
+                  <p>
+                    In recognition of your academic excellence, we are pleased to confirm your fellowship award for the <b>{letterData.scholarshipTitle}</b> totaling <b>{letterData.scholarshipAmount}</b>. Details regarding fellowship disbursement and health coverage are enclosed.
+                  </p>
+                  <p>
+                    Please confirm your acceptance of this offer by completing your enrollment reply in the HMS Admitted Student Portal on or before <b>{letterData.responseDeadline}</b>.
+                  </p>
+                  <p>
+                    We warmly welcome you to Harvard Medical School and look forward to the vital contributions you will make to the field.
+                  </p>
+                </div>
+              ) : letterData.sealType === "uchicago" ? (
+                <div className="space-y-3.5 text-[12.5px] sm:text-[13px] leading-relaxed text-slate-800 text-justify">
+                  <p>
+                    <b>Congratulations!</b> On behalf of the faculty and Admissions Committee of the Harris School of Public Policy at The University of Chicago, I am pleased to offer you admission to the <b>{letterData.degreeProgram}</b> program for <b>{letterData.admitTerm}</b>.
+                  </p>
+                  <p>
+                    At Harris Public Policy, we believe that rigorous analytical training, rigorous evidence, and bold questions are required to address today's most intractable public challenges. Your application demonstrated the intellectual curiosity, analytical capability, and drive needed to lead change in the policy arena.
+                  </p>
+                  <p>
+                    We are pleased to offer you a merit scholarship: the <b>{letterData.scholarshipTitle}</b> in the amount of <b>{letterData.scholarshipAmount}</b>. To accept this offer, please submit your response form and deposit by <b>{letterData.responseDeadline}</b>.
+                  </p>
+                  <p>
+                    Welcome to the Harris community. We look forward to seeing the impact you will make in Chicago and around the world.
+                  </p>
+                </div>
+              ) : (
+                <div className="space-y-3.5 text-[12.5px] sm:text-[13px] leading-relaxed text-slate-800 text-justify">
+                  {letterData.letterBody.slice(1).map((p, idx) => (
+                    <p key={idx}>{p}</p>
+                  ))}
+                </div>
+              )}
+
+              {/* 落款与亲笔签字 (支持双导师联合签署) */}
+              <div className="mt-8 pt-4 border-t border-slate-200">
+                <p className="text-xs font-serif text-slate-700 mb-2">Sincerely yours,</p>
+                {letterData.signatoryName2 ? (
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 pt-2">
+                    <div>
+                      <div className="font-serif italic text-2xl font-bold text-blue-950 font-script tracking-wide py-1">
+                        {letterData.signatoryName}
+                      </div>
+                      <p className="text-xs font-serif font-bold text-slate-900 mt-1">
+                        {letterData.signatoryName}
+                      </p>
+                      <p className="text-[11px] font-serif text-slate-600 leading-snug">
+                        {letterData.signatoryTitle}
+                      </p>
+                    </div>
+                    <div>
+                      <div className="font-serif italic text-2xl font-bold text-blue-950 font-script tracking-wide py-1">
+                        {letterData.signatoryName2}
+                      </div>
+                      <p className="text-xs font-serif font-bold text-slate-900 mt-1">
+                        {letterData.signatoryName2}
+                      </p>
+                      <p className="text-[11px] font-serif text-slate-600 leading-snug">
+                        {letterData.signatoryTitle2}
+                      </p>
+                    </div>
+                  </div>
+                ) : (
+                  <div>
+                    <div className="font-serif italic text-2xl font-bold text-blue-950 font-script tracking-wide py-1">
+                      {letterData.signatoryName}
+                    </div>
+                    <p className="text-xs font-serif font-bold text-slate-900 mt-1">
+                      {letterData.signatoryName}
+                    </p>
+                    <p className="text-[11px] font-serif text-slate-600 max-w-sm leading-snug">
+                      {letterData.signatoryTitle}
+                    </p>
+                  </div>
+                )}
               </div>
             </div>
           )}

@@ -31,6 +31,7 @@ export default function HomePage() {
   const [configOpen, setConfigOpen] = useState(false)
   const [transcriptOpen, setTranscriptOpen] = useState(false)
   const [transcriptTab, setTranscriptTab] = useState<"highSchool" | "university">("highSchool")
+  const [transcriptSchoolStyle, setTranscriptSchoolStyle] = useState<string | undefined>(undefined)
   const [bankModalOpen, setBankModalOpen] = useState(false)
   const [templatesModalOpen, setTemplatesModalOpen] = useState(false)
   const [fromTemplatesModal, setFromTemplatesModal] = useState(false)
@@ -271,8 +272,9 @@ export default function HomePage() {
     }
   }
 
-  const handleOpenTranscript = (tab: "highSchool" | "university" = "highSchool") => {
+  const handleOpenTranscript = (tab: "highSchool" | "university" = "highSchool", schoolStyle?: string) => {
     setTranscriptTab(tab)
+    setTranscriptSchoolStyle(schoolStyle)
     setTranscriptOpen(true)
   }
 
@@ -450,6 +452,7 @@ export default function HomePage() {
           university={universityData}
           seed={seed}
           defaultTab={transcriptTab}
+          schoolStyle={transcriptSchoolStyle}
         />
       )}
 
@@ -488,10 +491,10 @@ export default function HomePage() {
           setTemplatesModalOpen(false)
           setBankModalOpen(true)
         }}
-        onGenerateTranscript={(tab = "highSchool") => {
+        onGenerateTranscript={(tab = "highSchool", schoolStyle) => {
           setFromTemplatesModal(true)
           setTemplatesModalOpen(false)
-          handleOpenTranscript(tab)
+          handleOpenTranscript(tab, schoolStyle)
         }}
         onGenerateAdmissionLetter={(schoolId) => {
           setFromTemplatesModal(true)

@@ -28,7 +28,7 @@ interface ReferenceTemplatesModalProps {
   open: boolean
   onOpenChange: (open: boolean) => void
   onGenerateBankStatement?: () => void
-  onGenerateTranscript?: (tab?: "highSchool" | "university") => void
+  onGenerateTranscript?: (tab?: "highSchool" | "university", schoolStyle?: string) => void
   onGenerateAdmissionLetter?: (schoolId?: string) => void
   onGenerateSchedule?: (tab?: "schedule" | "tuition") => void
   onGenerateDriverLicense?: (state?: string) => void
@@ -238,7 +238,19 @@ export function ReferenceTemplatesModal({
                     {item.category === "transcript" && item.categoryChinese === "大学成绩单" && onGenerateTranscript && (
                       <button
                         onClick={() => {
-                          saveScrollAndTrigger(() => onGenerateTranscript("university"))
+                          const lower = item.name.toLowerCase()
+                          const uniStyle = lower.includes("texas")
+                            ? "texas_am"
+                            : lower.includes("stern") || lower.includes("nyu")
+                            ? "nyu_stern"
+                            : lower.includes("harvard")
+                            ? "harvard"
+                            : lower.includes("ucla") || lower.includes("los angeles")
+                            ? "ucla"
+                            : lower.includes("mit")
+                            ? "mit"
+                            : undefined
+                          saveScrollAndTrigger(() => onGenerateTranscript("university", uniStyle))
                         }}
                         className="inline-flex items-center gap-1 px-2.5 py-1 rounded-md text-xs font-bold bg-indigo-600 text-white hover:bg-indigo-700 shadow-2xs transition-colors shrink-0"
                         title="一键生成当前人偶大学官方教务成绩单"
@@ -280,10 +292,20 @@ export function ReferenceTemplatesModal({
                     {item.category === "offer" && onGenerateAdmissionLetter && (
                       <button
                         onClick={() => {
-                          const schoolKey = item.name.toLowerCase().includes("berkeley") ? "berkeley" :
-                            item.name.toLowerCase().includes("mit") ? "mit" :
-                            item.name.toLowerCase().includes("harvard") ? "harvard" :
-                            item.name.toLowerCase().includes("chicago") ? "uchicago" : undefined
+                          const lower = item.name.toLowerCase()
+                          const schoolKey = lower.includes("berkeley")
+                            ? "berkeley"
+                            : lower.includes("mit")
+                            ? "mit"
+                            : lower.includes("harvard")
+                            ? "harvard"
+                            : lower.includes("chicago")
+                            ? "uchicago"
+                            : lower.includes("fullerton")
+                            ? "csuf"
+                            : lower.includes("temple")
+                            ? "temple"
+                            : undefined
                           saveScrollAndTrigger(() => onGenerateAdmissionLetter(schoolKey))
                         }}
                         className="inline-flex items-center gap-1 px-2.5 py-1 rounded-md text-xs font-bold bg-blue-700 text-white hover:bg-blue-800 shadow-2xs transition-colors shrink-0"

@@ -10,7 +10,7 @@ import type { UniversityTranscriptData } from "@/lib/university-transcript-types
 import { generateTranscriptData } from "@/lib/transcript-generator"
 import { generateUniversityTranscript } from "@/lib/university-transcript-generator"
 import { TranscriptSheet } from "./transcript-sheet"
-import { UniversityTranscriptSheet } from "./university-transcript-sheet"
+import { UniversityTranscriptSheet, type UniversityTranscriptStyle } from "./university-transcript-sheet"
 
 interface TranscriptModalProps {
   open: boolean
@@ -20,6 +20,7 @@ interface TranscriptModalProps {
   university?: UniversityData | null
   seed?: number
   defaultTab?: "highSchool" | "university"
+  schoolStyle?: string
   onBackToTemplates?: () => void
 }
 
@@ -31,11 +32,15 @@ export function TranscriptModal({
   university,
   seed = 2026,
   defaultTab = "highSchool",
+  schoolStyle,
   onBackToTemplates,
 }: TranscriptModalProps) {
   const [activeTab, setActiveTab] = useState<"highSchool" | "university">(defaultTab)
   const [highSchoolData, setHighSchoolData] = useState<StudentTranscript | null>(null)
   const [universityData, setUniversityData] = useState<UniversityTranscriptData | null>(null)
+  const [selectedUniStyle, setSelectedUniStyle] = useState<UniversityTranscriptStyle>(
+    (schoolStyle as UniversityTranscriptStyle) || "standard"
+  )
   const [isEditable, setIsEditable] = useState(false)
   const [watermark, setWatermark] = useState<"OFFICIAL" | "ISSUED_TO_STUDENT" | "SAMPLE" | "NONE">("OFFICIAL")
   const [currentSeed, setCurrentSeed] = useState(seed)
@@ -45,6 +50,12 @@ export function TranscriptModal({
       setActiveTab(defaultTab)
     }
   }, [defaultTab, open])
+
+  useEffect(() => {
+    if (schoolStyle && open) {
+      setSelectedUniStyle(schoolStyle as UniversityTranscriptStyle)
+    }
+  }, [schoolStyle, open])
 
   // 当外部数据或 seed 变化时重新生成数据
   useEffect(() => {
@@ -191,6 +202,22 @@ export function TranscriptModal({
                   </Button>
                 )}
 
+                {/* 大学成绩单专属版式切换 */}
+                {activeTab === "university" && (
+                  <select
+                    value={selectedUniStyle}
+                    onChange={(e) => setSelectedUniStyle(e.target.value as UniversityTranscriptStyle)}
+                    className="h-8 text-xs font-semibold bg-white border border-slate-300 rounded-md px-2 focus:outline-hidden"
+                  >
+                    <option value="texas_am">德州农工 (Texas A&M 粉底防伪)</option>
+                    <option value="nyu_stern">纽大斯特恩 (NYU Stern Unofficial)</option>
+                    <option value="harvard">哈佛大学 (Harvard)</option>
+                    <option value="ucla">加州大学 (UCLA)</option>
+                    <option value="mit">麻省理工 (MIT)</option>
+                    <option value="standard">全美标准大学 (Standard)</option>
+                  </select>
+                )}
+
                 {/* 在线微调 */}
                 <Button
                   variant={isEditable ? "default" : "outline"}
@@ -274,6 +301,7 @@ export function TranscriptModal({
               <UniversityTranscriptSheet
                 data={universityData}
                 watermark={watermark}
+                styleVariant={selectedUniStyle}
                 isEditable={isEditable}
                 onUpdate={setUniversityData}
               />
