@@ -43,6 +43,8 @@ export function TranscriptModal({
   onBackToTemplates,
 }: TranscriptModalProps) {
   const [activeTab, setActiveTab] = useState<"highSchool" | "university" | "satAct">(defaultTab)
+  const [selectedState, setSelectedState] = useState<string>(school?.state || person.state || "KY")
+  const [sealStyle, setSealStyle] = useState<"crimson" | "color" | "gold">("crimson")
   const [highSchoolData, setHighSchoolData] = useState<StudentTranscript | null>(null)
   const [universityData, setUniversityData] = useState<UniversityTranscriptData | null>(null)
   const [satActData, setSatActData] = useState<SatActReportData | null>(null)
@@ -72,17 +74,21 @@ export function TranscriptModal({
     }
   }, [highSchoolStyle, open])
 
-  // 当外部数据或 seed 变化时重新生成数据
+  // 当外部数据、seed 或切换所属州时重新生成数据
   useEffect(() => {
     if (person) {
-      const hs = generateTranscriptData(person, school, currentSeed)
+      const hs = generateTranscriptData(
+        { ...person, state: selectedState },
+        school?.state === selectedState ? school : null,
+        currentSeed
+      )
       const uni = generateUniversityTranscript(person, university || null, currentSeed)
       const sa = generateSatActReport(person, school || null, currentSeed)
       setHighSchoolData(hs)
       setUniversityData(uni)
       setSatActData(sa)
     }
-  }, [person, school, university, currentSeed])
+  }, [person, school, university, currentSeed, selectedState])
 
   // 触发打印 / 另存为 PDF
   const handlePrint = () => {
@@ -245,6 +251,32 @@ export function TranscriptModal({
                   </Button>
                 )}
 
+                {/* 美高所属州快速切换 */}
+                {activeTab === "highSchool" && (
+                  <select
+                    value={selectedState}
+                    onChange={(e) => setSelectedState(e.target.value)}
+                    className="h-8 text-xs font-semibold bg-white border border-blue-300 text-blue-900 rounded-md px-2 focus:outline-hidden shadow-2xs"
+                    title="选择所属州，将自动匹配该州官方名校、真实学区与官方州徽印章"
+                  >
+                    <option value="KY">肯塔基 (KY · Lexington)</option>
+                    <option value="CA">加利福尼亚 (CA · Beverly Hills)</option>
+                    <option value="NY">纽约州 (NY · Stuyvesant)</option>
+                    <option value="TX">得克萨斯 (TX · Westlake)</option>
+                    <option value="FL">佛罗里达 (FL · Stanton)</option>
+                    <option value="IL">伊利诺伊 (IL · Walter Payton)</option>
+                    <option value="PA">宾夕法尼亚 (PA · Central High)</option>
+                    <option value="OH">俄亥俄 (OH · Walnut Hills)</option>
+                    <option value="MI">密歇根 (MI · International)</option>
+                    <option value="MA">马萨诸塞 (MA · Boston Latin)</option>
+                    <option value="NJ">新泽西 (NJ · High Tech)</option>
+                    <option value="VA">弗吉尼亚 (VA · TJ High)</option>
+                    <option value="GA">佐治亚 (GA · Gwinnett)</option>
+                    <option value="NC">北卡罗来纳 (NC · Durham)</option>
+                    <option value="WA">华盛顿州 (WA · Bellevue)</option>
+                  </select>
+                )}
+
                 {/* 美高成绩单版式选择 */}
                 {activeTab === "highSchool" && (
                   <select
@@ -255,6 +287,20 @@ export function TranscriptModal({
                     <option value="standard">4年制公立高中官方原样 (Standard)</option>
                     <option value="parchment">Parchment 权威电子交付档 (Parchment)</option>
                     <option value="duplicate">官方加注 Duplicate 补发本 (Duplicate)</option>
+                  </select>
+                )}
+
+                {/* 成绩单官方印章盖印风格选择 */}
+                {activeTab === "highSchool" && (
+                  <select
+                    value={sealStyle}
+                    onChange={(e) => setSealStyle(e.target.value as "crimson" | "color" | "gold")}
+                    className="h-8 text-xs font-semibold bg-white border border-slate-300 rounded-md px-2 focus:outline-hidden"
+                    title="切换教务处盖印风格：酒红印泥公章（最真实纸质原件）、全彩官方州印或烫金钢印"
+                  >
+                    <option value="crimson">🔴 酒红教务印泥 (Crimson Inked)</option>
+                    <option value="color">🔵 官方全彩大印 (Full Color Seal)</option>
+                    <option value="gold">🟡 烫金防伪钢印 (Gold Embossed)</option>
                   </select>
                 )}
 
@@ -349,6 +395,7 @@ export function TranscriptModal({
                 data={highSchoolData}
                 isEditable={isEditable}
                 styleVariant={selectedHsStyle}
+                sealStyle={sealStyle}
                 watermarkText={watermarkStringMap[watermark]}
                 onChange={setHighSchoolData}
               />

@@ -15,6 +15,7 @@ interface TranscriptSheetProps {
   isEditable?: boolean
   watermarkText?: string
   styleVariant?: "standard" | "parchment" | "duplicate"
+  sealStyle?: "crimson" | "color" | "gold"
   onChange?: (updated: StudentTranscript) => void
 }
 
@@ -23,6 +24,7 @@ export function TranscriptSheet({
   isEditable = false,
   watermarkText = "OFFICIAL TRANSCRIPT",
   styleVariant = "standard",
+  sealStyle = "crimson",
   onChange,
 }: TranscriptSheetProps) {
   // 简易字段修改分发器
@@ -381,16 +383,49 @@ export function TranscriptSheet({
             </div>
           </div>
 
-          {/* 官方州教育厅 / 官方注册处正规大印 (使用真实官方州徽/教育厅大印) */}
+          {/* 官方州教育厅 / 官方注册处正规大印 (支持酒红印泥公章 / 官方全彩 / 烫金钢印) */}
           <div className="flex flex-col items-center justify-center shrink-0">
-            <img
-              src={getHighSchoolLogoUrl(data.schoolName, data.schoolState)}
-              alt="Official Accredited Registrar Seal"
-              className="h-24 w-24 sm:h-28 sm:w-28 md:h-32 md:w-32 object-contain drop-shadow-md"
-            />
-            <span className="text-[7.5px] font-sans font-bold text-slate-500 uppercase tracking-widest mt-1">
-              OFFICIAL EMBOSSED SEAL
-            </span>
+            {sealStyle === "crimson" ? (
+              /* 1. 美高纸质正件最常用：教务处酒红/深红印泥印鉴 (Crimson Inked Stamp) */
+              <div className="relative flex flex-col items-center justify-center">
+                <div className="relative rounded-full p-1.5 border-4 border-double border-[#991b1b] bg-red-50/20 shadow-xs">
+                  <img
+                    src={getHighSchoolLogoUrl(data.schoolName, data.schoolState)}
+                    alt="Official Accredited Registrar Seal"
+                    className="h-20 w-20 sm:h-24 sm:w-24 md:h-26 md:w-26 object-contain filter contrast-150 sepia hue-rotate-[320deg] brightness-75"
+                  />
+                </div>
+                <span className="text-[7px] font-sans font-black text-[#991b1b] uppercase tracking-widest mt-1">
+                  OFFICIAL REGISTRAR EMBOSSED SEAL
+                </span>
+              </div>
+            ) : sealStyle === "gold" ? (
+              /* 2. 纸质毕业档：烫金防伪齿轮钢印 (Gold Foil Embossed Notary Seal) */
+              <div className="relative flex flex-col items-center justify-center">
+                <div className="relative rounded-full p-1.5 border-4 border-dashed border-[#b45309] bg-amber-50/40 shadow-xs">
+                  <img
+                    src={getHighSchoolLogoUrl(data.schoolName, data.schoolState)}
+                    alt="Official Accredited Registrar Seal"
+                    className="h-20 w-20 sm:h-24 sm:w-24 md:h-26 md:w-26 object-contain filter contrast-125 sepia hue-rotate-[10deg] brightness-90"
+                  />
+                </div>
+                <span className="text-[7px] font-sans font-black text-[#b45309] uppercase tracking-widest mt-1">
+                  OFFICIAL GOLD EMBOSSED NOTARY
+                </span>
+              </div>
+            ) : (
+              /* 3. 现代电子交付档 (Parchment / Digital Delivery)：全彩官方州徽 */
+              <div className="relative flex flex-col items-center justify-center">
+                <img
+                  src={getHighSchoolLogoUrl(data.schoolName, data.schoolState)}
+                  alt="Official Accredited Registrar Seal"
+                  className="h-22 w-22 sm:h-26 sm:w-26 md:h-28 md:w-28 object-contain drop-shadow-md"
+                />
+                <span className="text-[7.5px] font-sans font-bold text-slate-600 uppercase tracking-widest mt-1">
+                  OFFICIAL EMBOSSED SEAL
+                </span>
+              </div>
+            )}
           </div>
 
           {/* 教务主任/注册处 */}
