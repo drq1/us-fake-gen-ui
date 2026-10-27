@@ -285,7 +285,10 @@ export function SatActScoreSheet({ data, initialType = "SAT" }: SatActScoreSheet
             <p>
               ACT, Inc. · 500 ACT Drive, P.O. Box 168, Iowa City, IA 52243-0168 · Official Standardized Test Report
             </p>
-            <div className="font-mono text-slate-400">SECURE VERIFIED DOCUMENT</div>
+            <div className="flex items-center gap-2">
+              <ActLogo className="h-10 w-auto shrink-0 drop-shadow-xs" />
+              <span className="font-mono text-[9px] text-slate-400">SECURE VERIFIED</span>
+            </div>
           </div>
         </div>
       )}

@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button"
 import { Printer, IdCard, Star, Heart, ArrowLeft, RotateCw, Download, ShieldCheck, User } from "lucide-react"
 import type { PersonData } from "@/lib/types"
 import { generateDriverLicense, type DriverLicenseData } from "@/lib/driver-license-generator"
-import { RealIdStarBadge } from "@/components/brand-logos"
+import { RealIdStarBadge, getHighSchoolLogoUrl } from "@/components/brand-logos"
 
 interface DriverLicenseModalProps {
   open: boolean
@@ -248,6 +248,13 @@ export function DriverLicenseModal({
                       )}
                     </div>
                   </div>
+
+                  {/* 州官方防伪大印全息安全水印 */}
+                  <img
+                    src={getHighSchoolLogoUrl(undefined, cardData.state)}
+                    alt="State Official Seal Watermark"
+                    className="pointer-events-none absolute right-4 bottom-2 w-36 h-36 object-contain opacity-10 saturate-50 select-none"
+                  />
 
                   {/* 仿真全息防伪透光底纹 */}
                   <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-cyan-400/5 to-purple-400/10 pointer-events-none" />

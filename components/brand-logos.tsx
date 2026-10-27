@@ -498,9 +498,104 @@ export function getUniversityLogoUrl(name?: string): string | null {
   if (n.includes("chicago")) return "/logos/uchicago.svg"
   if (n.includes("texas a&m") || n.includes("texas a & m")) return "/logos/texas_am.svg"
   if (n.includes("new york university") || n.includes("nyu")) return "/logos/nyu.svg"
+  if (n.includes("columbia")) return "/logos/columbia.svg"
+  if (n.includes("yale")) return "/logos/yale.svg"
+  if (n.includes("princeton")) return "/logos/princeton.svg"
+  if (n.includes("cornell")) return "/logos/cornell.svg"
+  if (n.includes("pennsylvania") || n.includes("upenn")) return "/logos/upenn.svg"
+  if (n.includes("michigan")) return "/logos/umich.svg"
+  if (n.includes("southern california") || n.includes("usc")) return "/logos/usc.svg"
+  if (n.includes("duke")) return "/logos/duke.svg"
   if (n.includes("temple")) return "/logos/temple.svg"
   if (n.includes("rochester institute") || n.includes("rit")) return "/logos/rit.svg"
   if (n.includes("fullerton") || n.includes("csuf")) return "/logos/csuf.svg"
   if (n.includes("victoria")) return "/logos/victoria.svg"
   return null
+}
+
+// 21. 医院出生证明正规医事防伪公章 (Hospital Obstetrics Official Seal)
+export function HospitalOfficialSeal({
+  className = "h-20 w-20",
+  color = "#0f766e",
+  ...props
+}: {
+  className?: string
+  color?: string
+} & React.SVGProps<SVGSVGElement>) {
+  const id = React.useId()
+  const topPathId = `hosp-top-${id}`
+  const bottomPathId = `hosp-bot-${id}`
+  return (
+    <svg viewBox="0 0 200 200" className={`select-none ${className}`} {...props}>
+      <defs>
+        <path id={topPathId} d="M 30,100 A 70,70 0 1,1 170,100" fill="none" />
+        <path id={bottomPathId} d="M 170,100 A 70,70 0 0,1 30,100" fill="none" />
+      </defs>
+      <circle cx="100" cy="100" r="95" fill="none" stroke={color} strokeWidth="3" />
+      <circle cx="100" cy="100" r="90" fill="none" stroke={color} strokeWidth="1" strokeDasharray="3 2" />
+      <circle cx="100" cy="100" r="62" fill="none" stroke={color} strokeWidth="2" />
+      <circle cx="100" cy="100" r="58" fill="none" stroke={color} strokeWidth="0.8" />
+      <text fill={color} fontFamily="'Times New Roman', Georgia, serif" fontSize="10.5" fontWeight="bold" letterSpacing="1.2">
+        <textPath href={`#${topPathId}`} startOffset="50%" textAnchor="middle">
+          ★ OFFICIAL HOSPITAL BIRTH RECORD ★
+        </textPath>
+      </text>
+      <text fill={color} fontFamily="'Times New Roman', Georgia, serif" fontSize="10" fontWeight="bold" letterSpacing="1.2">
+        <textPath href={`#${bottomPathId}`} startOffset="50%" textAnchor="middle">
+          ★ DEPARTMENT OF OBSTETRICS ★
+        </textPath>
+      </text>
+      <path d="M 98 42 L 102 42 L 102 158 L 98 158 Z" fill={color} />
+      <circle cx="100" cy="40" r="5" fill={color} />
+      <path
+        d="M 100 55 C 82 62 82 78 100 86 C 118 94 118 110 100 118 C 84 126 84 140 100 148"
+        fill="none"
+        stroke={color}
+        strokeWidth="3.5"
+        strokeLinecap="round"
+      />
+      <path d="M 94 92 H 106 M 100 86 V 98" stroke="#ffffff" strokeWidth="2.5" strokeLinecap="square" />
+    </svg>
+  )
+}
+
+// 22. 技能资质与结业证书金牌火漆勋章 (Gold Accredited Certification Medallion)
+export function GoldExcellenceMedallion({
+  className = "h-20 w-20",
+  color = "#b45309",
+  ...props
+}: {
+  className?: string
+  color?: string
+} & React.SVGProps<SVGSVGElement>) {
+  const id = React.useId()
+  const topPathId = `med-top-${id}`
+  const bottomPathId = `med-bot-${id}`
+  return (
+    <svg viewBox="0 0 200 230" className={`select-none ${className}`} {...props}>
+      <defs>
+        <path id={topPathId} d="M 32,95 A 68,68 0 1,1 168,95" fill="none" />
+        <path id={bottomPathId} d="M 168,95 A 68,68 0 0,1 32,95" fill="none" />
+      </defs>
+      <polygon points="70,140 50,225 78,210 100,220 90,140" fill={color} opacity="0.85" />
+      <polygon points="130,140 150,225 122,210 100,220 110,140" fill={color} opacity="0.85" />
+      <circle cx="100" cy="95" r="90" fill="#fffbeb" stroke={color} strokeWidth="3" />
+      <circle cx="100" cy="95" r="85" fill="none" stroke={color} strokeWidth="1.2" strokeDasharray="3 2" />
+      <circle cx="100" cy="95" r="58" fill="none" stroke={color} strokeWidth="2" />
+      <text fill={color} fontFamily="Georgia, serif" fontSize="9.5" fontWeight="bold" letterSpacing="1">
+        <textPath href={`#${topPathId}`} startOffset="50%" textAnchor="middle">
+          ★ ACCREDITED CERTIFICATION ★
+        </textPath>
+      </text>
+      <text fill={color} fontFamily="Georgia, serif" fontSize="9" fontWeight="bold" letterSpacing="1">
+        <textPath href={`#${bottomPathId}`} startOffset="50%" textAnchor="middle">
+          ★ SEAL OF EXCELLENCE ★
+        </textPath>
+      </text>
+      <polygon
+        points="100,68 107,84 124,84 110,95 115,111 100,101 85,111 90,95 76,84 93,84"
+        fill={color}
+      />
+    </svg>
+  )
 }

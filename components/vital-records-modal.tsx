@@ -4,7 +4,11 @@ import React, { useState, useEffect } from "react"
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog"
 import { Button } from "@/components/ui/button"
 import { Printer, FileBadge, Award, HeartHandshake, Baby, ArrowLeft, Download, ShieldCheck, CheckCircle2 } from "lucide-react"
-import { OfficialStateEducationSeal } from "@/components/brand-logos"
+import {
+  OfficialStateEducationSeal,
+  HospitalOfficialSeal,
+  GoldExcellenceMedallion,
+} from "@/components/brand-logos"
 import type { PersonData } from "@/lib/types"
 import { generateVitalRecords, type VitalRecordsData } from "@/lib/vital-records-generator"
 
@@ -277,6 +281,9 @@ export function VitalRecordsModal({
                           Dr. Sarah Jenkins, M.D.
                         </span>
                         <span className="text-[9.5px] text-slate-500 font-sans block">Attending Obstetrician, FACOG</span>
+                      </div>
+                      <div className="flex flex-col items-center">
+                        <HospitalOfficialSeal className="h-20 w-20 sm:h-24 sm:w-24 drop-shadow-sm shrink-0" color="#0f766e" />
                       </div>
                       <div className="text-right">
                         <span className="text-[10px] text-slate-400 uppercase block">Hospital Administrator</span>
@@ -612,8 +619,9 @@ export function VitalRecordsModal({
                       <span className="text-emerald-800">NCCA CERTIFIED ACTIVE</span>
                     </div>
 
-                    <div className="pt-2 flex justify-between items-end border-t border-slate-300 text-[10px] text-slate-500">
+                    <div className="pt-2 flex justify-between items-center border-t border-slate-300 text-[10px] text-slate-500">
                       <div>Issued: {records.skill.issueDate} · Expiration: {records.skill.expDate}</div>
+                      <OfficialStateEducationSeal stateName="NCCA" className="h-14 w-14 sm:h-16 sm:w-16 drop-shadow-xs shrink-0" color="#1e3a8a" />
                       <div className="font-bold text-slate-800">Credentialing Director, NASM Board</div>
                     </div>
                   </div>
@@ -640,10 +648,13 @@ export function VitalRecordsModal({
                       Has successfully met all classroom cognitive and hands-on skill evaluation criteria in accordance with the standard curriculum.
                     </p>
 
-                    <div className="mt-8 pt-3 border-t border-amber-200 flex justify-between items-end text-xs font-sans">
+                    <div className="mt-8 pt-3 border-t border-amber-200 flex justify-between items-center text-xs font-sans">
                       <div className="text-left">
                         <span className="font-mono text-slate-500 block text-[11px]">ID: {records.skill.certificationId}</span>
                         <span className="font-semibold text-slate-800">Issue: {records.skill.issueDate} · Exp: {records.skill.expDate}</span>
+                      </div>
+                      <div className="flex flex-col items-center">
+                        <GoldExcellenceMedallion className="h-20 w-20 sm:h-24 sm:w-24 drop-shadow-sm shrink-0" color="#b45309" />
                       </div>
                       <div className="text-right">
                         <span className="font-signature-pen text-xl font-bold text-[#001f3f] block select-none">
