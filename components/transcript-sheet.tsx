@@ -62,8 +62,7 @@ export function TranscriptSheet({
   return (
     <div
       id="printable-transcript"
-      className="relative mx-auto w-full max-w-[860px] bg-white text-slate-900 shadow-2xl rounded-sm border border-slate-300 p-8 sm:p-10 font-serif selection:bg-blue-100 print:m-0 print:p-2 sm:print:p-4 print:shadow-none print:border-none print:w-full print:max-w-none text-[11px] leading-tight"
-      style={{ minHeight: "1100px" }}
+      className="relative mx-auto w-full max-w-[860px] bg-white text-slate-900 shadow-2xl rounded-sm border border-slate-300 p-6 sm:p-8 font-serif selection:bg-blue-100 print:m-0 print:p-1 print:shadow-none print:border-none print:w-full print:max-w-none text-[11px] leading-tight"
     >
       {/* 防伪防盗背底浅色水印 */}
       {watermarkText && (
@@ -110,19 +109,19 @@ export function TranscriptSheet({
         </div>
 
         {/* 学校官方题头主排版：左官方印章 + 中学校名 + 右学术纹章 */}
-        <div className="flex items-center justify-between gap-4 my-2">
+        <div className="flex items-center justify-between gap-3 my-2 print:my-1">
           {/* 左侧：官方高中印章 / 州教育厅印章 */}
           <div className="flex items-center justify-center shrink-0">
             <img
               src={getHighSchoolLogoUrl(data.schoolName, data.schoolState)}
               alt="High School Official Seal"
-              className="h-24 w-24 sm:h-28 sm:w-28 md:h-32 md:w-32 object-contain drop-shadow-sm"
+              className="h-20 w-20 sm:h-24 sm:w-24 md:h-26 md:w-26 print:h-16 print:w-16 object-contain drop-shadow-sm"
             />
           </div>
 
           {/* 中间：学校名称与学区信息 */}
-          <div className="flex-1 text-center px-2">
-            <h1 className="text-xl sm:text-2xl lg:text-3xl font-black uppercase tracking-wider text-slate-950 font-serif leading-tight">
+          <div className="flex-1 text-center px-1">
+            <h1 className="text-xl sm:text-2xl print:text-lg font-black uppercase tracking-wider text-slate-950 font-serif leading-tight">
               {isEditable ? (
                 <input
                   type="text"
@@ -135,11 +134,11 @@ export function TranscriptSheet({
               )}
             </h1>
 
-            <p className="text-xs text-slate-800 font-sans font-bold mt-1 tracking-wide">
+            <p className="text-xs print:text-[10px] text-slate-800 font-sans font-bold mt-0.5 tracking-wide">
               {data.districtName}
             </p>
 
-            <p className="text-[11px] text-slate-600 font-sans mt-0.5">
+            <p className="text-[10.5px] print:text-[9px] text-slate-600 font-sans mt-0.5">
               {data.schoolAddress}, {data.schoolCity}, {data.schoolState} {data.schoolZip} · Tel: {data.schoolPhone}
             </p>
           </div>
@@ -148,114 +147,114 @@ export function TranscriptSheet({
           <div className="flex items-center justify-center shrink-0">
             <HighSchoolAcademicCrest
               schoolName={data.schoolName}
-              className="h-24 w-24 sm:h-28 sm:w-28 md:h-32 md:w-32 drop-shadow-sm"
+              className="h-20 w-20 sm:h-24 sm:w-24 md:h-26 md:w-26 print:h-16 print:w-16 drop-shadow-sm"
             />
           </div>
         </div>
 
-        <div className="mt-2 inline-block bg-slate-900 text-white px-4 py-0.5 text-xs font-sans font-bold tracking-widest uppercase">
+        <div className="mt-1 inline-block bg-slate-900 text-white px-3 py-0.5 text-xs print:text-[10px] font-sans font-bold tracking-widest uppercase">
           Official High School Transcript
         </div>
       </div>
 
-      {/* 第一行：学生信息与学业统计双栏网格 */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 my-4 font-sans text-[11px]">
+      {/* 第一行：学生信息与学业统计双栏网格 (锁定 2 列并排，防止打印折行) */}
+      <div className="grid grid-cols-2 gap-3 my-2 print:my-1.5 font-sans text-[10px] print:text-[9px]">
         {/* 左侧：学生个人身份信息 */}
-        <div className="border border-slate-900 rounded-xs p-3 bg-slate-50/50 print:bg-transparent">
-          <h2 className="text-[10px] font-bold uppercase tracking-wider text-slate-700 border-b border-slate-300 pb-1 mb-2 flex items-center justify-between">
+        <div className="border border-slate-900 rounded-xs p-2.5 print:p-1.5 bg-slate-50/50 print:bg-transparent">
+          <h2 className="text-[9.5px] print:text-[8.5px] font-bold uppercase tracking-wider text-slate-700 border-b border-slate-300 pb-0.5 mb-1.5 flex items-center justify-between">
             <span>Student Identification</span>
             <span className="font-mono text-slate-500 font-normal">{data.studentId}</span>
           </h2>
-          <div className="grid grid-cols-2 gap-y-1.5">
+          <div className="grid grid-cols-2 gap-y-1">
             <div>
-              <span className="text-slate-500 block text-[9px] uppercase">Legal Name:</span>
-              <span className="font-bold text-xs text-slate-950 font-serif">{data.studentName}</span>
+              <span className="text-slate-500 block text-[8.5px] uppercase">Legal Name:</span>
+              <span className="font-bold text-[11px] print:text-[10px] text-slate-950 font-serif">{data.studentName}</span>
             </div>
             <div>
-              <span className="text-slate-500 block text-[9px] uppercase">Date of Birth:</span>
-              <span className="font-semibold text-slate-900 font-mono">{data.dob}</span>
+              <span className="text-slate-500 block text-[8.5px] uppercase">Date of Birth:</span>
+              <span className="font-semibold text-slate-900 font-mono text-[10px] print:text-[9.5px]">{data.dob}</span>
             </div>
             <div>
-              <span className="text-slate-500 block text-[9px] uppercase">Gender:</span>
-              <span className="font-medium text-slate-900">{data.gender}</span>
+              <span className="text-slate-500 block text-[8.5px] uppercase">Gender:</span>
+              <span className="font-medium text-slate-900 text-[10px] print:text-[9.5px]">{data.gender}</span>
             </div>
             <div>
-              <span className="text-slate-500 block text-[9px] uppercase">Counselor:</span>
-              <span className="font-medium text-slate-900">{data.counselorName}</span>
+              <span className="text-slate-500 block text-[8.5px] uppercase">Counselor:</span>
+              <span className="font-medium text-slate-900 text-[10px] print:text-[9.5px]">{data.counselorName}</span>
             </div>
-            <div className="col-span-2 pt-1 border-t border-slate-200">
-              <span className="text-slate-500 block text-[9px] uppercase">Diploma Awarded:</span>
-              <span className="font-bold text-slate-900">{data.diplomaType}</span>
+            <div className="col-span-2 pt-0.5 border-t border-slate-200">
+              <span className="text-slate-500 block text-[8.5px] uppercase">Diploma Awarded:</span>
+              <span className="font-bold text-slate-900 text-[10px] print:text-[9.5px]">{data.diplomaType}</span>
             </div>
           </div>
         </div>
 
         {/* 右侧：学业核心统计 */}
-        <div className="border border-slate-900 rounded-xs p-3 bg-slate-50/50 print:bg-transparent">
-          <h2 className="text-[10px] font-bold uppercase tracking-wider text-slate-700 border-b border-slate-300 pb-1 mb-2 flex items-center justify-between">
+        <div className="border border-slate-900 rounded-xs p-2.5 print:p-1.5 bg-slate-50/50 print:bg-transparent">
+          <h2 className="text-[9.5px] print:text-[8.5px] font-bold uppercase tracking-wider text-slate-700 border-b border-slate-300 pb-0.5 mb-1.5 flex items-center justify-between">
             <span>Cumulative Academic Summary</span>
-            <span className="text-emerald-700 font-bold text-[9px] flex items-center gap-1">
-              <CheckCircle2 className="h-3 w-3" /> Graduated
+            <span className="text-emerald-700 font-bold text-[8.5px] flex items-center gap-1">
+              <CheckCircle2 className="h-2.5 w-2.5" /> Graduated
             </span>
           </h2>
-          <div className="grid grid-cols-2 gap-y-1.5">
+          <div className="grid grid-cols-2 gap-y-1">
             <div>
-              <span className="text-slate-500 block text-[9px] uppercase">Unweighted GPA (4.0):</span>
-              <span className="font-bold text-sm text-blue-950 font-mono">{data.unweightedGpa.toFixed(2)}</span>
+              <span className="text-slate-500 block text-[8.5px] uppercase">Unweighted GPA (4.0):</span>
+              <span className="font-bold text-xs print:text-[11px] text-blue-950 font-mono">{data.unweightedGpa.toFixed(2)}</span>
             </div>
             <div>
-              <span className="text-slate-500 block text-[9px] uppercase">Weighted GPA (5.0):</span>
-              <span className="font-bold text-sm text-indigo-950 font-mono">{data.weightedGpa.toFixed(2)}</span>
+              <span className="text-slate-500 block text-[8.5px] uppercase">Weighted GPA (5.0):</span>
+              <span className="font-bold text-xs print:text-[11px] text-indigo-950 font-mono">{data.weightedGpa.toFixed(2)}</span>
             </div>
             <div>
-              <span className="text-slate-500 block text-[9px] uppercase">Class Rank:</span>
-              <span className="font-semibold text-slate-900 font-mono">{data.classRank}</span>
+              <span className="text-slate-500 block text-[8.5px] uppercase">Class Rank:</span>
+              <span className="font-semibold text-slate-900 font-mono text-[10px] print:text-[9.5px]">{data.classRank}</span>
             </div>
             <div>
-              <span className="text-slate-500 block text-[9px] uppercase">Total Credits Earned:</span>
-              <span className="font-bold text-slate-900 font-mono">{data.totalCreditsEarned.toFixed(2)}</span>
+              <span className="text-slate-500 block text-[8.5px] uppercase">Total Credits Earned:</span>
+              <span className="font-bold text-slate-900 font-mono text-[10px] print:text-[9.5px]">{data.totalCreditsEarned.toFixed(2)}</span>
             </div>
-            <div className="col-span-2 pt-1 border-t border-slate-200">
-              <span className="text-slate-500 block text-[9px] uppercase">Graduation Date:</span>
-              <span className="font-bold text-slate-900 font-mono">{data.graduationDate}</span>
+            <div className="col-span-2 pt-0.5 border-t border-slate-200">
+              <span className="text-slate-500 block text-[8.5px] uppercase">Graduation Date:</span>
+              <span className="font-bold text-slate-900 font-mono text-[10px] print:text-[9.5px]">{data.graduationDate}</span>
             </div>
           </div>
         </div>
       </div>
 
-      {/* 第二行：四年学业明细 (4-Year Academic History 2x2 网格) */}
-      <div className="border-t-2 border-slate-900 pt-3">
-        <h2 className="text-xs font-bold uppercase tracking-wider text-slate-900 mb-2 font-sans flex items-center justify-between">
+      {/* 第二行：四年学业明细 (4-Year Academic History 2x2 网格，锁定 2 列) */}
+      <div className="border-t-2 border-slate-900 pt-2 print:pt-1">
+        <h2 className="text-xs print:text-[10px] font-bold uppercase tracking-wider text-slate-900 mb-1.5 print:mb-1 font-sans flex items-center justify-between">
           <span>Complete Secondary Coursework & Marks</span>
-          <span className="text-[10px] text-slate-500 font-normal">H = Honors (+0.5) · AP = Advanced Placement (+1.0)</span>
+          <span className="text-[9px] print:text-[8px] text-slate-500 font-normal">H = Honors (+0.5) · AP = Advanced Placement (+1.0)</span>
         </h2>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+        <div className="grid grid-cols-2 gap-2 print:gap-1.5">
           {data.academicYears.map((year, yrIdx) => (
             <div key={year.gradeLevel} className="border border-slate-800 rounded-xs overflow-hidden">
               {/* 年级小标题 */}
-              <div className="bg-slate-900 text-white px-2.5 py-1 text-[10px] font-sans font-bold flex items-center justify-between">
+              <div className="bg-slate-900 text-white px-2 py-0.5 text-[9.5px] print:text-[8.5px] font-sans font-bold flex items-center justify-between">
                 <span>{year.gradeLevel}</span>
                 <span className="font-mono text-slate-300 font-normal">{year.schoolYear}</span>
               </div>
 
               {/* 课程明细表格 */}
-              <table className="w-full text-left border-collapse text-[10px]">
+              <table className="w-full text-left border-collapse text-[9.5px] print:text-[8px] leading-tight">
                 <thead>
-                  <tr className="border-b border-slate-300 bg-slate-100 font-sans text-slate-700 text-[9px]">
-                    <th className="py-1 px-1.5 w-14">Code</th>
-                    <th className="py-1 px-1.5">Course Description</th>
-                    <th className="py-1 px-1 text-center w-7">S1</th>
-                    <th className="py-1 px-1 text-center w-7">S2</th>
-                    <th className="py-1 px-1 text-center w-8">Mark</th>
-                    <th className="py-1 px-1.5 text-right w-9">Credit</th>
+                  <tr className="border-b border-slate-300 bg-slate-100 font-sans text-slate-700 text-[8.5px] print:text-[7.5px]">
+                    <th className="py-0.5 print:py-[1px] px-1.5 w-12">Code</th>
+                    <th className="py-0.5 print:py-[1px] px-1">Course Description</th>
+                    <th className="py-0.5 print:py-[1px] px-0.5 text-center w-6">S1</th>
+                    <th className="py-0.5 print:py-[1px] px-0.5 text-center w-6">S2</th>
+                    <th className="py-0.5 print:py-[1px] px-0.5 text-center w-7">Mark</th>
+                    <th className="py-0.5 print:py-[1px] px-1 text-right w-8">Credit</th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-slate-200/80 font-sans">
                   {year.courses.map((c, cIdx) => (
                     <tr key={c.code + cIdx} className="hover:bg-slate-50 transition-colors">
-                      <td className="py-1 px-1.5 font-mono text-[9px] text-slate-500">{c.code}</td>
-                      <td className="py-1 px-1.5 font-medium text-slate-900 truncate max-w-[190px]">
+                      <td className="py-0.5 print:py-[1px] px-1.5 font-mono text-[8.5px] print:text-[7.5px] text-slate-500">{c.code}</td>
+                      <td className="py-0.5 print:py-[1px] px-1 font-medium text-slate-900 truncate max-w-[170px] print:max-w-[155px]">
                         {isEditable ? (
                           <input
                             type="text"
@@ -267,9 +266,9 @@ export function TranscriptSheet({
                           c.title
                         )}
                       </td>
-                      <td className="py-1 px-1 text-center font-bold font-mono text-slate-800">{c.sem1}</td>
-                      <td className="py-1 px-1 text-center font-bold font-mono text-slate-800">{c.sem2}</td>
-                      <td className="py-1 px-1 text-center font-bold font-mono text-blue-900 bg-blue-50/50">
+                      <td className="py-0.5 print:py-[1px] px-0.5 text-center font-bold font-mono text-slate-800">{c.sem1}</td>
+                      <td className="py-0.5 print:py-[1px] px-0.5 text-center font-bold font-mono text-slate-800">{c.sem2}</td>
+                      <td className="py-0.5 print:py-[1px] px-0.5 text-center font-bold font-mono text-blue-900 bg-blue-50/50 print:bg-transparent">
                         {isEditable ? (
                           <input
                             type="text"
@@ -281,17 +280,17 @@ export function TranscriptSheet({
                           c.finalGrade
                         )}
                       </td>
-                      <td className="py-1 px-1.5 text-right font-mono text-slate-700 font-medium">{c.credits.toFixed(2)}</td>
+                      <td className="py-0.5 print:py-[1px] px-1 text-right font-mono text-slate-700 font-medium">{c.credits.toFixed(2)}</td>
                     </tr>
                   ))}
                 </tbody>
                 <tfoot>
-                  <tr className="border-t border-slate-300 bg-slate-50/70 font-sans text-[9px] font-bold text-slate-800">
-                    <td colSpan={2} className="py-1 px-1.5">
+                  <tr className="border-t border-slate-300 bg-slate-50/70 print:bg-transparent font-sans text-[8.5px] print:text-[7.5px] font-bold text-slate-800">
+                    <td colSpan={2} className="py-0.5 print:py-[1px] px-1.5">
                       Term Credits: <span className="font-mono">{year.termCredits.toFixed(2)}</span>
                     </td>
-                    <td colSpan={4} className="py-1 px-1.5 text-right">
-                      Term Weighted GPA: <span className="font-mono text-blue-900 text-[10px]">{year.termGpa.toFixed(2)}</span>
+                    <td colSpan={4} className="py-0.5 print:py-[1px] px-1 text-right">
+                      Term Weighted GPA: <span className="font-mono text-blue-900 text-[9px] print:text-[8px]">{year.termGpa.toFixed(2)}</span>
                     </td>
                   </tr>
                 </tfoot>
@@ -301,24 +300,24 @@ export function TranscriptSheet({
         </div>
       </div>
 
-      {/* 第三行：标化成绩、学术荣誉与评分对照表 */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-3 my-3 pt-3 border-t border-slate-300 text-[10px] font-sans">
+      {/* 第三行：标化成绩、学术荣誉与评分对照表 (锁定 3 列并排网格) */}
+      <div className="grid grid-cols-3 gap-2 my-2 print:my-1 pt-2 print:pt-1 border-t border-slate-300 text-[9.5px] print:text-[8px] font-sans">
         {/* 标化成绩 */}
-        <div className="border border-slate-300 p-2.5 rounded-xs">
-          <span className="font-bold text-slate-900 block border-b border-slate-200 pb-1 mb-1.5 uppercase text-[9px] tracking-wide">
+        <div className="border border-slate-300 p-2 print:p-1.5 rounded-xs">
+          <span className="font-bold text-slate-900 block border-b border-slate-200 pb-0.5 mb-1 uppercase text-[8.5px] print:text-[7.5px] tracking-wide">
             College Board Testing
           </span>
           {data.satScore && (
-            <div className="space-y-1">
+            <div className="space-y-0.5">
               <div className="flex justify-between font-mono">
                 <span className="text-slate-600">SAT Reasoning Test:</span>
                 <span className="font-bold text-slate-900">{data.satScore.total}</span>
               </div>
-              <div className="flex justify-between text-[9px] text-slate-500 font-mono">
+              <div className="flex justify-between text-[8.5px] print:text-[7.5px] text-slate-500 font-mono">
                 <span>EBRW: {data.satScore.erw}</span>
                 <span>Math: {data.satScore.math}</span>
               </div>
-              <div className="flex justify-between text-[9px] text-slate-500 pt-1 border-t border-slate-100">
+              <div className="flex justify-between text-[8.5px] print:text-[7.5px] text-slate-500 pt-0.5 border-t border-slate-100">
                 <span>ACT Composite:</span>
                 <span className="font-bold font-mono text-slate-800">{data.actScore || 32}</span>
               </div>
@@ -327,26 +326,26 @@ export function TranscriptSheet({
         </div>
 
         {/* 学术荣誉 */}
-        <div className="border border-slate-300 p-2.5 rounded-xs">
-          <span className="font-bold text-slate-900 block border-b border-slate-200 pb-1 mb-1.5 uppercase text-[9px] tracking-wide">
+        <div className="border border-slate-300 p-2 print:p-1.5 rounded-xs">
+          <span className="font-bold text-slate-900 block border-b border-slate-200 pb-0.5 mb-1 uppercase text-[8.5px] print:text-[7.5px] tracking-wide">
             Honors & Distinctions
           </span>
-          <ul className="space-y-1 text-slate-700 text-[9px]">
+          <ul className="space-y-0.5 text-slate-700 text-[8.5px] print:text-[7.5px]">
             {data.honors.map((h, i) => (
               <li key={i} className="flex items-start gap-1">
                 <span className="text-blue-700 font-bold">•</span>
-                <span>{h}</span>
+                <span className="truncate">{h}</span>
               </li>
             ))}
           </ul>
         </div>
 
         {/* 评分刻度机制 */}
-        <div className="border border-slate-300 p-2.5 rounded-xs">
-          <span className="font-bold text-slate-900 block border-b border-slate-200 pb-1 mb-1.5 uppercase text-[9px] tracking-wide">
+        <div className="border border-slate-300 p-2 print:p-1.5 rounded-xs">
+          <span className="font-bold text-slate-900 block border-b border-slate-200 pb-0.5 mb-1 uppercase text-[8.5px] print:text-[7.5px] tracking-wide">
             Grading Scale Legend
           </span>
-          <div className="grid grid-cols-2 gap-x-2 text-[9px] font-mono text-slate-600">
+          <div className="grid grid-cols-2 gap-x-2 text-[8.5px] print:text-[7.5px] font-mono text-slate-600">
             <div>A+ (97-100) 4.0</div>
             <div>B+ (87-89) 3.3</div>
             <div>A  (93-96)  4.0</div>
@@ -354,32 +353,32 @@ export function TranscriptSheet({
             <div>A- (90-92)  3.7</div>
             <div>C  (73-76) 2.0</div>
           </div>
-          <div className="mt-1 text-[8px] text-slate-500 italic">
+          <div className="mt-0.5 text-[7.5px] print:text-[7px] text-slate-500 italic">
             Passing Grade: D (65) · Credit = 1.0/year
           </div>
         </div>
       </div>
 
       {/* 底部：法定认证签署与官方印章 */}
-      <div className="border-t-2 border-slate-900 pt-3 mt-4">
-        <p className="text-[9px] text-slate-600 italic text-center font-serif mb-4">
+      <div className="border-t-2 border-slate-900 pt-2 print:pt-1.5 mt-2 print:mt-1">
+        <p className="text-[8.5px] print:text-[7.5px] text-slate-600 italic text-center font-serif mb-2 print:mb-1">
           I hereby certify that this is a true, authentic, and complete official academic record of the student named above.
           Valid only with authorized signature and embossed institutional seal.
         </p>
 
-        <div className="grid grid-cols-3 items-end gap-4 text-center">
+        <div className="grid grid-cols-3 items-end gap-3 print:gap-2 text-center">
           {/* 校长签署 */}
           <div className="flex flex-col items-center">
-            <div className="h-9 flex items-end">
-              <span className="font-signature-formal text-2xl text-[#001f3f] -rotate-2 select-none leading-none">
+            <div className="h-8 print:h-7 flex items-end">
+              <span className="font-signature-formal text-2xl print:text-xl text-[#001f3f] -rotate-2 select-none leading-none">
                 {data.principalName}
               </span>
             </div>
-            <div className="w-full border-t border-slate-900 mt-1 pt-1">
-              <span className="font-sans text-[9px] uppercase font-bold text-slate-800 block">
+            <div className="w-full border-t border-slate-900 mt-1 pt-0.5">
+              <span className="font-sans text-[8.5px] print:text-[8px] uppercase font-bold text-slate-800 block">
                 Principal Signature
               </span>
-              <span className="font-sans text-[8px] text-slate-500">{data.principalName}</span>
+              <span className="font-sans text-[8px] print:text-[7.5px] text-slate-500">{data.principalName}</span>
             </div>
           </div>
 
@@ -388,28 +387,28 @@ export function TranscriptSheet({
             {sealStyle === "crimson" ? (
               /* 1. 美高纸质正件最常用：教务处酒红/深红印泥印鉴 (Crimson Inked Stamp) */
               <div className="relative flex flex-col items-center justify-center">
-                <div className="relative rounded-full p-1.5 border-4 border-double border-[#991b1b] bg-red-50/20 shadow-xs">
+                <div className="relative rounded-full p-1 border-3 border-double border-[#991b1b] bg-red-50/20 shadow-xs">
                   <img
                     src={getHighSchoolLogoUrl(data.schoolName, data.schoolState)}
                     alt="Official Accredited Registrar Seal"
-                    className="h-20 w-20 sm:h-24 sm:w-24 md:h-26 md:w-26 object-contain filter contrast-150 sepia hue-rotate-[320deg] brightness-75"
+                    className="h-16 w-16 sm:h-20 sm:w-20 print:h-14 print:w-14 object-contain filter contrast-150 sepia hue-rotate-[320deg] brightness-75"
                   />
                 </div>
-                <span className="text-[7px] font-sans font-black text-[#991b1b] uppercase tracking-widest mt-1">
+                <span className="text-[6.5px] font-sans font-black text-[#991b1b] uppercase tracking-widest mt-0.5">
                   OFFICIAL REGISTRAR EMBOSSED SEAL
                 </span>
               </div>
             ) : sealStyle === "gold" ? (
               /* 2. 纸质毕业档：烫金防伪齿轮钢印 (Gold Foil Embossed Notary Seal) */
               <div className="relative flex flex-col items-center justify-center">
-                <div className="relative rounded-full p-1.5 border-4 border-dashed border-[#b45309] bg-amber-50/40 shadow-xs">
+                <div className="relative rounded-full p-1 border-3 border-dashed border-[#b45309] bg-amber-50/40 shadow-xs">
                   <img
                     src={getHighSchoolLogoUrl(data.schoolName, data.schoolState)}
                     alt="Official Accredited Registrar Seal"
-                    className="h-20 w-20 sm:h-24 sm:w-24 md:h-26 md:w-26 object-contain filter contrast-125 sepia hue-rotate-[10deg] brightness-90"
+                    className="h-16 w-16 sm:h-20 sm:w-20 print:h-14 print:w-14 object-contain filter contrast-125 sepia hue-rotate-[10deg] brightness-90"
                   />
                 </div>
-                <span className="text-[7px] font-sans font-black text-[#b45309] uppercase tracking-widest mt-1">
+                <span className="text-[6.5px] font-sans font-black text-[#b45309] uppercase tracking-widest mt-0.5">
                   OFFICIAL GOLD EMBOSSED NOTARY
                 </span>
               </div>
@@ -419,9 +418,9 @@ export function TranscriptSheet({
                 <img
                   src={getHighSchoolLogoUrl(data.schoolName, data.schoolState)}
                   alt="Official Accredited Registrar Seal"
-                  className="h-22 w-22 sm:h-26 sm:w-26 md:h-28 md:w-28 object-contain drop-shadow-md"
+                  className="h-18 w-18 sm:h-22 sm:w-22 print:h-15 print:w-15 object-contain drop-shadow-md"
                 />
-                <span className="text-[7.5px] font-sans font-bold text-slate-600 uppercase tracking-widest mt-1">
+                <span className="text-[7px] font-sans font-bold text-slate-600 uppercase tracking-widest mt-0.5">
                   OFFICIAL EMBOSSED SEAL
                 </span>
               </div>
@@ -430,16 +429,16 @@ export function TranscriptSheet({
 
           {/* 教务主任/注册处 */}
           <div className="flex flex-col items-center">
-            <div className="h-9 flex items-end">
-              <span className="font-signature-formal text-2xl text-[#001f3f] -rotate-1 select-none leading-none">
+            <div className="h-8 print:h-7 flex items-end">
+              <span className="font-signature-formal text-2xl print:text-xl text-[#001f3f] -rotate-1 select-none leading-none">
                 {data.registrarName}
               </span>
             </div>
-            <div className="w-full border-t border-slate-900 mt-1 pt-1">
-              <span className="font-sans text-[9px] uppercase font-bold text-slate-800 block">
+            <div className="w-full border-t border-slate-900 mt-1 pt-0.5">
+              <span className="font-sans text-[8.5px] print:text-[8px] uppercase font-bold text-slate-800 block">
                 Registrar / Date Issued
               </span>
-              <span className="font-mono text-[8px] text-slate-600 font-semibold">{data.issueDate}</span>
+              <span className="font-mono text-[8px] print:text-[7.5px] text-slate-600 font-semibold">{data.issueDate}</span>
             </div>
           </div>
         </div>
