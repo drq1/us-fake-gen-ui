@@ -473,7 +473,7 @@ export function AdmissionLetterModal({
                 {letterData.signatoryName2 ? (
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 pt-2">
                     <div>
-                      <div className="font-serif italic text-2xl font-bold text-blue-950 font-script tracking-wide py-1">
+                      <div className="font-signature-formal text-3xl font-normal text-[#002244] tracking-wide py-1 select-none transform -rotate-1">
                         {letterData.signatoryName}
                       </div>
                       <p className="text-xs font-serif font-bold text-slate-900 mt-1">
@@ -484,7 +484,7 @@ export function AdmissionLetterModal({
                       </p>
                     </div>
                     <div>
-                      <div className="font-serif italic text-2xl font-bold text-blue-950 font-script tracking-wide py-1">
+                      <div className="font-signature-formal text-3xl font-normal text-[#002244] tracking-wide py-1 select-none transform -rotate-1">
                         {letterData.signatoryName2}
                       </div>
                       <p className="text-xs font-serif font-bold text-slate-900 mt-1">
@@ -497,7 +497,7 @@ export function AdmissionLetterModal({
                   </div>
                 ) : (
                   <div>
-                    <div className="font-serif italic text-2xl font-bold text-blue-950 font-script tracking-wide py-1">
+                    <div className="font-signature-formal text-3xl font-normal text-[#002244] tracking-wide py-1 select-none transform -rotate-1">
                       {letterData.signatoryName}
                     </div>
                     <p className="text-xs font-serif font-bold text-slate-900 mt-1">

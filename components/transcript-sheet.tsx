@@ -342,7 +342,7 @@ export function TranscriptSheet({
           {/* 校长签署 */}
           <div className="flex flex-col items-center">
             <div className="h-9 flex items-end">
-              <span className="font-serif italic text-base text-blue-950 font-bold tracking-wider -rotate-2 select-none">
+              <span className="font-signature-formal text-2xl text-[#001f3f] -rotate-2 select-none leading-none">
                 {data.principalName}
               </span>
             </div>
@@ -373,7 +373,7 @@ export function TranscriptSheet({
           {/* 教务主任/注册处 */}
           <div className="flex flex-col items-center">
             <div className="h-9 flex items-end">
-              <span className="font-serif italic text-base text-blue-950 font-bold tracking-wider -rotate-1 select-none">
+              <span className="font-signature-formal text-2xl text-[#001f3f] -rotate-1 select-none leading-none">
                 {data.registrarName}
               </span>
             </div>

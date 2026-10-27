@@ -284,7 +284,7 @@ export function StandardUniversitySheet({
 
           <div className="flex items-center gap-4 shrink-0 text-center">
             <div className="relative">
-              <div className="font-serif italic text-2xl select-none font-bold py-0.5" style={{ color: themeColor }}>
+              <div className="font-signature-formal text-3xl select-none py-0.5 transform -rotate-1" style={{ color: themeColor }}>
                 {data.registrarName}
               </div>
               <div className="border-t border-slate-800 w-48 mt-1 pt-0.5 font-bold text-[11px] text-slate-900">

@@ -202,7 +202,7 @@ export function NyuSternSheet({
         </div>
         <div className="flex items-center gap-4 shrink-0 text-center">
           <div>
-            <div className="font-serif italic text-2xl text-[#57068c] select-none font-bold">
+            <div className="font-signature-formal text-3xl text-[#57068c] select-none py-0.5 transform -rotate-1">
               {data.registrarName}
             </div>
             <div className="border-t border-slate-800 w-44 pt-0.5 font-bold text-[11px] text-slate-900">

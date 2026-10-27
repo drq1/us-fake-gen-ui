@@ -181,8 +181,8 @@ export function DriverLicenseModal({
                       </div>
                       {/* 签名档 */}
                       <div className="mt-1.5 w-full text-center border-b border-slate-400/60 pb-0.5">
-                        <span className="font-serif italic font-bold text-xs text-blue-950 truncate block">
-                          {cardData.personName}
+                        <span className="font-signature-pen text-sm text-[#001f3f] truncate block transform -rotate-1 select-none font-bold">
+                          {cardData.firstName} {cardData.lastName}
                         </span>
                         <span className="text-[6.5px] text-slate-400 uppercase tracking-tighter block">SIGNATURE</span>
                       </div>

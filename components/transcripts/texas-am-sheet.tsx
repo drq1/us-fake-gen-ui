@@ -189,7 +189,7 @@ export function TexasAmSheet({
 
           <div className="flex items-center gap-4 shrink-0 text-center">
             <div>
-              <div className="font-serif italic text-2xl text-[#500000] select-none font-bold py-0.5">
+              <div className="font-signature-formal text-3xl text-[#1a237e] select-none py-0.5 transform -rotate-2">
                 Venesa A. Heidick
               </div>
               <div className="border-t border-slate-800 w-44 pt-0.5 font-bold text-[11px] text-slate-900">

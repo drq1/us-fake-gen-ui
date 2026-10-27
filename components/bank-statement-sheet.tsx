@@ -52,25 +52,36 @@ export function BankStatementSheet({
         <div>
           {isUsBank ? (
             <div className="flex items-center gap-2.5">
-              <div className="h-8 w-8 bg-[#0c2340] rounded-sm flex items-center justify-center text-[#d9272e] font-black text-sm border border-[#0c2340]">
-                <div className="w-4 h-4 bg-[#d9272e] rounded-xs" />
+              <div className="h-7 w-7 rounded-sm bg-[#0c2340] flex items-center justify-center relative shadow-xs">
+                <div className="w-3 h-3 bg-[#d9272e] rounded-2xs" />
               </div>
               <div>
-                <span className="text-2xl font-black tracking-tight text-[#0c2340] font-sans">
-                  us bank
+                <span className="text-xl sm:text-2xl font-black tracking-tight text-[#0c2340] font-sans lowercase">
+                  us<span className="text-[#d9272e]">bank</span>
                 </span>
-                <span className="text-[10px] text-slate-500 block uppercase font-bold tracking-widest">
+                <span className="text-[9px] text-slate-500 block uppercase font-bold tracking-widest -mt-0.5">
                   National Association
                 </span>
               </div>
             </div>
           ) : (
-            <div className="flex items-center gap-2">
-              <div className="h-8 w-10 bg-red-600 rounded-xs flex items-center justify-center text-white font-black text-xs tracking-tighter">
-                BofA
+            <div className="flex items-center gap-3">
+              <div className="flex flex-col gap-0.5">
+                <div className="flex gap-0.5">
+                  <div className="w-2.5 h-1.5 bg-[#e31837]" />
+                  <div className="w-2 h-1.5 bg-[#002d72]" />
+                </div>
+                <div className="flex gap-0.5">
+                  <div className="w-3.5 h-1.5 bg-[#e31837]" />
+                  <div className="w-1.5 h-1.5 bg-[#002d72]" />
+                </div>
+                <div className="flex gap-0.5">
+                  <div className="w-2 h-1.5 bg-[#e31837]" />
+                  <div className="w-3 h-1.5 bg-[#002d72]" />
+                </div>
               </div>
-              <span className="text-xl sm:text-2xl font-black tracking-tighter text-blue-950 font-serif">
-                {data.bankLogoText}
+              <span className="text-xl sm:text-2xl font-black tracking-tight text-[#002d72] font-sans">
+                Bank of America
               </span>
             </div>
           )}
@@ -188,7 +199,9 @@ export function BankStatementSheet({
           <p className="font-semibold text-slate-700">MEMBER FDIC · EQUAL HOUSING LENDER</p>
           <p>
             This official account statement is generated for address verification and banking records.
-            Bank of America, N.A. Member FDIC. © 2026 Bank of America Corporation. All rights reserved.
+            {isUsBank
+              ? " U.S. Bank National Association. Member FDIC. © 2024 U.S. Bank. All rights reserved."
+              : " Bank of America, N.A. Member FDIC. © 2024 Bank of America Corporation. All rights reserved."}
           </p>
         </div>
 

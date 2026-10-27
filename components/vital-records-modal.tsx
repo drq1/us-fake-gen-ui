@@ -272,11 +272,17 @@ export function VitalRecordsModal({
                     <div className="mt-6 pt-4 border-t border-slate-300 flex items-center justify-between text-xs font-sans">
                       <div>
                         <span className="text-[10px] text-slate-400 uppercase block">Attending Obstetrician / Physician</span>
-                        <span className="font-serif italic text-sm font-bold text-slate-900">Dr. Sarah Jenkins, M.D. - FACOG</span>
+                        <span className="font-signature-pen text-xl font-bold text-[#001f3f] block select-none transform -rotate-1">
+                          Dr. Sarah Jenkins, M.D.
+                        </span>
+                        <span className="text-[9.5px] text-slate-500 font-sans block">Attending Obstetrician, FACOG</span>
                       </div>
                       <div className="text-right">
                         <span className="text-[10px] text-slate-400 uppercase block">Hospital Administrator</span>
-                        <span className="font-bold text-slate-900">Registered Nurse, Obstetrics Admin</span>
+                        <span className="font-signature-formal text-xl font-bold text-slate-900 block select-none">
+                          Karen Sterling, R.N.
+                        </span>
+                        <span className="text-[9.5px] text-slate-500 font-sans block">Director of Obstetrics Admin</span>
                       </div>
                     </div>
                   </div>
@@ -351,8 +357,11 @@ export function VitalRecordsModal({
                   <div className="mt-8 pt-4 flex items-center justify-between text-xs">
                     <div>
                       <span className="text-[10px] text-slate-400 uppercase block">State Registrar Signature</span>
-                      <span className="font-serif italic text-sm font-bold text-slate-900">
-                        {birthVariant === "michigan" ? "Janet M. Olszewski, State Registrar" : records.birth.stateRegistrar}
+                      <span className="font-signature-formal text-2xl font-bold text-[#001f3f] block select-none transform -rotate-1 py-0.5">
+                        {birthVariant === "michigan" ? "Janet M. Olszewski" : records.birth.stateRegistrar.split("-")[0].trim()}
+                      </span>
+                      <span className="text-[9.5px] text-slate-500 font-sans block">
+                        {birthVariant === "michigan" ? "State Registrar of Michigan" : "State Registrar of Vital Statistics"}
                       </span>
                     </div>
                     <div className="h-16 w-16 rounded-full border-2 border-amber-800/80 flex flex-col items-center justify-center text-[8px] font-bold text-amber-900 text-center">
@@ -464,7 +473,9 @@ export function VitalRecordsModal({
                         <span className="block text-slate-700 font-bold mt-0.5">Issue Date: {records.ged.issueDate}</span>
                       </div>
                       <div className="text-right">
-                        <span className="font-serif italic font-bold text-sm block">{records.ged.superintendentName}</span>
+                        <span className="font-signature-formal text-2xl font-bold text-slate-900 block select-none">
+                          {records.ged.superintendentName}
+                        </span>
                         <span className="text-[10px] text-slate-500">State Superintendent of Public Instruction</span>
                       </div>
                     </div>
@@ -498,12 +509,18 @@ export function VitalRecordsModal({
 
                   <div className="mt-8 pt-4 border-t border-amber-200 flex justify-between items-center text-xs font-sans">
                     <div>
-                      <span className="text-[10px] text-slate-400 block">Officiant</span>
-                      <span className="font-serif italic font-bold text-slate-800">{records.marriage.officiantName}</span>
+                      <span className="text-[10px] text-slate-400 block">Officiant Signature</span>
+                      <span className="font-signature text-2xl font-bold text-[#3d2314] block select-none transform -rotate-2">
+                        {records.marriage.officiantName}
+                      </span>
+                      <span className="text-[9.5px] text-slate-500 font-sans block">Ordained Minister / Officiant</span>
                     </div>
                     <div className="text-right">
-                      <span className="text-[10px] text-slate-400 block">Attested by</span>
-                      <span className="font-bold text-slate-800">{records.marriage.countyClerkName}</span>
+                      <span className="text-[10px] text-slate-400 block">Attested by County Clerk</span>
+                      <span className="font-signature-pen text-xl font-bold text-slate-900 block select-none">
+                        {records.marriage.countyClerkName}
+                      </span>
+                      <span className="text-[9.5px] text-slate-500 font-sans block">County Clerk of Vital Statistics</span>
                     </div>
                   </div>
                 </div>
@@ -613,7 +630,9 @@ export function VitalRecordsModal({
                         <span className="font-semibold text-slate-800">Issue: {records.skill.issueDate} · Exp: {records.skill.expDate}</span>
                       </div>
                       <div className="text-right">
-                        <span className="font-serif italic font-bold text-sm block">{records.skill.instructorName}</span>
+                        <span className="font-signature-pen text-xl font-bold text-[#001f3f] block select-none">
+                          {records.skill.instructorName}
+                        </span>
                         <span className="text-[10px] text-slate-500">Certified Authorized Instructor</span>
                       </div>
                     </div>
