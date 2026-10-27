@@ -32,11 +32,7 @@ export function TexasAmSheet({
 
       {/* 居中半透明德州农工官方巨幅印章水印 */}
       <div className="pointer-events-none absolute inset-0 flex items-center justify-center overflow-hidden z-0 select-none">
-        <div className="h-96 w-96 rounded-full border-8 border-dashed border-[#500000]/10 flex flex-col items-center justify-center text-[#500000]/12 font-serif font-black">
-          <div className="text-6xl font-bold">ATM</div>
-          <div className="text-sm tracking-widest uppercase mt-2">TEXAS A&M UNIVERSITY</div>
-          <div className="text-xs tracking-widest mt-1">1876</div>
-        </div>
+        <img src="/logos/texas_am.svg" alt="" className="h-96 w-96 object-contain opacity-5 grayscale" />
       </div>
 
       {/* 附加水印层 */}
@@ -53,15 +49,18 @@ export function TexasAmSheet({
       {/* 核心票据内容区域 */}
       <div className="relative z-1">
         {/* 顶部：德州农工官方抬头 */}
-        <div className="text-center border-b-2 border-[#500000] pb-3 mb-3">
-          <h1 className="text-2xl sm:text-3xl font-black tracking-widest text-[#500000] uppercase">
-            TEXAS A&M UNIVERSITY
-          </h1>
-          <div className="text-xs font-bold tracking-wider text-slate-800 uppercase mt-0.5">
-            OFFICE OF THE REGISTRAR · P.O. BOX 30014 · COLLEGE STATION, TEXAS 77842-4014
-          </div>
-          <div className="text-[10px] text-slate-600 mt-0.5">
-            PHONE: (979) 845-1003 · FICE CODE: 003632 · OFFICIAL SECURITY TRANSCRIPT
+        <div className="border-b-2 border-[#500000] pb-3 mb-3 flex items-center justify-center gap-4 text-center">
+          <img src="/logos/texas_am.svg" alt="Texas A&M Seal" className="h-16 w-16 object-contain shrink-0" />
+          <div>
+            <h1 className="text-2xl sm:text-3xl font-black tracking-widest text-[#500000] uppercase">
+              TEXAS A&M UNIVERSITY
+            </h1>
+            <div className="text-xs font-bold tracking-wider text-slate-800 uppercase mt-0.5">
+              OFFICE OF THE REGISTRAR · P.O. BOX 30014 · COLLEGE STATION, TEXAS 77842-4014
+            </div>
+            <div className="text-[10px] text-slate-600 mt-0.5">
+              PHONE: (979) 845-1003 · FICE CODE: 003632 · OFFICIAL SECURITY TRANSCRIPT
+            </div>
           </div>
         </div>
 

@@ -12,10 +12,13 @@ import {
 } from "@/lib/admission-letter-generator"
 import {
   HarvardVeritasShield,
-  MitStripesLogo,
+  MitSloanLogo,
   UChicagoPhoenixBadge,
   TempleDiamondT,
   RitTigerEmblem,
+  BerkeleyOfficialSeal,
+  CsufOfficialSeal,
+  VictoriaUniversityLogo,
 } from "@/components/brand-logos"
 
 interface AdmissionLetterModalProps {
@@ -168,28 +171,34 @@ export function AdmissionLetterModal({
               {/* 院校 1:1 官方原版题头 */}
               {letterData.sealType === "berkeley" ? (
                 <div className="mb-8">
-                  <div className="text-center font-serif tracking-widest text-base sm:text-lg font-bold text-slate-900 uppercase">
-                    University of California, Berkeley
-                  </div>
-                  <div className="mt-2 border-t border-b border-slate-800 py-1 flex items-center justify-between text-[7px] sm:text-[8px] font-sans tracking-tight text-slate-600 uppercase">
-                    <span className="truncate">BERKELEY · DAVIS · IRVINE · LOS ANGELES · MERCED · RIVERSIDE</span>
-                    <div className="mx-2 h-7 w-7 rounded-full border border-slate-900 bg-white flex items-center justify-center text-[6px] font-serif font-black shrink-0">
-                      CAL
+                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                    <div className="flex items-center gap-3.5">
+                      <BerkeleyOfficialSeal className="h-16 w-16 shadow-xs shrink-0" />
+                      <div>
+                        <div className="font-serif tracking-widest text-base sm:text-lg font-bold text-slate-900 uppercase">
+                          University of California, Berkeley
+                        </div>
+                        <div className="text-xs font-sans text-slate-600 font-semibold uppercase tracking-wider">
+                          Graduate Division · College of Engineering
+                        </div>
+                      </div>
                     </div>
+                    <div className="text-right text-[11px] font-sans text-slate-600 leading-tight">
+                      <div>424 Sproul Hall, MC 5900</div>
+                      <div>Berkeley, CA 94720</div>
+                    </div>
+                  </div>
+                  <div className="mt-3 border-t border-b border-slate-800 py-1 flex items-center justify-between text-[7px] sm:text-[8px] font-sans tracking-tight text-slate-600 uppercase">
+                    <span className="truncate">BERKELEY · DAVIS · IRVINE · LOS ANGELES · MERCED · RIVERSIDE</span>
                     <span className="truncate">SAN DIEGO · SAN FRANCISCO · SANTA BARBARA · SANTA CRUZ</span>
                   </div>
                 </div>
               ) : letterData.sealType === "mit" ? (
                 <div className="mb-8 border-b-2 border-[#a31f34] pb-4 flex flex-col sm:flex-row items-center justify-between gap-4 font-sans">
-                  {/* MIT Sloan 官方左侧标识 */}
+                  {/* MIT Sloan 官方权威全彩标识 */}
                   <div className="flex items-center gap-3">
-                    <div>
-                      <div className="text-2xl font-black text-[#a31f34] tracking-tight">MITSloan</div>
-                      <div className="text-[10px] tracking-[0.25em] font-bold text-slate-700 uppercase -mt-1">MANAGEMENT</div>
-                    </div>
+                    <MitSloanLogo className="h-11 w-auto" />
                   </div>
-                  {/* MIT 经典条纹标 */}
-                  <MitStripesLogo className="h-7 w-auto" />
                   {/* MIT Sloan 官方地址 */}
                   <div className="text-right text-[11px] text-slate-600 leading-snug">
                     <div className="font-bold text-slate-900">Massachusetts Institute of Technology</div>
@@ -237,13 +246,16 @@ export function AdmissionLetterModal({
                 </div>
               ) : letterData.sealType === "csuf" ? (
                 <div className="mb-8 border-b-2 border-[#00274c] pb-3 flex items-center justify-between font-sans">
-                  <div>
-                    <h1 className="text-lg sm:text-xl font-black tracking-tight text-[#00274c] uppercase">
-                      CALIFORNIA STATE UNIVERSITY, FULLERTON
-                    </h1>
-                    <p className="text-xs tracking-wider text-[#f26a36] font-bold uppercase">
-                      Office of Admissions and Records
-                    </p>
+                  <div className="flex items-center gap-3">
+                    <CsufOfficialSeal className="h-14 w-14 shadow-xs shrink-0" />
+                    <div>
+                      <h1 className="text-lg sm:text-xl font-black tracking-tight text-[#00274c] uppercase">
+                        CALIFORNIA STATE UNIVERSITY, FULLERTON
+                      </h1>
+                      <p className="text-xs tracking-wider text-[#f26a36] font-bold uppercase">
+                        Office of Admissions and Records
+                      </p>
+                    </div>
                   </div>
                   <div className="text-right text-[11px] text-slate-600 leading-tight">
                     <div>P.O. Box 6900</div>
@@ -271,9 +283,7 @@ export function AdmissionLetterModal({
               ) : letterData.sealType === "victoria" ? (
                 <div className="mb-8 border-b-2 border-[#002f6c] pb-3 flex items-center justify-between font-sans">
                   <div className="flex items-center gap-2.5">
-                    <div className="h-9 w-9 bg-[#002f6c] text-[#ffd100] flex items-center justify-center font-bold text-lg rounded-sm shadow-xs">
-                      VU
-                    </div>
+                    <VictoriaUniversityLogo className="h-10 w-auto shadow-xs" />
                     <div>
                       <h1 className="text-lg sm:text-xl font-black tracking-tight text-[#002f6c] uppercase">
                         VICTORIA UNIVERSITY

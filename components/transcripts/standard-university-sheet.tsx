@@ -3,6 +3,7 @@
 import React from "react"
 import type { UniversityTranscriptData } from "@/lib/university-transcript-types"
 import { Award, CheckCircle2 } from "lucide-react"
+import { getUniversityLogoUrl } from "@/components/brand-logos"
 
 export interface StandardUniversitySheetProps {
   data: UniversityTranscriptData
@@ -79,12 +80,27 @@ export function StandardUniversitySheet({
         {/* 顶部：院校抬头与教务长公章 */}
         <div className="border-b-2 border-slate-900 pb-3 text-center relative">
           <div className="flex items-center justify-center gap-3">
-            <div
-              className="h-10 w-10 sm:h-12 sm:w-12 rounded-full border-2 flex items-center justify-center font-sans font-bold text-xs sm:text-sm shrink-0"
-              style={{ borderColor: themeColor, color: themeColor, backgroundColor: `${themeColor}10` }}
-            >
-              {isHarvard ? "VERITAS" : isMit ? "MIT" : isUcla ? "UCLA" : "SEAL"}
-            </div>
+            {(() => {
+              const queryName = isHarvard ? "harvard" : isMit ? "mit" : isUcla ? "ucla" : data.universityName
+              const logoUrl = getUniversityLogoUrl(queryName)
+              if (logoUrl) {
+                return (
+                  <img
+                    src={logoUrl}
+                    alt="University Official Seal"
+                    className="h-12 w-12 object-contain shrink-0 drop-shadow-xs"
+                  />
+                )
+              }
+              return (
+                <div
+                  className="h-10 w-10 sm:h-12 sm:w-12 rounded-full border-2 flex items-center justify-center font-sans font-bold text-xs sm:text-sm shrink-0"
+                  style={{ borderColor: themeColor, color: themeColor, backgroundColor: `${themeColor}10` }}
+                >
+                  SEAL
+                </div>
+              )
+            })()}
             <div>
               {isEditable ? (
                 <input

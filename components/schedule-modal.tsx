@@ -152,13 +152,16 @@ export function ScheduleModal({
               {activeTab === "schedule" && (
                 <div>
                   {/* MIT 经典深酒红官方题头 */}
-                  <div className="bg-[#8b152b] text-white py-4 px-6 text-center">
-                    <h1 className="text-lg sm:text-xl font-bold tracking-tight">
-                      Massachusetts Institute of Technology
-                    </h1>
-                    <p className="text-xs text-rose-100 font-medium mt-0.5">
-                      Student Course Schedule
-                    </p>
+                  <div className="bg-[#8b152b] text-white py-4 px-6 text-center flex items-center justify-center gap-3">
+                    <img src="/logos/mit.svg" alt="MIT Logo" className="h-7 w-auto object-contain brightness-0 invert shrink-0" />
+                    <div>
+                      <h1 className="text-lg sm:text-xl font-bold tracking-tight">
+                        Massachusetts Institute of Technology
+                      </h1>
+                      <p className="text-xs text-rose-100 font-medium mt-0.5">
+                        Student Course Schedule
+                      </p>
+                    </div>
                   </div>
 
                   {/* 次级题头条 */}
@@ -221,13 +224,16 @@ export function ScheduleModal({
               {activeTab === "tuition" && (
                 <div>
                   {/* MIT 经典深酒红官方题头 */}
-                  <div className="bg-[#8b152b] text-white py-4 px-6 text-center">
-                    <h1 className="text-lg sm:text-xl font-bold tracking-tight">
-                      Massachusetts Institute of Technology
-                    </h1>
-                    <p className="text-xs text-rose-100 font-medium mt-0.5">
-                      Student Business Services
-                    </p>
+                  <div className="bg-[#8b152b] text-white py-4 px-6 text-center flex items-center justify-center gap-3">
+                    <img src="/logos/mit.svg" alt="MIT Logo" className="h-7 w-auto object-contain brightness-0 invert shrink-0" />
+                    <div>
+                      <h1 className="text-lg sm:text-xl font-bold tracking-tight">
+                        Massachusetts Institute of Technology
+                      </h1>
+                      <p className="text-xs text-rose-100 font-medium mt-0.5">
+                        Student Business Services
+                      </p>
+                    </div>
                   </div>
 
                   {/* 次级题头条 */}
