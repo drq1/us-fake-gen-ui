@@ -42,6 +42,7 @@ export default function HomePage() {
   const [scheduleTab, setScheduleTab] = useState<"schedule" | "tuition">("schedule")
   const [licenseModalOpen, setLicenseModalOpen] = useState(false)
   const [licenseState, setLicenseState] = useState<string | undefined>(undefined)
+  const [licenseGender, setLicenseGender] = useState<"M" | "F" | undefined>(undefined)
   const [vitalModalOpen, setVitalModalOpen] = useState(false)
   const [vitalDocType, setVitalDocType] = useState<"birth" | "ged" | "marriage" | "skill">("birth")
   const [vitalVariant, setVitalVariant] = useState<string | undefined>(undefined)
@@ -515,10 +516,11 @@ export default function HomePage() {
           setScheduleTab(tab)
           setScheduleModalOpen(true)
         }}
-        onGenerateDriverLicense={(st) => {
+        onGenerateDriverLicense={(st, gender) => {
           setFromTemplatesModal(true)
           setTemplatesModalOpen(false)
           setLicenseState(st)
+          setLicenseGender(gender)
           setLicenseModalOpen(true)
         }}
         onGenerateVitalRecord={(docType = "birth", variant) => {
@@ -594,6 +596,7 @@ export default function HomePage() {
           }}
           person={data}
           defaultState={licenseState}
+          defaultGender={licenseGender}
         />
       )}
 

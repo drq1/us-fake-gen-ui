@@ -36,9 +36,15 @@ const parseBirthYear = (bday: string): number => {
   return 1998
 }
 
-export function generateDriverLicense(person: PersonData, targetState?: string): DriverLicenseData {
+export function generateDriverLicense(
+  person: PersonData,
+  targetState?: string,
+  genderOverride?: "M" | "F"
+): DriverLicenseData {
   const st = (targetState || person.state || "NY").toUpperCase()
   const birthYear = parseBirthYear(person.birthday)
+  const isFemale = genderOverride ? genderOverride === "F" : person.gender === "Female"
+  const sex: "M" | "F" = isFemale ? "F" : "M"
 
   // Ensure issue date is in past (<= 2024)
   const issYear = Math.min(Math.max(birthYear + 18, 2019), 2023)
@@ -90,9 +96,9 @@ export function generateDriverLicense(person: PersonData, targetState?: string):
     dob: person.birthday,
     issDate,
     expDate,
-    sex: person.gender === "Female" ? "F" : "M",
-    height: person.height || "5'-10\"",
-    weight: person.weight || "165 lb",
+    sex,
+    height: person.height || (isFemale ? "5'-05\"" : "5'-10\""),
+    weight: person.weight || (isFemale ? "128 lb" : "170 lb"),
     eyes,
     hair,
     licenseClass: "D - OPERATOR",

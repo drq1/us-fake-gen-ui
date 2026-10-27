@@ -31,7 +31,7 @@ interface ReferenceTemplatesModalProps {
   onGenerateTranscript?: (tab?: "highSchool" | "university" | "satAct", schoolStyle?: string) => void
   onGenerateAdmissionLetter?: (schoolId?: string) => void
   onGenerateSchedule?: (tab?: "schedule" | "tuition") => void
-  onGenerateDriverLicense?: (state?: string) => void
+  onGenerateDriverLicense?: (state?: string, gender?: "M" | "F") => void
   onGenerateVitalRecord?: (docType?: "birth" | "ged" | "marriage" | "skill", variant?: string) => void
 }
 
@@ -347,9 +347,12 @@ export function ReferenceTemplatesModal({
                     {item.category === "license" && onGenerateDriverLicense && (
                       <button
                         onClick={() => {
-                          const stateKey = item.name.toLowerCase().includes("york") ? "NY" :
-                            item.name.toLowerCase().includes("wisconsin") ? "WI" : undefined
-                          saveScrollAndTrigger(() => onGenerateDriverLicense(stateKey))
+                          const lower = item.name.toLowerCase()
+                          const stateKey = lower.includes("york") ? "NY" :
+                            lower.includes("wisconsin") ? "WI" : undefined
+                          const genderKey = lower.includes("female") ? "F" :
+                            lower.includes("male") ? "M" : undefined
+                          saveScrollAndTrigger(() => onGenerateDriverLicense(stateKey, genderKey))
                         }}
                         className="inline-flex items-center gap-1 px-2.5 py-1 rounded-md text-xs font-bold bg-amber-600 text-white hover:bg-amber-700 shadow-2xs transition-colors shrink-0"
                         title="一键生成当前人设美国 REAL ID 驾照实体卡面"

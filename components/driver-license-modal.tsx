@@ -12,6 +12,7 @@ interface DriverLicenseModalProps {
   onOpenChange: (open: boolean) => void
   person: PersonData
   defaultState?: string
+  defaultGender?: "M" | "F"
   onBackToTemplates?: () => void
 }
 
@@ -20,9 +21,13 @@ export function DriverLicenseModal({
   onOpenChange,
   person,
   defaultState,
+  defaultGender,
   onBackToTemplates,
 }: DriverLicenseModalProps) {
   const [selectedState, setSelectedState] = useState<string>(defaultState || person.state || "NY")
+  const [selectedGender, setSelectedGender] = useState<"M" | "F">(
+    defaultGender || (person.gender === "Female" ? "F" : "M")
+  )
   const [showBack, setShowBack] = useState(false)
   const [cardData, setCardData] = useState<DriverLicenseData | null>(null)
 
@@ -35,10 +40,18 @@ export function DriverLicenseModal({
   }, [defaultState, person.state])
 
   useEffect(() => {
-    if (person) {
-      setCardData(generateDriverLicense(person, selectedState))
+    if (defaultGender) {
+      setSelectedGender(defaultGender)
+    } else if (person.gender) {
+      setSelectedGender(person.gender === "Female" ? "F" : "M")
     }
-  }, [person, selectedState])
+  }, [defaultGender, person.gender])
+
+  useEffect(() => {
+    if (person) {
+      setCardData(generateDriverLicense(person, selectedState, selectedGender))
+    }
+  }, [person, selectedState, selectedGender])
 
   const handlePrint = () => {
     window.print()
@@ -98,6 +111,16 @@ export function DriverLicenseModal({
                 <option value="CA">加利福尼亚州 (CA)</option>
                 <option value="TX">德克萨斯州 (TX)</option>
                 <option value="FL">佛罗里达州 (FL)</option>
+              </select>
+
+              {/* 性别选择切换 */}
+              <select
+                value={selectedGender}
+                onChange={(e) => setSelectedGender(e.target.value as "M" | "F")}
+                className="h-8 text-xs font-semibold bg-white border border-slate-300 rounded-md px-2 focus:outline-hidden"
+              >
+                <option value="F">女性 (Female)</option>
+                <option value="M">男性 (Male)</option>
               </select>
 
               <Button

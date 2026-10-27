@@ -194,45 +194,23 @@ export function ScheduleModal({
                         </tr>
                       </thead>
                       <tbody className="divide-y divide-slate-100 text-slate-700">
-                        <tr className="hover:bg-slate-50/60">
-                          <td className="py-2.5 font-medium">CMST 1101</td>
-                          <td className="py-2.5">Business Statistics</td>
-                          <td className="py-2.5 text-center font-bold">3</td>
-                          <td className="py-2.5">Mon, Wed</td>
-                          <td className="py-2.5">10:00 AM</td>
-                          <td className="py-2.5 text-right font-mono text-slate-600">DPRH 210</td>
-                        </tr>
-                        <tr className="hover:bg-slate-50/60">
-                          <td className="py-2.5 font-medium">BLAW 2201</td>
-                          <td className="py-2.5">Legal Environment</td>
-                          <td className="py-2.5 text-center font-bold">3</td>
-                          <td className="py-2.5">Tue, Thu</td>
-                          <td className="py-2.5">10:05 AM</td>
-                          <td className="py-2.5 text-right font-mono text-slate-600">DPRH 238</td>
-                        </tr>
-                        <tr className="hover:bg-slate-50/60">
-                          <td className="py-2.5 font-medium">MRKT 2101</td>
-                          <td className="py-2.5">Professional Selling</td>
-                          <td className="py-2.5 text-center font-bold">4</td>
-                          <td className="py-2.5">Mon, Wed, Fri</td>
-                          <td className="py-2.5">10:05 AM</td>
-                          <td className="py-2.5 text-right font-mono text-slate-600">Williams</td>
-                        </tr>
-                        <tr className="hover:bg-slate-50/60">
-                          <td className="py-2.5 font-medium">FINC 3310</td>
-                          <td className="py-2.5">Principles of Finance</td>
-                          <td className="py-2.5 text-center font-bold">4</td>
-                          <td className="py-2.5">Mon, Wed</td>
-                          <td className="py-2.5">10:05 AM</td>
-                          <td className="py-2.5 text-right font-mono text-slate-600">Online</td>
-                        </tr>
+                        {scheduleData.courses.map((c, idx) => (
+                          <tr key={idx} className="hover:bg-slate-50/60">
+                            <td className="py-2.5 font-medium">{c.courseCode}</td>
+                            <td className="py-2.5">{c.title}</td>
+                            <td className="py-2.5 text-center font-bold">{c.credits}</td>
+                            <td className="py-2.5">{c.days || "Mon, Wed"}</td>
+                            <td className="py-2.5">{c.time || "10:00 AM"}</td>
+                            <td className="py-2.5 text-right font-mono text-slate-600">{c.room}</td>
+                          </tr>
+                        ))}
                       </tbody>
                     </table>
 
                     {/* 底部学分合计 */}
                     <div className="mt-6 pt-3 border-t border-slate-200 text-right">
                       <span className="text-xs sm:text-[13px] font-bold text-slate-900">
-                        Total Registered Credits: 14
+                        Total Registered Credits: {scheduleData.totalCredits}
                       </span>
                     </div>
                   </div>
@@ -285,37 +263,33 @@ export function ScheduleModal({
                         </tr>
                       </thead>
                       <tbody className="divide-y divide-slate-100 text-slate-700">
-                        <tr>
-                          <td className="py-2 font-medium">Tuition - Undergraduate (14 Credits)</td>
-                          <td className="py-2 text-right font-mono">$5,480.00</td>
-                        </tr>
-                        <tr>
-                          <td className="py-2 font-medium">University Tuition</td>
-                          <td className="py-2 text-right font-mono">$1,710.00</td>
-                        </tr>
-                        <tr>
-                          <td className="py-2 font-medium">Computer Service Fee</td>
-                          <td className="py-2 text-right font-mono">$210.00</td>
-                        </tr>
-                        <tr>
-                          <td className="py-2 font-medium">Library Fee</td>
-                          <td className="py-2 text-right font-mono">$125.00</td>
-                        </tr>
-                        <tr>
-                          <td className="py-2 font-medium">Health Insurance</td>
-                          <td className="py-2 text-right font-mono">$1,850.00</td>
-                        </tr>
+                        {scheduleData.tuitionItems.map((item, idx) => (
+                          <tr key={idx}>
+                            <td className="py-2 font-medium">{item.description}</td>
+                            <td className={`py-2 text-right font-mono ${item.payments > 0 ? "text-emerald-700 font-semibold" : ""}`}>
+                              {item.charges > 0
+                                ? `$${item.charges.toLocaleString("en-US", { minimumFractionDigits: 2 })}`
+                                : `-$${item.payments.toLocaleString("en-US", { minimumFractionDigits: 2 })}`}
+                            </td>
+                          </tr>
+                        ))}
                         <tr className="bg-slate-50 font-bold border-t border-b border-slate-200 text-slate-900">
                           <td className="py-2.5 px-2">TOTAL CHARGES</td>
-                          <td className="py-2.5 px-2 text-right font-mono">$9,375.00</td>
+                          <td className="py-2.5 px-2 text-right font-mono">
+                            ${scheduleData.totalCharges.toLocaleString("en-US", { minimumFractionDigits: 2 })}
+                          </td>
                         </tr>
                         <tr className="text-slate-600">
-                          <td className="py-2">Payments/Credits</td>
-                          <td className="py-2 text-right font-mono">-$9,375.00</td>
+                          <td className="py-2">Payments / Financial Aid Credits</td>
+                          <td className="py-2 text-right font-mono">
+                            -${scheduleData.totalPayments.toLocaleString("en-US", { minimumFractionDigits: 2 })}
+                          </td>
                         </tr>
                         <tr className="font-bold border-t border-slate-200 text-emerald-600 text-sm">
                           <td className="py-2.5">BALANCE DUE</td>
-                          <td className="py-2.5 text-right font-mono">$0.00</td>
+                          <td className="py-2.5 text-right font-mono">
+                            ${scheduleData.currentBalance.toLocaleString("en-US", { minimumFractionDigits: 2 })}
+                          </td>
                         </tr>
                       </tbody>
                     </table>

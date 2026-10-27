@@ -57,7 +57,7 @@ export function BankStatementModal({
     const url = URL.createObjectURL(blob)
     const a = document.createElement("a")
     a.href = url
-    a.download = `Bank_Statement_${person.fullName.replace(/\s+/g, "_")}.json`
+    a.download = `${selectedBank === "usbank" ? "US_Bank" : "BofA"}_Statement_${person.fullName.replace(/\s+/g, "_")}.json`
     document.body.appendChild(a)
     a.click()
     document.body.removeChild(a)
@@ -72,8 +72,10 @@ export function BankStatementModal({
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
             <div>
               <DialogTitle className="text-base sm:text-lg font-bold flex items-center gap-2 text-slate-900">
-                <Landmark className="h-5 w-5 text-red-600" />
-                美国银行月度流水对账单 (Bank of America Statement)
+                <Landmark className={`h-5 w-5 ${selectedBank === "usbank" ? "text-blue-700" : "text-red-600"}`} />
+                {selectedBank === "usbank"
+                  ? "美国合众银行月度流水对账单 (U.S. Bank Statement)"
+                  : "美国银行月度流水对账单 (Bank of America Statement)"}
               </DialogTitle>
               <p className="text-xs text-slate-500 mt-0.5">
                 权威真实的美国地址证明 (Proof of Address) 与资金流水，支持在线微调与矢量高保真 PDF 导出
