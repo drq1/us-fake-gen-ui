@@ -24,7 +24,7 @@ export function NyuSternSheet({
   return (
     <div
       id="printable-university-transcript"
-      className="relative w-full max-w-[850px] mx-auto bg-white text-slate-900 shadow-2xl rounded-sm p-6 sm:p-10 border border-slate-300 print:shadow-none print:border-none print:p-6 font-sans leading-tight selection:bg-purple-100"
+      className="relative w-full max-w-[850px] mx-auto bg-white text-slate-900 shadow-2xl rounded-sm p-6 sm:p-10 border border-slate-300 print:shadow-none print:border-none print:p-2 sm:print:p-4 font-sans leading-tight selection:bg-purple-100"
       style={{ minHeight: "1120px" }}
     >
       {/* 纽大斯特恩标志性 1:1 巨幅半透明 Unofficial 倾斜防伪水印 */}

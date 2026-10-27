@@ -41,7 +41,7 @@ export function SatActScoreSheet({ data, initialType = "SAT" }: SatActScoreSheet
       {reportType === "SAT" && (
         <div
           id="printable-sat-report"
-          className="relative bg-white text-slate-900 shadow-2xl rounded-sm p-6 sm:p-10 border border-slate-300 font-sans leading-tight selection:bg-blue-100 print:shadow-none print:border-none print:p-6"
+          className="relative bg-white text-slate-900 shadow-2xl rounded-sm p-6 sm:p-10 border border-slate-300 font-sans leading-tight selection:bg-blue-100 print:shadow-none print:border-none print:p-2 sm:print:p-4"
           style={{ minHeight: "1100px" }}
         >
           {/* 顶栏：College Board 标志性官方题头 */}
@@ -181,7 +181,7 @@ export function SatActScoreSheet({ data, initialType = "SAT" }: SatActScoreSheet
       {reportType === "ACT" && (
         <div
           id="printable-act-report"
-          className="relative bg-white text-slate-900 shadow-2xl rounded-sm p-6 sm:p-10 border border-slate-300 font-sans leading-tight selection:bg-blue-100 print:shadow-none print:border-none print:p-6"
+          className="relative bg-white text-slate-900 shadow-2xl rounded-sm p-6 sm:p-10 border border-slate-300 font-sans leading-tight selection:bg-blue-100 print:shadow-none print:border-none print:p-2 sm:print:p-4"
           style={{ minHeight: "1100px" }}
         >
           {/* 顶栏：ACT 标志性官方题头 */}

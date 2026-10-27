@@ -152,7 +152,10 @@ export function DriverLicenseModal({
             <div className="my-6 mx-auto w-full flex justify-center print:m-0">
               {!showBack ? (
                 /* ========== 卡片正面 ========== */
-                <div className="relative w-full max-w-[500px] aspect-[1.586] rounded-2xl bg-gradient-to-br from-amber-50/90 via-sky-50/70 to-slate-100 border-2 border-slate-400/60 shadow-xl overflow-hidden font-sans select-none text-slate-800 print:shadow-none print:border-black">
+                <div
+                  id="printable-driver-license"
+                  className="relative w-full max-w-[500px] aspect-[1.586] rounded-2xl bg-gradient-to-br from-amber-50/90 via-sky-50/70 to-slate-100 border-2 border-slate-400/60 shadow-xl overflow-hidden font-sans select-none text-slate-800 print:shadow-none print:border-black"
+                >
                   {/* 顶栏州名题头 */}
                   <div className={`bg-gradient-to-r ${cardData.bannerColor} text-white px-4 py-2 flex items-center justify-between`}>
                     <div>

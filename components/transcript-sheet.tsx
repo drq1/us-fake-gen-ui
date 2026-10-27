@@ -60,7 +60,7 @@ export function TranscriptSheet({
   return (
     <div
       id="printable-transcript"
-      className="relative mx-auto w-full max-w-[860px] bg-white text-slate-900 shadow-2xl rounded-sm border border-slate-300 p-8 sm:p-10 font-serif selection:bg-blue-100 print:m-0 print:p-8 print:shadow-none print:border-none print:w-full print:max-w-none text-[11px] leading-tight"
+      className="relative mx-auto w-full max-w-[860px] bg-white text-slate-900 shadow-2xl rounded-sm border border-slate-300 p-8 sm:p-10 font-serif selection:bg-blue-100 print:m-0 print:p-2 sm:print:p-4 print:shadow-none print:border-none print:w-full print:max-w-none text-[11px] leading-tight"
       style={{ minHeight: "1100px" }}
     >
       {/* 防伪防盗背底浅色水印 */}

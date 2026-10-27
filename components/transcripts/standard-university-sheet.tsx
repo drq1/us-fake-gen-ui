@@ -61,7 +61,7 @@ export function StandardUniversitySheet({
   return (
     <div
       id="printable-university-transcript"
-      className="relative w-full max-w-[850px] mx-auto bg-white text-slate-900 shadow-2xl rounded-sm p-6 sm:p-10 border border-slate-300 print:shadow-none print:border-none print:p-6 font-serif leading-tight selection:bg-blue-100"
+      className="relative w-full max-w-[850px] mx-auto bg-white text-slate-900 shadow-2xl rounded-sm p-6 sm:p-10 border border-slate-300 print:shadow-none print:border-none print:p-2 sm:print:p-4 font-serif leading-tight selection:bg-blue-100"
       style={{ minHeight: "1100px" }}
     >
       {/* 水印层 */}

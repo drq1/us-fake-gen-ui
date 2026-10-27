@@ -107,13 +107,9 @@ code, kbd, samp, pre, .font-mono {
 }
 
 @media print {
-  body {
-    background: white !important;
-    color: black !important;
-    padding: 0 !important;
-    margin: 0 !important;
-  }
-
+  /* 1. 当有弹窗开启时，隐藏页面底层的整个网站主体，只打印弹窗内容 */
+  body:has([role="dialog"]) > *:not([data-radix-portal]),
+  body:has([role="dialog"]) > main,
   header,
   footer,
   nav,
@@ -121,21 +117,85 @@ code, kbd, samp, pre, .font-mono {
     display: none !important;
   }
 
-  #printable-transcript {
+  /* 2. 彻底重置 html 与 body 在打印时的滚动与尺寸约束 */
+  html,
+  body {
+    background: #ffffff !important;
+    color: #000000 !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    width: 100% !important;
+    height: auto !important;
+    min-height: 0 !important;
+    overflow: visible !important;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+
+  /* 3. 彻底解除 Radix Portal 与 DialogContent 在打印时的 fixed 居中与高度截断 */
+  [data-radix-portal] {
+    position: static !important;
+    display: block !important;
+    width: 100% !important;
+    height: auto !important;
+    overflow: visible !important;
+  }
+
+  [data-radix-portal] [role="dialog"],
+  [data-radix-dialog-content] {
+    position: static !important;
+    transform: none !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    height: auto !important;
+    max-height: none !important;
+    overflow: visible !important;
+    border: none !important;
+    box-shadow: none !important;
+    background: transparent !important;
+    padding: 0 !important;
+    margin: 0 !important;
+  }
+
+  /* 4. 解除内部各滚动容器的 overflow-y-auto 截断 */
+  [data-radix-portal] div[class*="overflow-y-auto"],
+  [data-radix-portal] div[class*="overflow-x-auto"],
+  [data-radix-portal] div[class*="flex-1"] {
+    overflow: visible !important;
+    height: auto !important;
+    max-height: none !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    display: block !important;
+  }
+
+  /* 5. 所有纸质单据容器高保真单页完美适配 (防止多出第二页空白或断行) */
+  #printable-transcript,
+  #printable-university-transcript,
+  #printable-sat-report,
+  #printable-act-report,
+  #printable-bank-statement,
+  #printable-admission-letter,
+  #printable-vital-record,
+  #printable-driver-license,
+  #printable-schedule {
     box-shadow: none !important;
     border: none !important;
     margin: 0 auto !important;
-    padding: 0.35in !important;
+    padding: 0.15in !important;
     width: 100% !important;
-    max-width: none !important;
+    max-width: 100% !important;
+    min-height: 0 !important;
+    height: auto !important;
     page-break-after: avoid !important;
     page-break-inside: avoid !important;
+    break-inside: avoid !important;
     -webkit-print-color-adjust: exact !important;
     print-color-adjust: exact !important;
   }
 
   @page {
     size: letter portrait;
-    margin: 0.25in;
+    margin: 0.2in 0.15in;
   }
 }

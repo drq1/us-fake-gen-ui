@@ -24,7 +24,7 @@ export function TexasAmSheet({
   return (
     <div
       id="printable-university-transcript"
-      className="relative w-full max-w-[850px] mx-auto bg-[#fdf2f4] text-slate-900 shadow-2xl rounded-sm p-6 sm:p-9 border-4 border-double border-[#7c1d30] print:shadow-none print:p-6 font-mono leading-tight selection:bg-rose-100"
+      className="relative w-full max-w-[850px] mx-auto bg-[#fdf2f4] text-slate-900 shadow-2xl rounded-sm p-6 sm:p-9 border-4 border-double border-[#7c1d30] print:shadow-none print:p-2 sm:print:p-4 font-mono leading-tight selection:bg-rose-100"
       style={{ minHeight: "1120px" }}
     >
       {/* 德州农工粉色防伪底纹微缩网点 */}

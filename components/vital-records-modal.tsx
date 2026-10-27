@@ -194,7 +194,10 @@ export function VitalRecordsModal({
         {/* 证书主纸张独立滚动区域 */}
         <div className="flex-1 overflow-y-auto overflow-x-hidden p-4 sm:p-6 print:p-0 print:overflow-visible">
           {records && (
-            <div className="mx-auto w-full max-w-[800px] bg-amber-50/40 rounded-xl shadow-lg border-8 border-double border-amber-800/60 p-6 sm:p-10 font-serif print:shadow-none print:border-black print:m-0 print:p-6 text-slate-800 relative">
+            <div
+              id="printable-vital-record"
+              className="mx-auto w-full max-w-[800px] bg-amber-50/40 rounded-xl shadow-lg border-8 border-double border-amber-800/60 p-6 sm:p-10 font-serif print:shadow-none print:border-black print:m-0 print:p-2 sm:print:p-4 text-slate-800 relative"
+            >
               {/* 1. 出生证明 */}
               {docType === "birth" && (
                 birthVariant === "hospital" ? (

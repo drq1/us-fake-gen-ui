@@ -169,7 +169,10 @@ export function AdmissionLetterModal({
         {/* 录取公函主信纸独立滚动区域 (1:1 还原加州大学伯克利/名校原版公文) */}
         <div className="flex-1 overflow-y-auto overflow-x-hidden p-4 sm:p-8 print:p-0 print:overflow-visible">
           {letterData && (
-            <div className="mx-auto w-full max-w-[760px] bg-white rounded-lg shadow-md border border-slate-200 p-8 sm:p-14 text-slate-800 font-serif leading-relaxed print:shadow-none print:border-none print:m-0 print:p-8">
+            <div
+              id="printable-admission-letter"
+              className="mx-auto w-full max-w-[760px] bg-white rounded-lg shadow-md border border-slate-200 p-8 sm:p-14 text-slate-800 font-serif leading-relaxed print:shadow-none print:border-none print:m-0 print:p-2 sm:print:p-4"
+            >
               {/* 院校 1:1 官方原版题头 */}
               {letterData.sealType === "berkeley" ? (
                 <div className="mb-8">
