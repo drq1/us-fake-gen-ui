@@ -186,7 +186,7 @@ code, kbd, samp, pre, .font-mono {
   }
 
   @page {
-    size: auto;
-    margin: 0.25in 0.3in;
+    size: letter portrait;
+    margin: 0.18in 0.25in;
   }
 }

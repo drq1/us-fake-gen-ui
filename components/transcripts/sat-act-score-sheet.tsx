@@ -41,7 +41,7 @@ export function SatActScoreSheet({ data, initialType = "SAT" }: SatActScoreSheet
       {reportType === "SAT" && (
         <div
           id="printable-sat-report"
-          className="relative bg-white text-slate-900 shadow-2xl rounded-sm p-6 sm:p-8 border border-slate-300 font-sans leading-tight selection:bg-blue-100 print:shadow-none print:border-none print:m-0 print:p-2"
+          className="relative bg-white text-slate-900 shadow-2xl rounded-sm p-6 sm:p-8 border border-slate-300 font-sans leading-tight selection:bg-blue-100 print:shadow-none print:border-none print:m-0 print:p-2 break-inside-avoid print:break-inside-avoid"
         >
           {/* 顶栏：College Board 标志性官方题头 */}
           <div className="border-b-4 border-[#0077c8] pb-4 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
@@ -180,7 +180,7 @@ export function SatActScoreSheet({ data, initialType = "SAT" }: SatActScoreSheet
       {reportType === "ACT" && (
         <div
           id="printable-act-report"
-          className="relative bg-white text-slate-900 shadow-2xl rounded-sm p-6 sm:p-8 border border-slate-300 font-sans leading-tight selection:bg-blue-100 print:shadow-none print:border-none print:m-0 print:p-2"
+          className="relative bg-white text-slate-900 shadow-2xl rounded-sm p-6 sm:p-8 border border-slate-300 font-sans leading-tight selection:bg-blue-100 print:shadow-none print:border-none print:m-0 print:p-2 break-inside-avoid print:break-inside-avoid"
         >
           {/* 顶栏：ACT 标志性官方题头 */}
           <div className="border-b-4 border-[#002f6c] pb-4 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">

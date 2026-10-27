@@ -61,7 +61,7 @@ export function StandardUniversitySheet({
   return (
     <div
       id="printable-university-transcript"
-      className="relative w-full max-w-[850px] mx-auto bg-white text-slate-900 shadow-2xl rounded-sm p-6 sm:p-8 border border-slate-300 print:shadow-none print:border-none print:m-0 print:p-2 font-serif leading-tight selection:bg-blue-100"
+      className="relative w-full max-w-[850px] mx-auto bg-white text-slate-900 shadow-2xl rounded-sm p-6 sm:p-8 border border-slate-300 print:shadow-none print:border-none print:m-0 print:p-2 font-serif leading-tight selection:bg-blue-100 break-inside-avoid print:break-inside-avoid"
     >
       {/* 水印层 */}
       {watermark !== "NONE" && (
@@ -287,7 +287,7 @@ export function StandardUniversitySheet({
         </div>
 
         {/* 官方签字与机构防伪公章 */}
-        <div className="mt-6 pt-4 border-t-2 border-slate-900 flex flex-col sm:flex-row items-center justify-between gap-4 font-sans text-xs">
+        <div className="mt-4 pt-3 print:mt-2.5 print:pt-2 border-t-2 border-slate-900 flex flex-row items-center justify-between gap-4 font-sans text-xs break-inside-avoid print:break-inside-avoid">
           <div className="max-w-md text-[10px] text-slate-500 leading-normal">
             <p className="font-semibold text-slate-700 mb-0.5">ACCREDITATION & SECURITY NOTICE:</p>
             <p>

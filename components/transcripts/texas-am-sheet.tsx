@@ -24,7 +24,7 @@ export function TexasAmSheet({
   return (
     <div
       id="printable-university-transcript"
-      className="relative w-full max-w-[850px] mx-auto bg-[#fdf2f4] text-slate-900 shadow-2xl rounded-sm p-6 sm:p-8 border-4 border-double border-[#7c1d30] print:shadow-none print:m-0 print:p-2 font-mono leading-tight selection:bg-rose-100"
+      className="relative w-full max-w-[850px] mx-auto bg-[#fdf2f4] text-slate-900 shadow-2xl rounded-sm p-6 sm:p-8 border-4 border-double border-[#7c1d30] print:shadow-none print:m-0 print:p-2 font-mono leading-tight selection:bg-rose-100 break-inside-avoid print:break-inside-avoid"
     >
       {/* 德州农工粉色防伪底纹微缩网点 */}
       <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(#d88b9a_1px,transparent_1px)] [background-size:12px_12px] opacity-40 print:opacity-30" />
@@ -177,7 +177,7 @@ export function TexasAmSheet({
         </div>
 
         {/* 底部教务长签名与官方圆章 (1:1 还原 Venesa A. Heidick 签名实物) */}
-        <div className="mt-4 pt-3 border-t-2 border-[#500000] flex flex-col sm:flex-row items-center justify-between gap-4 text-[10px]">
+        <div className="mt-3 pt-2.5 print:mt-2 print:pt-2 border-t-2 border-[#500000] flex flex-row items-center justify-between gap-4 text-[10px] break-inside-avoid print:break-inside-avoid">
           <div className="max-w-md text-slate-600 leading-snug">
             <p className="font-bold text-[#500000] mb-0.5">AUTHENTICITY & SECURITY FEATURES:</p>
             <p>

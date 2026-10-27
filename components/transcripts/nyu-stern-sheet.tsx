@@ -24,7 +24,7 @@ export function NyuSternSheet({
   return (
     <div
       id="printable-university-transcript"
-      className="relative w-full max-w-[850px] mx-auto bg-white text-slate-900 shadow-2xl rounded-sm p-6 sm:p-8 border border-slate-300 print:shadow-none print:border-none print:m-0 print:p-2 font-sans leading-tight selection:bg-purple-100"
+      className="relative w-full max-w-[850px] mx-auto bg-white text-slate-900 shadow-2xl rounded-sm p-6 sm:p-8 border border-slate-300 print:shadow-none print:border-none print:m-0 print:p-2 font-sans leading-tight selection:bg-purple-100 break-inside-avoid print:break-inside-avoid"
     >
       {/* 纽大斯特恩标志性 1:1 巨幅半透明 Unofficial 倾斜防伪水印 */}
       <div className="pointer-events-none absolute inset-0 flex items-center justify-center overflow-hidden z-10 select-none">
@@ -190,7 +190,7 @@ export function NyuSternSheet({
       </div>
 
       {/* 底部教务长签名与官方说明 */}
-      <div className="mt-6 pt-3 border-t-2 border-[#57068c] flex flex-col sm:flex-row items-center justify-between gap-4 text-[10px] text-slate-600">
+      <div className="mt-4 pt-2.5 print:mt-3 print:pt-2 border-t-2 border-[#57068c] flex flex-row items-center justify-between gap-4 text-[10px] text-slate-600 break-inside-avoid print:break-inside-avoid">
         <div className="max-w-md leading-relaxed">
           <p className="font-bold text-slate-900 mb-0.5">NEW YORK UNIVERSITY · FERPA CERTIFIED</p>
           <p>
