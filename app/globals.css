@@ -107,9 +107,8 @@ code, kbd, samp, pre, .font-mono {
 }
 
 @media print {
-  /* 1. 当有弹窗开启时，隐藏页面底层的整个网站主体，只打印弹窗内容 */
-  body:has([role="dialog"]) > *:not([data-radix-portal]),
-  body:has([role="dialog"]) > main,
+  /* 1. 当有弹窗开启时，只显示 [role="dialog"]，隐藏其他所有兄弟节点（包含底层首页、背景遮罩等） */
+  body:has([role="dialog"]) > *:not([role="dialog"]),
   header,
   footer,
   nav,
@@ -132,18 +131,10 @@ code, kbd, samp, pre, .font-mono {
     print-color-adjust: exact !important;
   }
 
-  /* 3. 彻底解除 Radix Portal 与 DialogContent 在打印时的 fixed 居中与高度截断 */
-  [data-radix-portal] {
+  /* 3. 彻底解除 [role="dialog"] 在打印时的 fixed 居中与高度截断 */
+  [role="dialog"] {
     position: static !important;
     display: block !important;
-    width: 100% !important;
-    height: auto !important;
-    overflow: visible !important;
-  }
-
-  [data-radix-portal] [role="dialog"],
-  [data-radix-dialog-content] {
-    position: static !important;
     transform: none !important;
     width: 100% !important;
     max-width: 100% !important;
@@ -157,10 +148,10 @@ code, kbd, samp, pre, .font-mono {
     margin: 0 !important;
   }
 
-  /* 4. 解除内部各滚动容器的 overflow-y-auto 截断 */
-  [data-radix-portal] div[class*="overflow-y-auto"],
-  [data-radix-portal] div[class*="overflow-x-auto"],
-  [data-radix-portal] div[class*="flex-1"] {
+  /* 4. 解除内部各滚动容器的 overflow 截断 */
+  [role="dialog"] div[class*="overflow-y-auto"],
+  [role="dialog"] div[class*="overflow-x-auto"],
+  [role="dialog"] div[class*="flex-1"] {
     overflow: visible !important;
     height: auto !important;
     max-height: none !important;
