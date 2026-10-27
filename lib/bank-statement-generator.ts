@@ -9,6 +9,7 @@ export interface BankTransaction {
 }
 
 export interface BankStatementData {
+  bankId: "bofa" | "usbank"
   bankName: string
   bankLogoText: string
   bankAddress: string
@@ -26,7 +27,11 @@ export interface BankStatementData {
   transactions: BankTransaction[]
 }
 
-export function generateBankStatement(person: PersonData, seed = 2026): BankStatementData {
+export function generateBankStatement(
+  person: PersonData,
+  seed = 2026,
+  bankType: "bofa" | "usbank" = "bofa"
+): BankStatementData {
   const s = seed || 881290
   const randomAt = (offset: number) => {
     const x = Math.sin(s + offset) * 10000
@@ -174,17 +179,20 @@ export function generateBankStatement(person: PersonData, seed = 2026): BankStat
   const routing = (100000000 + Math.floor(randomAt(11) * 899999999)).toString()
   const acctLast4 = person.cardNumber ? person.cardNumber.slice(-4) : "4892"
 
+  const isUsBank = bankType === "usbank"
+
   return {
-    bankName: "Bank of America, N.A.",
-    bankLogoText: "BANK OF AMERICA",
-    bankAddress: "P.O. Box 15284, Wilmington, DE 19850",
-    customerServicePhone: "1-800-432-1000",
-    website: "bankofamerica.com",
+    bankId: bankType,
+    bankName: isUsBank ? "U.S. Bank National Association" : "Bank of America, N.A.",
+    bankLogoText: isUsBank ? "us bank" : "BANK OF AMERICA",
+    bankAddress: isUsBank ? "800 Nicollet Mall, Minneapolis, MN 55402" : "P.O. Box 15284, Wilmington, DE 19850",
+    customerServicePhone: isUsBank ? "1-800-USBANKS (1-800-872-2657)" : "1-800-432-1000",
+    website: isUsBank ? "usbank.com" : "bankofamerica.com",
     statementPeriod: periodStr,
     customerName: person.fullName,
     customerAddress: person.fullAddress,
     accountNumberMasked: `**** **** **** ${acctLast4}`,
-    routingNumber: routing,
+    routingNumber: isUsBank ? "091000022" : routing,
     startingBalance: startBalance,
     totalDeposits: Number(totalDep.toFixed(2)),
     totalWithdrawals: Number(totalWd.toFixed(2)),

@@ -3,14 +3,17 @@
 import { useState, useEffect } from "react"
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog"
 import { Button } from "@/components/ui/button"
-import { Printer, Edit3, Eye, RefreshCw, GraduationCap, School, Download, ExternalLink, ArrowLeft } from "lucide-react"
+import { Printer, Edit3, Eye, RefreshCw, GraduationCap, School, Download, ExternalLink, ArrowLeft, Award } from "lucide-react"
 import type { PersonData, SchoolData, UniversityData } from "@/lib/types"
 import type { StudentTranscript } from "@/lib/transcript-types"
 import type { UniversityTranscriptData } from "@/lib/university-transcript-types"
 import { generateTranscriptData } from "@/lib/transcript-generator"
 import { generateUniversityTranscript } from "@/lib/university-transcript-generator"
+import { generateSatActReport } from "@/lib/sat-act-generator"
+import type { SatActReportData } from "@/lib/sat-act-types"
 import { TranscriptSheet } from "./transcript-sheet"
 import { UniversityTranscriptSheet, type UniversityTranscriptStyle } from "./university-transcript-sheet"
+import { SatActScoreSheet } from "./transcripts/sat-act-score-sheet"
 
 interface TranscriptModalProps {
   open: boolean
@@ -19,8 +22,10 @@ interface TranscriptModalProps {
   school?: SchoolData | null
   university?: UniversityData | null
   seed?: number
-  defaultTab?: "highSchool" | "university"
+  defaultTab?: "highSchool" | "university" | "satAct"
   schoolStyle?: string
+  highSchoolStyle?: "standard" | "parchment" | "duplicate"
+  satActType?: "SAT" | "ACT"
   onBackToTemplates?: () => void
 }
 
@@ -33,11 +38,15 @@ export function TranscriptModal({
   seed = 2026,
   defaultTab = "highSchool",
   schoolStyle,
+  highSchoolStyle = "standard",
+  satActType = "SAT",
   onBackToTemplates,
 }: TranscriptModalProps) {
-  const [activeTab, setActiveTab] = useState<"highSchool" | "university">(defaultTab)
+  const [activeTab, setActiveTab] = useState<"highSchool" | "university" | "satAct">(defaultTab)
   const [highSchoolData, setHighSchoolData] = useState<StudentTranscript | null>(null)
   const [universityData, setUniversityData] = useState<UniversityTranscriptData | null>(null)
+  const [satActData, setSatActData] = useState<SatActReportData | null>(null)
+  const [selectedHsStyle, setSelectedHsStyle] = useState<"standard" | "parchment" | "duplicate">(highSchoolStyle)
   const [selectedUniStyle, setSelectedUniStyle] = useState<UniversityTranscriptStyle>(
     (schoolStyle as UniversityTranscriptStyle) || "standard"
   )
@@ -57,13 +66,21 @@ export function TranscriptModal({
     }
   }, [schoolStyle, open])
 
+  useEffect(() => {
+    if (highSchoolStyle && open) {
+      setSelectedHsStyle(highSchoolStyle)
+    }
+  }, [highSchoolStyle, open])
+
   // 当外部数据或 seed 变化时重新生成数据
   useEffect(() => {
     if (person) {
       const hs = generateTranscriptData(person, school, currentSeed)
       const uni = generateUniversityTranscript(person, university || null, currentSeed)
+      const sa = generateSatActReport(person, school || null, currentSeed)
       setHighSchoolData(hs)
       setUniversityData(uni)
+      setSatActData(sa)
     }
   }, [person, school, university, currentSeed])
 
@@ -116,6 +133,11 @@ export function TranscriptModal({
     { name: "哈佛大学 Harvard 成绩单原件", file: "/templates/12_Genuine_University_Transcripts/Harvard_University_Academic_Transcript.jpeg" },
   ]
 
+  const satActSamples = [
+    { name: "ACT 官方学生考试成绩单 (矢量高保真 PDF)", file: "/templates/01_ACT_SAT/ACT_Official_Student_Score_Report.pdf" },
+    { name: "College Board SAT 官方成绩单样本", file: "/templates/01_ACT_SAT/SAT_Official_Score_Report.png" },
+  ]
+
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="w-[98vw] max-w-5xl h-[92vh] max-h-[92vh] flex flex-col p-0 overflow-hidden bg-slate-100 rounded-2xl border border-slate-200 shadow-2xl print:bg-white print:p-0 print:border-none print:shadow-none print:max-w-none print:w-full print:h-auto print:max-h-none print:overflow-visible">
@@ -130,19 +152,24 @@ export function TranscriptModal({
                       <School className="h-5 w-5 text-blue-600" />
                       美高官方成绩单生成器 (Official High School Transcript)
                     </>
-                  ) : (
+                  ) : activeTab === "university" ? (
                     <>
                       <GraduationCap className="h-5 w-5 text-indigo-600" />
                       美国大学官方教务成绩单 (Official University Academic Record)
                     </>
+                  ) : (
+                    <>
+                      <Award className="h-5 w-5 text-purple-600" />
+                      全美标化考分官方报告 (SAT® / ACT® Official Score Report)
+                    </>
                   )}
                 </DialogTitle>
                 <p className="text-xs text-slate-500 mt-0.5">
-                  全美真实学校数据库自动映射，支持在线修改微调、加减防伪水印与高保真矢量 PDF 导出
+                  全美真实学校与考试委员会数据库自动映射，支持在线修改、防伪水印与高保真矢量 PDF 导出
                 </p>
               </div>
 
-              {/* 学历阶段 Tab 切换器 */}
+              {/* 学历与考试阶段 Tab 切换器 */}
               <div className="inline-flex items-center rounded-xl border border-slate-300 bg-white p-1 text-xs shrink-0 self-start sm:self-auto shadow-2xs">
                 <button
                   onClick={() => setActiveTab("highSchool")}
@@ -166,6 +193,17 @@ export function TranscriptModal({
                   <GraduationCap className="h-3.5 w-3.5" />
                   大学成绩单
                 </button>
+                <button
+                  onClick={() => setActiveTab("satAct")}
+                  className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg font-bold transition-all ${
+                    activeTab === "satAct"
+                      ? "bg-purple-600 text-white shadow-xs"
+                      : "text-slate-600 hover:text-slate-900"
+                  }`}
+                >
+                  <Award className="h-3.5 w-3.5" />
+                  SAT / ACT 考分
+                </button>
               </div>
             </div>
 
@@ -174,7 +212,12 @@ export function TranscriptModal({
               {/* 左侧：参考官方真实 PDF 样本下载比对 */}
               <div className="flex flex-wrap items-center gap-1.5 text-xs text-slate-600">
                 <span className="font-semibold text-slate-700 whitespace-nowrap">参考真实样本:</span>
-                {(activeTab === "highSchool" ? hsSamples : uniSamples).map((s) => (
+                {(activeTab === "highSchool"
+                  ? hsSamples
+                  : activeTab === "university"
+                  ? uniSamples
+                  : satActSamples
+                ).map((s) => (
                   <a
                     key={s.name}
                     href={s.file}
@@ -200,6 +243,19 @@ export function TranscriptModal({
                     <ArrowLeft className="mr-1.5 h-3.5 w-3.5" />
                     返回参考模板库
                   </Button>
+                )}
+
+                {/* 美高成绩单版式选择 */}
+                {activeTab === "highSchool" && (
+                  <select
+                    value={selectedHsStyle}
+                    onChange={(e) => setSelectedHsStyle(e.target.value as "standard" | "parchment" | "duplicate")}
+                    className="h-8 text-xs font-semibold bg-white border border-slate-300 rounded-md px-2 focus:outline-hidden"
+                  >
+                    <option value="standard">4年制公立高中官方原样 (Standard)</option>
+                    <option value="parchment">Parchment 权威电子交付档 (Parchment)</option>
+                    <option value="duplicate">官方加注 Duplicate 补发本 (Duplicate)</option>
+                  </select>
                 )}
 
                 {/* 大学成绩单专属版式切换 */}
@@ -292,6 +348,7 @@ export function TranscriptModal({
               <TranscriptSheet
                 data={highSchoolData}
                 isEditable={isEditable}
+                styleVariant={selectedHsStyle}
                 watermarkText={watermarkStringMap[watermark]}
                 onChange={setHighSchoolData}
               />
@@ -304,6 +361,13 @@ export function TranscriptModal({
                 styleVariant={selectedUniStyle}
                 isEditable={isEditable}
                 onUpdate={setUniversityData}
+              />
+            )}
+
+            {activeTab === "satAct" && satActData && (
+              <SatActScoreSheet
+                data={satActData}
+                initialType={satActType}
               />
             )}
           </div>

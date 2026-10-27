@@ -27,12 +27,12 @@ import {
 interface ReferenceTemplatesModalProps {
   open: boolean
   onOpenChange: (open: boolean) => void
-  onGenerateBankStatement?: () => void
-  onGenerateTranscript?: (tab?: "highSchool" | "university", schoolStyle?: string) => void
+  onGenerateBankStatement?: (bankId?: "bofa" | "usbank") => void
+  onGenerateTranscript?: (tab?: "highSchool" | "university" | "satAct", schoolStyle?: string) => void
   onGenerateAdmissionLetter?: (schoolId?: string) => void
   onGenerateSchedule?: (tab?: "schedule" | "tuition") => void
   onGenerateDriverLicense?: (state?: string) => void
-  onGenerateVitalRecord?: (docType?: "birth" | "ged" | "marriage" | "skill") => void
+  onGenerateVitalRecord?: (docType?: "birth" | "ged" | "marriage" | "skill", variant?: string) => void
 }
 
 // 跨弹窗显隐记忆用户的滚动位置、筛选分类与搜索词
@@ -224,7 +224,8 @@ export function ReferenceTemplatesModal({
                     {item.category === "bank" && onGenerateBankStatement && (
                       <button
                         onClick={() => {
-                          saveScrollAndTrigger(() => onGenerateBankStatement())
+                          const isUsBank = item.name.toLowerCase().includes("us_bank") || item.name.toLowerCase().includes("us bank")
+                          saveScrollAndTrigger(() => onGenerateBankStatement(isUsBank ? "usbank" : "bofa"))
                         }}
                         className="inline-flex items-center gap-1 px-2.5 py-1 rounded-md text-xs font-bold bg-red-600 text-white hover:bg-red-700 shadow-2xs transition-colors shrink-0"
                         title="使用当前人偶姓名与物理地址，一键生成配套月度账单与资金流水"
@@ -264,7 +265,13 @@ export function ReferenceTemplatesModal({
                     {item.category === "transcript" && item.categoryChinese !== "大学成绩单" && onGenerateTranscript && (
                       <button
                         onClick={() => {
-                          saveScrollAndTrigger(() => onGenerateTranscript("highSchool"))
+                          const lower = item.name.toLowerCase()
+                          const hsStyle = lower.includes("parchment")
+                            ? "parchment"
+                            : lower.includes("duplicate")
+                            ? "duplicate"
+                            : "standard"
+                          saveScrollAndTrigger(() => onGenerateTranscript("highSchool", hsStyle))
                         }}
                         className="inline-flex items-center gap-1 px-2.5 py-1 rounded-md text-xs font-bold bg-blue-600 text-white hover:bg-blue-700 shadow-2xs transition-colors shrink-0"
                         title="一键生成当前人偶美高官方成绩单"
@@ -278,7 +285,8 @@ export function ReferenceTemplatesModal({
                     {item.category === "act_sat" && onGenerateTranscript && (
                       <button
                         onClick={() => {
-                          saveScrollAndTrigger(() => onGenerateTranscript("highSchool"))
+                          const isAct = item.name.toLowerCase().includes("act")
+                          saveScrollAndTrigger(() => onGenerateTranscript("satAct", isAct ? "ACT" : "SAT"))
                         }}
                         className="inline-flex items-center gap-1 px-2.5 py-1 rounded-md text-xs font-bold bg-purple-600 text-white hover:bg-purple-700 shadow-2xs transition-colors shrink-0"
                         title="查看并生成当前人偶配套的 SAT / ACT 标化考分"
@@ -350,7 +358,14 @@ export function ReferenceTemplatesModal({
                     {/* 出生证明一键生成 */}
                     {item.category === "birth" && onGenerateVitalRecord && (
                       <button
-                        onClick={() => saveScrollAndTrigger(() => onGenerateVitalRecord("birth"))}
+                        onClick={() => {
+                          const lower = item.name.toLowerCase()
+                          const isMich = lower.includes("michigan")
+                          const isInfo = lower.includes("informational")
+                          saveScrollAndTrigger(() =>
+                            onGenerateVitalRecord("birth", isMich ? "michigan" : isInfo ? "informational" : "standard")
+                          )
+                        }}
                         className="inline-flex items-center gap-1 px-2.5 py-1 rounded-md text-xs font-bold bg-rose-600 text-white hover:bg-rose-700 shadow-2xs transition-colors shrink-0"
                         title="一键生成州卫生厅官方出生证明"
                       >
@@ -362,9 +377,15 @@ export function ReferenceTemplatesModal({
                     {/* GED 文凭一键生成 */}
                     {item.category === "ged" && onGenerateVitalRecord && (
                       <button
-                        onClick={() => saveScrollAndTrigger(() => onGenerateVitalRecord("ged"))}
+                        onClick={() => {
+                          const lower = item.name.toLowerCase()
+                          const isTranscript = lower.includes("test_results") || lower.includes("test results")
+                          saveScrollAndTrigger(() =>
+                            onGenerateVitalRecord("ged", isTranscript ? "transcript" : "diploma")
+                          )
+                        }}
                         className="inline-flex items-center gap-1 px-2.5 py-1 rounded-md text-xs font-bold bg-teal-600 text-white hover:bg-teal-700 shadow-2xs transition-colors shrink-0"
-                        title="一键生成官方 GED 高中文凭证书"
+                        title="一键生成官方 GED 高中文凭或全科成绩单"
                       >
                         <Sparkles className="h-3 w-3" />
                         一键生成GED文凭
@@ -386,9 +407,15 @@ export function ReferenceTemplatesModal({
                     {/* 技能证书一键生成 */}
                     {item.category === "skill" && onGenerateVitalRecord && (
                       <button
-                        onClick={() => saveScrollAndTrigger(() => onGenerateVitalRecord("skill"))}
+                        onClick={() => {
+                          const lower = item.name.toLowerCase()
+                          const isTrainer = lower.includes("trainer") || lower.includes("certification")
+                          saveScrollAndTrigger(() =>
+                            onGenerateVitalRecord("skill", isTrainer ? "trainer" : "cpr")
+                          )
+                        }}
                         className="inline-flex items-center gap-1 px-2.5 py-1 rounded-md text-xs font-bold bg-cyan-700 text-white hover:bg-cyan-800 shadow-2xs transition-colors shrink-0"
-                        title="一键生成急救与技能资格证书"
+                        title="一键生成急救资质或 NASM 健身教练成绩单"
                       >
                         <Sparkles className="h-3 w-3" />
                         一键生成技能证书

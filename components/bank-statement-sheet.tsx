@@ -25,10 +25,14 @@ export function BankStatementSheet({
     })
   }
 
+  const isUsBank = data.bankId === "usbank"
+
   return (
     <div
       id="printable-bank-statement"
-      className="relative w-full max-w-[850px] mx-auto bg-white text-slate-900 shadow-2xl rounded-sm p-6 sm:p-10 border border-slate-300 print:shadow-none print:border-none print:p-8 font-sans leading-tight selection:bg-red-100"
+      className={`relative w-full max-w-[850px] mx-auto bg-white text-slate-900 shadow-2xl rounded-sm p-6 sm:p-10 border border-slate-300 print:shadow-none print:border-none print:p-8 font-sans leading-tight ${
+        isUsBank ? "selection:bg-blue-100" : "selection:bg-red-100"
+      }`}
       style={{ minHeight: "1050px" }}
     >
       {/* 水印 */}
@@ -42,16 +46,34 @@ export function BankStatementSheet({
       )}
 
       {/* 头部：银行红蓝经典 LOGO 与对账周期 */}
-      <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4 border-b-2 border-red-600 pb-4">
+      <div className={`flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4 border-b-2 pb-4 ${
+        isUsBank ? "border-[#0c2340]" : "border-red-600"
+      }`}>
         <div>
-          <div className="flex items-center gap-2">
-            <div className="h-8 w-10 bg-red-600 rounded-xs flex items-center justify-center text-white font-black text-xs tracking-tighter">
-              BofA
+          {isUsBank ? (
+            <div className="flex items-center gap-2.5">
+              <div className="h-8 w-8 bg-[#0c2340] rounded-sm flex items-center justify-center text-[#d9272e] font-black text-sm border border-[#0c2340]">
+                <div className="w-4 h-4 bg-[#d9272e] rounded-xs" />
+              </div>
+              <div>
+                <span className="text-2xl font-black tracking-tight text-[#0c2340] font-sans">
+                  us bank
+                </span>
+                <span className="text-[10px] text-slate-500 block uppercase font-bold tracking-widest">
+                  National Association
+                </span>
+              </div>
             </div>
-            <span className="text-xl sm:text-2xl font-black tracking-tighter text-blue-950 font-serif">
-              {data.bankLogoText}
-            </span>
-          </div>
+          ) : (
+            <div className="flex items-center gap-2">
+              <div className="h-8 w-10 bg-red-600 rounded-xs flex items-center justify-center text-white font-black text-xs tracking-tighter">
+                BofA
+              </div>
+              <span className="text-xl sm:text-2xl font-black tracking-tighter text-blue-950 font-serif">
+                {data.bankLogoText}
+              </span>
+            </div>
+          )}
           <div className="text-xs text-slate-500 mt-1">
             {data.bankAddress} · {data.website}
           </div>

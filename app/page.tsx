@@ -30,9 +30,10 @@ export default function HomePage() {
   const [loading, setLoading] = useState(false)
   const [configOpen, setConfigOpen] = useState(false)
   const [transcriptOpen, setTranscriptOpen] = useState(false)
-  const [transcriptTab, setTranscriptTab] = useState<"highSchool" | "university">("highSchool")
+  const [transcriptTab, setTranscriptTab] = useState<"highSchool" | "university" | "satAct">("highSchool")
   const [transcriptSchoolStyle, setTranscriptSchoolStyle] = useState<string | undefined>(undefined)
   const [bankModalOpen, setBankModalOpen] = useState(false)
+  const [bankStatementType, setBankStatementType] = useState<"bofa" | "usbank">("bofa")
   const [templatesModalOpen, setTemplatesModalOpen] = useState(false)
   const [fromTemplatesModal, setFromTemplatesModal] = useState(false)
   const [admissionModalOpen, setAdmissionModalOpen] = useState(false)
@@ -43,6 +44,7 @@ export default function HomePage() {
   const [licenseState, setLicenseState] = useState<string | undefined>(undefined)
   const [vitalModalOpen, setVitalModalOpen] = useState(false)
   const [vitalDocType, setVitalDocType] = useState<"birth" | "ged" | "marriage" | "skill">("birth")
+  const [vitalVariant, setVitalVariant] = useState<string | undefined>(undefined)
   const [schoolData, setSchoolData] = useState<SchoolData | null>(null)
   const [universityData, setUniversityData] = useState<UniversityData | null>(null)
   const [jsonDialogOpen, setJsonDialogOpen] = useState(false)
@@ -272,7 +274,10 @@ export default function HomePage() {
     }
   }
 
-  const handleOpenTranscript = (tab: "highSchool" | "university" = "highSchool", schoolStyle?: string) => {
+  const handleOpenTranscript = (
+    tab: "highSchool" | "university" | "satAct" = "highSchool",
+    schoolStyle?: string
+  ) => {
     setTranscriptTab(tab)
     setTranscriptSchoolStyle(schoolStyle)
     setTranscriptOpen(true)
@@ -474,6 +479,7 @@ export default function HomePage() {
           }}
           person={data}
           seed={seed}
+          defaultBankId={bankStatementType}
         />
       )}
 
@@ -486,9 +492,10 @@ export default function HomePage() {
             setFromTemplatesModal(false)
           }
         }}
-        onGenerateBankStatement={() => {
+        onGenerateBankStatement={(bankId = "bofa") => {
           setFromTemplatesModal(true)
           setTemplatesModalOpen(false)
+          setBankStatementType(bankId)
           setBankModalOpen(true)
         }}
         onGenerateTranscript={(tab = "highSchool", schoolStyle) => {
@@ -514,10 +521,11 @@ export default function HomePage() {
           setLicenseState(st)
           setLicenseModalOpen(true)
         }}
-        onGenerateVitalRecord={(docType = "birth") => {
+        onGenerateVitalRecord={(docType = "birth", variant) => {
           setFromTemplatesModal(true)
           setTemplatesModalOpen(false)
           setVitalDocType(docType)
+          setVitalVariant(variant)
           setVitalModalOpen(true)
         }}
       />
@@ -608,6 +616,7 @@ export default function HomePage() {
           person={data}
           seed={seed}
           defaultDocType={vitalDocType}
+          defaultVariant={vitalVariant}
         />
       )}
     </div>

@@ -13,6 +13,7 @@ interface BankStatementModalProps {
   onOpenChange: (open: boolean) => void
   person: PersonData
   seed?: number
+  defaultBankId?: "bofa" | "usbank"
   onBackToTemplates?: () => void
 }
 
@@ -21,18 +22,26 @@ export function BankStatementModal({
   onOpenChange,
   person,
   seed = 2026,
+  defaultBankId = "bofa",
   onBackToTemplates,
 }: BankStatementModalProps) {
+  const [selectedBank, setSelectedBank] = useState<"bofa" | "usbank">(defaultBankId)
   const [statementData, setStatementData] = useState<BankStatementData | null>(null)
   const [isEditable, setIsEditable] = useState(false)
   const [watermark, setWatermark] = useState<"OFFICIAL" | "SAMPLE" | "NONE">("OFFICIAL")
   const [currentSeed, setCurrentSeed] = useState(seed)
 
   useEffect(() => {
-    if (person) {
-      setStatementData(generateBankStatement(person, currentSeed))
+    if (defaultBankId && open) {
+      setSelectedBank(defaultBankId)
     }
-  }, [person, currentSeed])
+  }, [defaultBankId, open])
+
+  useEffect(() => {
+    if (person) {
+      setStatementData(generateBankStatement(person, currentSeed, selectedBank))
+    }
+  }, [person, currentSeed, selectedBank])
 
   const handlePrint = () => {
     window.print()
@@ -84,6 +93,16 @@ export function BankStatementModal({
                   返回参考模板库
                 </Button>
               )}
+
+              {/* 银行机构切换 */}
+              <select
+                value={selectedBank}
+                onChange={(e) => setSelectedBank(e.target.value as "bofa" | "usbank")}
+                className="h-8 text-xs font-semibold bg-white border border-slate-300 rounded-md px-2 focus:outline-hidden"
+              >
+                <option value="bofa">美国银行 (Bank of America 经典版)</option>
+                <option value="usbank">合众银行 (U.S. Bank National)</option>
+              </select>
 
               <Button
                 variant={isEditable ? "default" : "outline"}

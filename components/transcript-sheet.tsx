@@ -8,6 +8,7 @@ interface TranscriptSheetProps {
   data: StudentTranscript
   isEditable?: boolean
   watermarkText?: string
+  styleVariant?: "standard" | "parchment" | "duplicate"
   onChange?: (updated: StudentTranscript) => void
 }
 
@@ -15,6 +16,7 @@ export function TranscriptSheet({
   data,
   isEditable = false,
   watermarkText = "OFFICIAL TRANSCRIPT",
+  styleVariant = "standard",
   onChange,
 }: TranscriptSheetProps) {
   // 简易字段修改分发器
@@ -64,8 +66,32 @@ export function TranscriptSheet({
         </div>
       )}
 
+      {/* Parchment 官方电子交付题头 (1:1 还原 High_School_Official_Record_Parchment.pdf) */}
+      {styleVariant === "parchment" && (
+        <div className="bg-[#003865] text-white p-2.5 mb-3 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 text-xs font-sans rounded-xs shadow-xs">
+          <div className="flex items-center gap-2">
+            <span className="font-bold tracking-wider text-sm bg-white text-[#003865] px-1.5 py-0.2 rounded-xs">
+              parchment
+            </span>
+            <span className="text-[10px] text-blue-100 font-medium">
+              Official Secure Electronic Document Delivery
+            </span>
+          </div>
+          <div className="text-[10px] font-mono text-blue-200">
+            DOC-ID: {data.ceebCode}-E{data.studentId.replace(/\D/g, "").slice(0, 7) || "8849201"} · DIGITALLY CERTIFIED
+          </div>
+        </div>
+      )}
+
       {/* 顶部：学校官方抬头 */}
-      <div className="border-b-2 border-slate-900 pb-3 text-center">
+      <div className="border-b-2 border-slate-900 pb-3 text-center relative">
+        {/* Duplicate 补发公章 (1:1 还原 High_School_Duplicate_Transcript.pdf) */}
+        {styleVariant === "duplicate" && (
+          <div className="absolute right-0 top-0 border-2 border-dashed border-red-600 text-red-600 px-2 py-0.5 font-sans font-black text-[10px] tracking-wider transform rotate-3 uppercase rounded bg-red-50/50">
+            OFFICIAL DUPLICATE COPY
+          </div>
+        )}
+
         <div className="flex items-center justify-between mb-1">
           <div className="flex items-center gap-1.5 text-slate-700 font-sans text-[10px] tracking-wider uppercase font-semibold">
             <ShieldCheck className="h-4 w-4 text-slate-800" />
