@@ -1,7 +1,7 @@
 "use client"
 
-import { useState, useEffect, useCallback, useTransition } from "react"
-import { useSearchParams, useRouter } from "next/navigation"
+import { useState, useEffect, useCallback } from "react"
+import { useSearchParams } from "next/navigation"
 import { toast } from "@/hooks/use-toast"
 import ConfigDialog from "@/components/config-dialog"
 import JsonDownloadDialog from "@/components/json-download-dialog"
@@ -50,70 +50,85 @@ export default function HomePage() {
   const [universityData, setUniversityData] = useState<UniversityData | null>(null)
   const [jsonDialogOpen, setJsonDialogOpen] = useState(false)
   const [restoredFromSnapshot, setRestoredFromSnapshot] = useState(false)
-  const [, startTransition] = useTransition()
-
   const searchParams = useSearchParams()
-  const router = useRouter()
 
-  // URL 配置参数
-  const state = searchParams.get("state") || ""
-  const city = searchParams.get("city") || ""
-  const gender = searchParams.get("gender") || ""
-  const nameSet = searchParams.get("nameSet") || "american"
-  const minAge = Number.parseInt(searchParams.get("minAge") || "0", 10) || 0
-  const maxAge = Number.parseInt(searchParams.get("maxAge") || "0", 10) || 0
-  
-  // 智能识别旧版残缺字段 URL 并自动升级为全量字段
-  const rawFields = searchParams.get("fields")
-  const isOutdatedFields = !rawFields || !rawFields.includes("occupation")
-  const visibleFields = isOutdatedFields ? DEFAULT_VISIBLE_FIELDS : rawFields.split(",")
+  // 核心生成与筛选参数（由内部 React State 管理，保持地址栏极致干净）
+  const [state, setState] = useState<string>(() => searchParams.get("state") || "")
+  const [city, setCity] = useState<string>(() => searchParams.get("city") || "")
+  const [gender, setGender] = useState<string>(() => searchParams.get("gender") || "")
+  const [nameSet, setNameSet] = useState<string>(() => searchParams.get("nameSet") || "american")
+  const [minAge, setMinAge] = useState<number>(() => Number.parseInt(searchParams.get("minAge") || "0", 10) || 0)
+  const [maxAge, setMaxAge] = useState<number>(() => Number.parseInt(searchParams.get("maxAge") || "0", 10) || 0)
+  const [seed, setSeed] = useState<number>(() => {
+    const s = searchParams.get("seed")
+    return s ? Number.parseInt(s, 10) || generateSeed() : generateSeed()
+  })
 
-  const seedParam = searchParams.get("seed")
-  const seed = Number.parseInt(seedParam || "0", 10) || generateSeed()
+  // 教育偏好配置
+  const [highState, setHighState] = useState<string>(() => searchParams.get("highState") || "")
+  const [highCity, setHighCity] = useState<string>(() => searchParams.get("highCity") || "")
+  const [universityState, setUniversityState] = useState<string>(() => searchParams.get("universityState") || "")
+  const [universityCity, setUniversityCity] = useState<string>(() => searchParams.get("universityCity") || "")
 
-  const highState = searchParams.get("highState") || ""
-  const highCity = searchParams.get("highCity") || ""
-  const universityState = searchParams.get("universityState") || ""
-  const universityCity = searchParams.get("universityCity") || ""
+  // 可见字段偏好（持久化在 localStorage，杜绝在地址栏堆砌数百字符的字段参数）
+  const [visibleFields, setVisibleFields] = useState<string[]>(DEFAULT_VISIBLE_FIELDS)
 
-  // 初始化必要参数与迁移旧 URL 缓存
+  // 客户端挂载时：从 localStorage 加载用户偏好字段，并静默清理地址栏中历史残留的冗长 fields=... 参数
   useEffect(() => {
-    if (!searchParams.get("fields") || !searchParams.get("fields")?.includes("occupation") || !searchParams.get("seed")) {
-      const params = new URLSearchParams(searchParams.toString())
-      params.set("fields", DEFAULT_VISIBLE_FIELDS.join(","))
-      if (!params.get("seed")) {
-        params.set("seed", generateSeed().toString())
-      }
-      router.replace(`/?${params.toString()}`)
-    }
-  }, [searchParams, router])
-
-  const updateUrlParams = useCallback(
-    (updates: Record<string, string>) => {
-      const params = new URLSearchParams(searchParams.toString())
-      Object.entries(updates).forEach(([key, value]) => {
-        if (value) {
-          params.set(key, value)
+    if (typeof window !== "undefined") {
+      try {
+        const cached = localStorage.getItem("us_fake_gen_visible_fields")
+        if (cached) {
+          const parsed = JSON.parse(cached)
+          if (Array.isArray(parsed) && parsed.length > 0 && parsed.includes("occupation")) {
+            setVisibleFields(parsed)
+          }
         } else {
-          params.delete(key)
+          // 兼容读取旧书签/历史 URL 中的 fields 参数一次并转存至本地
+          const urlFields = searchParams.get("fields")
+          if (urlFields && urlFields.includes("occupation")) {
+            const list = urlFields.split(",")
+            setVisibleFields(list)
+            localStorage.setItem("us_fake_gen_visible_fields", JSON.stringify(list))
+          }
         }
-      })
-      startTransition(() => {
-        router.replace(`/?${params.toString()}`)
-      })
-    },
-    [searchParams, router],
-  )
+      } catch (e) {
+        console.error("Failed to load visibleFields cache:", e)
+      }
+
+      // 静默移除地址栏中的 fields 参数，保持地址栏极致纯净
+      if (window.location.search && window.location.search.includes("fields=")) {
+        const url = new URL(window.location.href)
+        url.searchParams.delete("fields")
+        const cleanSearch = url.searchParams.toString()
+        const cleanUrl = cleanSearch ? `${url.pathname}?${cleanSearch}` : url.pathname
+        window.history.replaceState(null, "", cleanUrl)
+      }
+    }
+  }, [searchParams])
+
+  const updateVisibleFields = (fields: string[]) => {
+    setVisibleFields(fields)
+    try {
+      localStorage.setItem("us_fake_gen_visible_fields", JSON.stringify(fields))
+    } catch (e) {
+      console.error("Failed to save visibleFields to localStorage:", e)
+    }
+  }
 
   const fetchEducationData = async (
     personState: string,
     personCity: string,
     querySeed: number,
+    customHighState?: string,
+    customHighCity?: string,
+    customUniState?: string,
+    customUniCity?: string,
   ) => {
     // 1. 中学信息：从 NCES 官方数据库检索 100% 真实高中
     let schoolResult: SchoolData | null = null
-    const schoolStateToUse = highState || personState
-    const schoolCityToUse = highCity || personCity
+    const schoolStateToUse = (customHighState !== undefined ? customHighState : highState) || personState
+    const schoolCityToUse = (customHighCity !== undefined ? customHighCity : highCity) || personCity
 
     if (schoolStateToUse) {
       try {
@@ -153,7 +168,7 @@ export default function HomePage() {
     }
 
     // 2. 大学信息：使用官方认证权威全美 50 州真实大学数据库（100% 保证有数据且真实存在）
-    const universityStateToUse = universityState || personState
+    const universityStateToUse = (customUniState !== undefined ? customUniState : universityState) || personState
     const universityResult = getRealUniversity(universityStateToUse, querySeed)
 
     setSchoolData(schoolResult)
@@ -161,27 +176,60 @@ export default function HomePage() {
   }
 
   const fetchData = useCallback(
-    async (targetSeed: number) => {
+    async (
+      targetSeed: number,
+      overrides?: {
+        state?: string
+        city?: string
+        gender?: string
+        nameSet?: string
+        minAge?: number
+        maxAge?: number
+        highState?: string
+        highCity?: string
+        universityState?: string
+        universityCity?: string
+      },
+    ) => {
+      const activeState = overrides?.state !== undefined ? overrides.state : state
+      const activeCity = overrides?.city !== undefined ? overrides.city : city
+      const activeGender = overrides?.gender !== undefined ? overrides.gender : gender
+      const activeNameSet = overrides?.nameSet !== undefined ? overrides.nameSet : nameSet
+      const activeMinAge = overrides?.minAge !== undefined ? overrides.minAge : minAge
+      const activeMaxAge = overrides?.maxAge !== undefined ? overrides.maxAge : maxAge
+      const activeHighState = overrides?.highState !== undefined ? overrides.highState : highState
+      const activeHighCity = overrides?.highCity !== undefined ? overrides.highCity : highCity
+      const activeUniState = overrides?.universityState !== undefined ? overrides.universityState : universityState
+      const activeUniCity = overrides?.universityCity !== undefined ? overrides.universityCity : universityCity
+
       setLoading(true)
       try {
         let onlineRealAddress = null
-        if (state) {
-          onlineRealAddress = await fetchRealAddressOnline(state, city, targetSeed)
+        if (activeState) {
+          onlineRealAddress = await fetchRealAddressOnline(activeState, activeCity, targetSeed)
         }
 
         const result = generatePersonData({
-          state,
-          city,
-          gender,
-          nameSet,
-          minAge,
-          maxAge,
+          state: activeState,
+          city: activeCity,
+          gender: activeGender,
+          nameSet: activeNameSet,
+          minAge: activeMinAge,
+          maxAge: activeMaxAge,
           seed: targetSeed,
           realAddress: onlineRealAddress || undefined,
         })
 
         setData(result)
-        await fetchEducationData(result.state, result.city, targetSeed)
+        await fetchEducationData(
+          result.state,
+          result.city,
+          targetSeed,
+          activeHighState,
+          activeHighCity,
+          activeUniState,
+          activeUniCity,
+        )
       } catch (error) {
         console.error("Generate error:", error)
         toast({
@@ -213,51 +261,109 @@ export default function HomePage() {
     }
   }, [])
 
+  // 初次进入页面时立即生成初始数据
   useEffect(() => {
     if (restoredFromSnapshot) return
-    if (searchParams.get("fields") && searchParams.get("seed")) {
-      fetchData(seed)
-    }
-  }, [searchParams, seed, fetchData, restoredFromSnapshot])
+    fetchData(seed)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   const handleRegenerate = () => {
     if (typeof window !== "undefined" && window.location.hash) {
-      window.history.replaceState(null, "", window.location.pathname + window.location.search)
+      window.history.replaceState(null, "", window.location.pathname)
     }
     setRestoredFromSnapshot(false)
-    updateUrlParams({ seed: generateSeed().toString() })
+    const newSeed = generateSeed()
+    setSeed(newSeed)
+    fetchData(newSeed)
   }
 
   const handleStateChange = (newState: string) => {
-    updateUrlParams({ state: newState, city: "", seed: generateSeed().toString() })
+    setState(newState)
+    setCity("")
+    const newSeed = generateSeed()
+    setSeed(newSeed)
+    fetchData(newSeed, { state: newState, city: "" })
   }
 
   const handleGenderChange = (newGender: string) => {
-    updateUrlParams({ gender: newGender, seed: generateSeed().toString() })
+    setGender(newGender)
+    const newSeed = generateSeed()
+    setSeed(newSeed)
+    fetchData(newSeed, { gender: newGender })
   }
 
   const handleNameSetChange = (newNameSet: string) => {
-    updateUrlParams({
-      nameSet: newNameSet === "american" ? "" : newNameSet,
-      seed: generateSeed().toString(),
-    })
+    const formatted = newNameSet === "american" ? "" : newNameSet
+    setNameSet(formatted)
+    const newSeed = generateSeed()
+    setSeed(newSeed)
+    fetchData(newSeed, { nameSet: formatted })
   }
 
   const handleAgeChange = (newMin: number, newMax: number) => {
-    updateUrlParams({
-      minAge: newMin ? newMin.toString() : "",
-      maxAge: newMax ? newMax.toString() : "",
-      seed: generateSeed().toString(),
-    })
+    setMinAge(newMin)
+    setMaxAge(newMax)
+    const newSeed = generateSeed()
+    setSeed(newSeed)
+    fetchData(newSeed, { minAge: newMin, maxAge: newMax })
   }
 
   const handleApplyPreset = (params: { state: string; minAge?: number; maxAge?: number }) => {
-    updateUrlParams({
+    const minA = params.minAge || 0
+    const maxA = params.maxAge || 0
+    setState(params.state)
+    setCity("")
+    setMinAge(minA)
+    setMaxAge(maxA)
+    const newSeed = generateSeed()
+    setSeed(newSeed)
+    fetchData(newSeed, {
       state: params.state,
       city: "",
-      minAge: params.minAge ? params.minAge.toString() : "",
-      maxAge: params.maxAge ? params.maxAge.toString() : "",
-      seed: generateSeed().toString(),
+      minAge: minA,
+      maxAge: maxA,
+    })
+  }
+
+  const handleApplyConfig = (newConfig: {
+    state: string
+    city: string
+    gender: string
+    nameSet?: string
+    minAge: number
+    maxAge: number
+    visibleFields: string[]
+    highState: string
+    highCity: string
+    universityState: string
+    universityCity: string
+  }) => {
+    setState(newConfig.state)
+    setCity(newConfig.city)
+    setGender(newConfig.gender)
+    setNameSet(newConfig.nameSet || "american")
+    setMinAge(newConfig.minAge)
+    setMaxAge(newConfig.maxAge)
+    setHighState(newConfig.highState)
+    setHighCity(newConfig.highCity)
+    setUniversityState(newConfig.universityState)
+    setUniversityCity(newConfig.universityCity)
+    updateVisibleFields(newConfig.visibleFields)
+
+    const newSeed = generateSeed()
+    setSeed(newSeed)
+    fetchData(newSeed, {
+      state: newConfig.state,
+      city: newConfig.city,
+      gender: newConfig.gender,
+      nameSet: newConfig.nameSet || "american",
+      minAge: newConfig.minAge,
+      maxAge: newConfig.maxAge,
+      highState: newConfig.highState,
+      highCity: newConfig.highCity,
+      universityState: newConfig.universityState,
+      universityCity: newConfig.universityCity,
     })
   }
 
@@ -266,12 +372,10 @@ export default function HomePage() {
     if (restored.school) setSchoolData(restored.school)
     if (restored.university) setUniversityData(restored.university)
     if (restored.person.state) {
-      updateUrlParams({
-        state: restored.person.state,
-        city: restored.person.city || "",
-        gender: restored.person.gender || "",
-        nameSet: restored.person.nameSet || "",
-      })
+      setState(restored.person.state)
+      setCity(restored.person.city || "")
+      setGender(restored.person.gender || "")
+      setNameSet(restored.person.nameSet || "")
     }
   }
 
@@ -424,6 +528,7 @@ export default function HomePage() {
           universityState,
           universityCity,
         }}
+        onApplyConfig={handleApplyConfig}
       />
 
       {/* JSON 导出与下载弹窗 */}

@@ -33,9 +33,22 @@ interface ConfigDialogProps {
     universityState: string
     universityCity: string
   }
+  onApplyConfig?: (newConfig: {
+    state: string
+    city: string
+    gender: string
+    nameSet?: string
+    minAge: number
+    maxAge: number
+    visibleFields: string[]
+    highState: string
+    highCity: string
+    universityState: string
+    universityCity: string
+  }) => void
 }
 
-function ConfigDialog({ open, onOpenChange, currentConfig }: ConfigDialogProps) {
+function ConfigDialog({ open, onOpenChange, currentConfig, onApplyConfig }: ConfigDialogProps) {
   const [state, setState] = useState(currentConfig.state)
   const [city, setCity] = useState(currentConfig.city)
   const [cities, setCities] = useState<string[]>(() => getCitiesForState(currentConfig.state))
@@ -110,22 +123,27 @@ function ConfigDialog({ open, onOpenChange, currentConfig }: ConfigDialogProps) 
   }
 
   const handleApply = () => {
-    const params = new URLSearchParams()
-
-    if (state && state !== "random") params.set("state", state)
-    if (city && city !== "random") params.set("city", city)
-    if (gender && gender !== "random") params.set("gender", gender)
-    if (nameSet && nameSet !== "american") params.set("nameSet", nameSet)
-    if (minAge > 0) params.set("minAge", minAge.toString())
-    if (maxAge > 0) params.set("maxAge", maxAge.toString())
-    if (seed) params.set("seed", seed)
-    if (highState && highState !== "random") params.set("highState", highState)
-    if (highCity && highCity !== "random") params.set("highCity", highCity)
-    if (universityState && universityState !== "random") params.set("universityState", universityState)
-    if (universityCity && universityCity !== "random") params.set("universityCity", universityCity)
-    params.set("fields", visibleFields.join(","))
-
-    router.push(`/?${params.toString()}`)
+    if (onApplyConfig) {
+      onApplyConfig({
+        state: state === "random" ? "" : state,
+        city: city === "random" ? "" : city,
+        gender: gender === "random" ? "" : gender,
+        nameSet: nameSet === "american" ? "" : nameSet,
+        minAge,
+        maxAge,
+        visibleFields,
+        highState: highState === "random" ? "" : highState,
+        highCity: highCity === "random" ? "" : highCity,
+        universityState: universityState === "random" ? "" : universityState,
+        universityCity: universityCity === "random" ? "" : universityCity,
+      })
+    } else {
+      const params = new URLSearchParams()
+      if (state && state !== "random") params.set("state", state)
+      if (city && city !== "random") params.set("city", city)
+      if (gender && gender !== "random") params.set("gender", gender)
+      router.push(`/?${params.toString()}`)
+    }
     onOpenChange(false)
   }
 
