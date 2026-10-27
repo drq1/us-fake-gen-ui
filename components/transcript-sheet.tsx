@@ -111,11 +111,11 @@ export function TranscriptSheet({
         {/* 学校官方题头主排版：左官方印章 + 中学校名 + 右学术纹章 */}
         <div className="flex items-center justify-between gap-3 my-1.5">
           {/* 左侧：官方高中印章 / 州教育厅印章 */}
-          <div className="flex items-center justify-center shrink-0">
+          <div className="flex items-center justify-center shrink-0 w-16 h-16 sm:w-20 sm:h-20 max-w-[80px] max-h-[80px]">
             <img
               src={getHighSchoolLogoUrl(data.schoolName, data.schoolState)}
               alt="High School Official Seal"
-              className="h-18 w-18 sm:h-22 sm:w-22 print:h-17 print:w-17 object-contain drop-shadow-sm"
+              className="w-16 h-16 sm:w-20 sm:h-20 object-contain drop-shadow-sm max-h-full max-w-full"
             />
           </div>
 
@@ -144,10 +144,10 @@ export function TranscriptSheet({
           </div>
 
           {/* 右侧：个性化定制高中学术纹章 */}
-          <div className="flex items-center justify-center shrink-0">
+          <div className="flex items-center justify-center shrink-0 w-16 h-16 sm:w-20 sm:h-20 max-w-[80px] max-h-[80px]">
             <HighSchoolAcademicCrest
               schoolName={data.schoolName}
-              className="h-18 w-18 sm:h-22 sm:w-22 print:h-17 print:w-17 drop-shadow-sm"
+              className="w-16 h-16 sm:w-20 sm:h-20 drop-shadow-sm max-h-full max-w-full"
             />
           </div>
         </div>
@@ -383,7 +383,7 @@ export function TranscriptSheet({
           </div>
 
           {/* 官方州教育厅 / 官方注册处正规大印 (支持酒红印泥公章 / 官方全彩 / 烫金钢印) */}
-          <div className="flex flex-col items-center justify-center shrink-0">
+          <div className="flex flex-col items-center justify-center shrink-0 w-24 h-24 max-w-[96px] max-h-[96px]">
             {sealStyle === "crimson" ? (
               /* 1. 美高纸质正件最常用：教务处酒红/深红印泥印鉴 (Crimson Inked Stamp) */
               <div className="relative flex flex-col items-center justify-center">
@@ -391,7 +391,7 @@ export function TranscriptSheet({
                   <img
                     src={getHighSchoolLogoUrl(data.schoolName, data.schoolState)}
                     alt="Official Accredited Registrar Seal"
-                    className="h-18 w-18 sm:h-20 sm:w-20 print:h-18 print:w-18 object-contain filter contrast-150 sepia hue-rotate-[320deg] brightness-75"
+                    className="w-16 h-16 sm:w-20 sm:h-20 object-contain filter contrast-150 sepia hue-rotate-[320deg] brightness-75 max-h-20 max-w-20"
                   />
                 </div>
                 <span className="text-[7px] font-sans font-black text-[#991b1b] uppercase tracking-widest mt-0.5">
@@ -405,7 +405,7 @@ export function TranscriptSheet({
                   <img
                     src={getHighSchoolLogoUrl(data.schoolName, data.schoolState)}
                     alt="Official Accredited Registrar Seal"
-                    className="h-18 w-18 sm:h-20 sm:w-20 print:h-18 print:w-18 object-contain filter contrast-125 sepia hue-rotate-[10deg] brightness-90"
+                    className="w-16 h-16 sm:w-20 sm:h-20 object-contain filter contrast-125 sepia hue-rotate-[10deg] brightness-90 max-h-20 max-w-20"
                   />
                 </div>
                 <span className="text-[7px] font-sans font-black text-[#b45309] uppercase tracking-widest mt-0.5">
@@ -418,7 +418,7 @@ export function TranscriptSheet({
                 <img
                   src={getHighSchoolLogoUrl(data.schoolName, data.schoolState)}
                   alt="Official Accredited Registrar Seal"
-                  className="h-18 w-18 sm:h-20 sm:w-20 print:h-18 print:w-18 object-contain drop-shadow-md"
+                  className="w-16 h-16 sm:w-20 sm:h-20 object-contain drop-shadow-md max-h-20 max-w-20"
                 />
                 <span className="text-[7.5px] font-sans font-bold text-slate-600 uppercase tracking-widest mt-0.5">
                   OFFICIAL EMBOSSED SEAL

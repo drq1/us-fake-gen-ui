@@ -185,6 +185,14 @@ code, kbd, samp, pre, .font-mono {
     print-color-adjust: exact !important;
   }
 
+  /* 6. 确保任何官方州印、教务处大印在打印模式下绝对不会失控膨胀 */
+  #printable-transcript .shrink-0 img,
+  #printable-university-transcript .shrink-0 img {
+    max-height: 80px !important;
+    max-width: 80px !important;
+    object-fit: contain !important;
+  }
+
   @page {
     size: letter portrait;
     margin: 0.18in 0.25in;

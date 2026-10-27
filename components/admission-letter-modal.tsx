@@ -215,7 +215,7 @@ export function AdmissionLetterModal({
               ) : letterData.sealType === "harvard" ? (
                 <div className="mb-8 border-b-2 border-[#a51c30] pb-4 flex items-center justify-between font-serif">
                   <div className="flex items-center gap-4">
-                    <HarvardVeritasShield className="h-18 sm:h-20 w-auto shadow-sm" />
+                    <HarvardVeritasShield className="h-16 sm:h-20 w-auto shadow-sm" />
                     <div>
                       <h1 className="text-lg sm:text-xl font-bold tracking-tight text-[#a51c30] uppercase">
                         HARVARD MEDICAL SCHOOL
@@ -234,7 +234,7 @@ export function AdmissionLetterModal({
               ) : letterData.sealType === "uchicago" ? (
                 <div className="mb-8 border-b-2 border-[#800000] pb-4 flex items-center justify-between font-serif">
                   <div className="flex items-center gap-4">
-                    <UChicagoPhoenixBadge className="h-16 sm:h-18 w-auto shadow-sm" />
+                    <UChicagoPhoenixBadge className="h-16 sm:h-20 w-auto shadow-sm" />
                     <div>
                       <h1 className="text-lg sm:text-xl font-bold tracking-tight text-[#800000] uppercase">
                         THE UNIVERSITY OF CHICAGO
@@ -252,7 +252,7 @@ export function AdmissionLetterModal({
               ) : letterData.sealType === "csuf" ? (
                 <div className="mb-8 border-b-2 border-[#00274c] pb-3 flex items-center justify-between font-sans">
                   <div className="flex items-center gap-4">
-                    <CsufOfficialSeal className="h-18 sm:h-20 w-18 sm:w-20 shadow-sm shrink-0" />
+                    <CsufOfficialSeal className="w-16 h-16 sm:w-20 sm:h-20 shadow-sm shrink-0" />
                     <div>
                       <h1 className="text-lg sm:text-xl font-black tracking-tight text-[#00274c] uppercase">
                         CALIFORNIA STATE UNIVERSITY, FULLERTON

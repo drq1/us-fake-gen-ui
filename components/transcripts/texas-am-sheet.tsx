@@ -198,7 +198,7 @@ export function TexasAmSheet({
             </div>
 
             {/* 德州农工官方酒红圆形教务印章 (大幅清晰提升) */}
-            <TexasAmOfficialSeal className="h-22 w-22 sm:h-26 sm:w-26 drop-shadow-sm" />
+            <TexasAmOfficialSeal className="w-16 h-16 sm:w-20 sm:h-20 drop-shadow-sm" />
           </div>
         </div>
       </div>

@@ -315,7 +315,7 @@ export function StandardUniversitySheet({
                   <img
                     src={logoUrl}
                     alt="Official University Registrar Seal"
-                    className="h-22 w-22 sm:h-26 sm:w-26 md:h-28 md:w-28 object-contain shrink-0 drop-shadow-sm"
+                    className="w-16 h-16 sm:w-20 sm:h-20 max-w-[80px] max-h-[80px] object-contain shrink-0 drop-shadow-sm"
                   />
                 )
               }
@@ -323,7 +323,7 @@ export function StandardUniversitySheet({
                 <img
                   src={getHighSchoolLogoUrl(undefined, data.state)}
                   alt="State Department of Higher Education Official Seal"
-                  className="h-22 w-22 sm:h-26 sm:w-26 md:h-28 md:w-28 object-contain shrink-0 drop-shadow-sm"
+                  className="w-16 h-16 sm:w-20 sm:h-20 max-w-[80px] max-h-[80px] object-contain shrink-0 drop-shadow-sm"
                 />
               )
             })()}
