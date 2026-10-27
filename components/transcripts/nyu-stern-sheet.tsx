@@ -209,10 +209,7 @@ export function NyuSternSheet({
             </div>
             <div className="text-[10px] text-slate-500">University Registrar</div>
           </div>
-          <div className="h-14 w-14 rounded-full border-2 border-[#57068c] flex flex-col items-center justify-center bg-purple-50 text-[#57068c] font-serif shadow-xs">
-            <Award className="h-4 w-4 mb-0.5" />
-            <span className="text-[6px] font-bold uppercase tracking-tighter">NYU SEAL</span>
-          </div>
+          <NyuTorchBadge className="h-16 w-16 shadow-xs shrink-0" />
         </div>
       </div>
     </div>

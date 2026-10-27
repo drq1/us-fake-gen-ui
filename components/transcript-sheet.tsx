@@ -3,7 +3,7 @@
 import React from "react"
 import type { StudentTranscript, CourseRecord } from "@/lib/transcript-types"
 import { Award, ShieldCheck, CheckCircle2 } from "lucide-react"
-import { ParchmentLogo } from "@/components/brand-logos"
+import { ParchmentLogo, OfficialStateEducationSeal } from "@/components/brand-logos"
 
 interface TranscriptSheetProps {
   data: StudentTranscript
@@ -353,20 +353,13 @@ export function TranscriptSheet({
             </div>
           </div>
 
-          {/* 官方钢印/红印模拟徽章 */}
-          <div className="flex flex-col items-center justify-center">
-            <div className="w-20 h-20 rounded-full border-2 border-dashed border-red-700/80 p-1 flex items-center justify-center text-center text-red-800 select-none">
-              <div className="w-full h-full rounded-full border border-red-700/70 flex flex-col items-center justify-center p-1 bg-red-50/20">
-                <Award className="h-4 w-4 text-red-700 mb-0.5" />
-                <span className="text-[6.5px] font-black uppercase tracking-tighter leading-none">
-                  OFFICIAL SEAL
-                </span>
-                <span className="text-[5.5px] font-serif font-bold tracking-widest text-red-900 mt-0.5">
-                  STATE BOARD
-                </span>
-              </div>
-            </div>
-            <span className="text-[8px] font-sans font-bold text-slate-500 mt-1">OFFICIAL INSTITUTIONAL SEAL</span>
+          {/* 官方州教育厅 / 学区防伪钢印大印 */}
+          <div className="flex flex-col items-center justify-center shrink-0">
+            <OfficialStateEducationSeal
+              stateName={data.schoolState || "STATE"}
+              className="h-20 w-20 drop-shadow-xs"
+              color="#991b1b"
+            />
           </div>
 
           {/* 教务主任/注册处 */}

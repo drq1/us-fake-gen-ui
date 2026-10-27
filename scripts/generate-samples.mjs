@@ -280,13 +280,15 @@ async function buildTranscriptPdf(options) {
   page.drawLine({ start: { x: 35, y: curY + 2 }, end: { x: 210, y: curY + 2 }, color: cBorder, thickness: 1 })
   page.drawText("PRINCIPAL SIGNATURE & TITLE", { x: 50, y: curY - 8, size: 7, font: fontSansBold, color: cBorder })
 
-  // 官方公章 (模拟红色圆印章)
+  // 官方公章 (模拟教育部双环徽章)
   const sealX = width / 2
   const sealY = curY - 2
-  page.drawCircle({ x: sealX, y: sealY, size: 26, borderColor: cRed, borderWidth: 1.5 })
-  page.drawCircle({ x: sealX, y: sealY, size: 22, borderColor: cRed, borderWidth: 0.75 })
-  page.drawText("OFFICIAL SEAL", { x: sealX - 20, y: sealY + 2, size: 5.5, font: fontSansBold, color: cRed })
-  page.drawText("STATE BOARD", { x: sealX - 18, y: sealY - 6, size: 5, font: fontSansBold, color: cRed })
+  page.drawCircle({ x: sealX, y: sealY, size: 28, borderColor: cRed, borderWidth: 1.5 })
+  page.drawCircle({ x: sealX, y: sealY, size: 23, borderColor: cRed, borderWidth: 0.75 })
+  page.drawCircle({ x: sealX, y: sealY, size: 16, borderColor: cRed, borderWidth: 0.5 })
+  page.drawText("STATE BOARD OF EDUCATION", { x: sealX - 31, y: sealY + 18, size: 4.5, font: fontSansBold, color: cRed })
+  page.drawText("OFFICIAL SEAL", { x: sealX - 16, y: sealY - 1, size: 5, font: fontSansBold, color: cRed })
+  page.drawText("ACCREDITED", { x: sealX - 14, y: sealY - 7, size: 4.5, font: fontSansBold, color: cRed })
 
   // 教务注册主任签名
   page.drawText("Karen L. Montgomery", { x: width - 195, y: curY + 6, size: 10, font: fontSerifItalic, color: cNavy })

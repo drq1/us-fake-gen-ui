@@ -242,6 +242,122 @@ export function RealIdStarBadge({ className = "h-7", ...props }: React.SVGProps<
   )
 }
 
+// 19. 州教育厅与公立高中官方防伪公章大印 (Official State Board of Education Seal)
+export function OfficialStateEducationSeal({
+  stateName = "STATE",
+  className = "h-20 w-20",
+  color = "#991b1b",
+  ...props
+}: {
+  stateName?: string
+  className?: string
+  color?: string
+} & React.SVGProps<SVGSVGElement>) {
+  const arcTopId = React.useId()
+  const arcBottomId = React.useId()
+  const cleanState = (stateName || "STATE").trim().toUpperCase()
+  const topText = `★ ${cleanState} BOARD OF EDUCATION ★`
+
+  return (
+    <svg
+      viewBox="0 0 200 200"
+      className={`select-none transform -rotate-2 ${className}`}
+      {...props}
+    >
+      <defs>
+        <path
+          id={arcTopId}
+          d="M 27 100 A 73 73 0 0 1 173 100"
+          fill="none"
+        />
+        <path
+          id={arcBottomId}
+          d="M 173 100 A 73 73 0 0 1 27 100"
+          fill="none"
+        />
+      </defs>
+
+      {/* 外圈微珠防伪齿轮环 */}
+      <circle cx="100" cy="100" r="95" fill="none" stroke={color} strokeWidth="1.8" />
+      <circle cx="100" cy="100" r="91" fill="none" stroke={color} strokeWidth="1" strokeDasharray="3.5 2.5" />
+      
+      {/* 双同心实线主环 */}
+      <circle cx="100" cy="100" r="86" fill="none" stroke={color} strokeWidth="2.2" />
+      <circle cx="100" cy="100" r="62" fill="none" stroke={color} strokeWidth="1.5" />
+
+      {/* 环形文字：上半弧 */}
+      <text fill={color} fontFamily="Georgia, 'Times New Roman', serif" fontSize="9.5" fontWeight="900" letterSpacing="1.2">
+        <textPath href={`#${arcTopId}`} startOffset="50%" textAnchor="middle">
+          {topText}
+        </textPath>
+      </text>
+
+      {/* 环形文字：下半弧 */}
+      <text fill={color} fontFamily="Georgia, 'Times New Roman', serif" fontSize="8.5" fontWeight="bold" letterSpacing="1.8">
+        <textPath href={`#${arcBottomId}`} startOffset="50%" textAnchor="middle">
+          ★ OFFICIAL ACCREDITED SEAL ★
+        </textPath>
+      </text>
+
+      {/* 中心核心：学者知识火炬、展开知识圣书与双侧月桂冠 */}
+      <path
+        d="M 77 116 Q 88 112 100 116 Q 112 112 123 116 L 121 131 Q 111 127 100 131 Q 89 127 79 131 Z"
+        fill="none"
+        stroke={color}
+        strokeWidth="1.6"
+      />
+      <line x1="100" y1="116" x2="100" y2="131" stroke={color} strokeWidth="1.6" />
+      <line x1="83" y1="121" x2="95" y2="121" stroke={color} strokeWidth="0.8" />
+      <line x1="83" y1="125" x2="95" y2="125" stroke={color} strokeWidth="0.8" />
+      <line x1="105" y1="121" x2="117" y2="121" stroke={color} strokeWidth="0.8" />
+      <line x1="105" y1="125" x2="117" y2="125" stroke={color} strokeWidth="0.8" />
+
+      {/* 知识火炬 */}
+      <path d="M 97 88 L 103 88 L 101 110 L 99 110 Z" fill={color} />
+      <path d="M 95 88 L 105 88 L 103 82 L 97 82 Z" fill={color} />
+      <path
+        d="M 100 68 C 96 72 95 76 97 80 C 99 80 101 78 102 76 C 103 80 106 80 105 74 C 105 71 102 69 100 68 Z"
+        fill={color}
+      />
+
+      {/* 环绕五角星 */}
+      {[-130, -110, -90, -70, -50].map((angle, idx) => {
+        const rad = (angle * Math.PI) / 180
+        const x = 100 + 46 * Math.cos(rad)
+        const y = 92 + 46 * Math.sin(rad)
+        return (
+          <polygon
+            key={idx}
+            points={`${x},${y - 2.5} ${x + 0.8},${y - 0.8} ${x + 2.5},${y - 0.8} ${x + 1.2},${y + 0.5} ${x + 1.6},${y + 2.5} ${x},${y + 1.2} ${x - 1.6},${y + 2.5} ${x - 1.2},${y + 0.5} ${x - 2.5},${y - 0.8} ${x - 0.8},${y - 0.8}`}
+            fill={color}
+          />
+        )
+      })}
+
+      {/* 双侧月桂叶枝 */}
+      <path
+        d="M 69 114 C 65 99 69 84 76 74 M 69 114 C 66 109 61 107 59 101 M 68 103 C 63 99 63 93 65 89 M 71 93 C 68 87 71 81 74 77"
+        fill="none"
+        stroke={color}
+        strokeWidth="1.2"
+        strokeLinecap="round"
+      />
+      <path
+        d="M 131 114 C 135 99 131 84 124 74 M 131 114 C 134 109 139 107 141 101 M 132 103 C 137 99 137 93 135 89 M 129 93 C 132 87 129 81 126 77"
+        fill="none"
+        stroke={color}
+        strokeWidth="1.2"
+        strokeLinecap="round"
+      />
+
+      {/* 底部横幅标注 */}
+      <text x="100" y="145" fill={color} fontFamily="Georgia, serif" fontSize="7" fontWeight="bold" textAnchor="middle" letterSpacing="0.8">
+        FERPA CERTIFIED
+      </text>
+    </svg>
+  )
+}
+
 /**
  * 智能高校 Logo 解析器：传入任意大学名称，自动匹配并返回高精官方矢量图路径
  */

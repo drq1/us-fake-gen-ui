@@ -3,7 +3,7 @@
 import React from "react"
 import type { UniversityTranscriptData } from "@/lib/university-transcript-types"
 import { Award, CheckCircle2 } from "lucide-react"
-import { getUniversityLogoUrl } from "@/components/brand-logos"
+import { getUniversityLogoUrl, OfficialStateEducationSeal } from "@/components/brand-logos"
 
 export interface StandardUniversitySheetProps {
   data: UniversityTranscriptData
@@ -309,14 +309,26 @@ export function StandardUniversitySheet({
               <div className="text-[10px] text-slate-500">{data.registrarTitle}</div>
             </div>
 
-            <div
-              className="h-16 w-16 rounded-full border-2 border-double flex flex-col items-center justify-center p-1 font-serif shadow-xs"
-              style={{ borderColor: themeColor, color: themeColor, backgroundColor: `${themeColor}10` }}
-            >
-              <Award className="h-5 w-5 mb-0.5" style={{ color: themeColor }} />
-              <span className="text-[7px] font-bold uppercase tracking-tighter">OFFICIAL SEAL</span>
-              <span className="text-[6px] tracking-widest uppercase">REGISTRAR</span>
-            </div>
+            {(() => {
+              const queryName = isHarvard ? "harvard" : isMit ? "mit" : isUcla ? "ucla" : data.universityName
+              const logoUrl = getUniversityLogoUrl(queryName)
+              if (logoUrl) {
+                return (
+                  <img
+                    src={logoUrl}
+                    alt="Official University Registrar Seal"
+                    className="h-16 w-16 object-contain shrink-0 drop-shadow-xs"
+                  />
+                )
+              }
+              return (
+                <OfficialStateEducationSeal
+                  stateName={data.state || "UNIVERSITY"}
+                  className="h-16 w-16 drop-shadow-xs"
+                  color={themeColor}
+                />
+              )
+            })()}
           </div>
         </div>
       </div>

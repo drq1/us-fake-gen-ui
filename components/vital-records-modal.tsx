@@ -4,6 +4,7 @@ import React, { useState, useEffect } from "react"
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog"
 import { Button } from "@/components/ui/button"
 import { Printer, FileBadge, Award, HeartHandshake, Baby, ArrowLeft, Download, ShieldCheck, CheckCircle2 } from "lucide-react"
+import { OfficialStateEducationSeal } from "@/components/brand-logos"
 import type { PersonData } from "@/lib/types"
 import { generateVitalRecords, type VitalRecordsData } from "@/lib/vital-records-generator"
 
@@ -364,10 +365,11 @@ export function VitalRecordsModal({
                         {birthVariant === "michigan" ? "State Registrar of Michigan" : "State Registrar of Vital Statistics"}
                       </span>
                     </div>
-                    <div className="h-16 w-16 rounded-full border-2 border-amber-800/80 flex flex-col items-center justify-center text-[8px] font-bold text-amber-900 text-center">
-                      <span>{birthVariant === "michigan" ? "MICHIGAN" : "STATE SEAL"}</span>
-                      <span className="text-[7px]">VITAL STATS</span>
-                    </div>
+                    <OfficialStateEducationSeal
+                      stateName={birthVariant === "michigan" ? "MICHIGAN" : records.birth.state}
+                      className="h-16 w-16 drop-shadow-xs shrink-0"
+                      color="#92400e"
+                    />
                   </div>
                 </div>
                 )
@@ -467,10 +469,17 @@ export function VitalRecordsModal({
                       </div>
                     </div>
 
-                    <div className="mt-8 flex justify-between items-end text-xs font-sans pt-2 border-t border-amber-200">
+                    <div className="mt-8 flex justify-between items-center text-xs font-sans pt-2 border-t border-amber-200">
                       <div className="text-left">
                         <span className="font-mono text-slate-500">Document No: {records.ged.documentNumber}</span>
                         <span className="block text-slate-700 font-bold mt-0.5">Issue Date: {records.ged.issueDate}</span>
+                      </div>
+                      <div className="flex flex-col items-center">
+                        <OfficialStateEducationSeal
+                          stateName={records.ged.stateBoardName.replace(/Board of Education|Department of Education/i, "").trim() || "STATE"}
+                          className="h-16 w-16 drop-shadow-xs shrink-0"
+                          color="#b45309"
+                        />
                       </div>
                       <div className="text-right">
                         <span className="font-signature-formal text-2xl font-bold text-slate-900 block select-none">
@@ -514,6 +523,13 @@ export function VitalRecordsModal({
                         {records.marriage.officiantName}
                       </span>
                       <span className="text-[9.5px] text-slate-500 font-sans block">Ordained Minister / Officiant</span>
+                    </div>
+                    <div className="flex flex-col items-center">
+                      <OfficialStateEducationSeal
+                        stateName={records.marriage.state || "STATE"}
+                        className="h-16 w-16 drop-shadow-xs shrink-0"
+                        color="#78350f"
+                      />
                     </div>
                     <div className="text-right">
                       <span className="text-[10px] text-slate-400 block">Attested by County Clerk</span>

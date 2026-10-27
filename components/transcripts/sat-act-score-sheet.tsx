@@ -172,11 +172,7 @@ export function SatActScoreSheet({ data, initialType = "SAT" }: SatActScoreSheet
                 valid for undergraduate admissions, scholarship eligibility, and NCAA initial-eligibility clearinghouse.
               </p>
             </div>
-            <div className="h-12 w-12 rounded-full border-2 border-[#0077c8] flex flex-col items-center justify-center text-[#0077c8] font-bold text-[7px] shrink-0">
-              <Award className="h-4 w-4 mb-0.5" />
-              <span>COLLEGE</span>
-              <span>BOARD</span>
-            </div>
+            <CollegeBoardLogo className="h-10 w-auto shrink-0 drop-shadow-xs" />
           </div>
         </div>
       )}
