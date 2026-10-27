@@ -275,6 +275,26 @@ export function AdmissionLetterModal({
                     <div>Philadelphia, PA 19122</div>
                   </div>
                 </div>
+              ) : letterData.sealType === "victoria" ? (
+                <div className="mb-8 border-b-2 border-[#002f6c] pb-3 flex items-center justify-between font-sans">
+                  <div className="flex items-center gap-2.5">
+                    <div className="h-9 w-9 bg-[#002f6c] text-[#ffd100] flex items-center justify-center font-bold text-lg rounded-sm shadow-xs">
+                      VU
+                    </div>
+                    <div>
+                      <h1 className="text-lg sm:text-xl font-black tracking-tight text-[#002f6c] uppercase">
+                        VICTORIA UNIVERSITY
+                      </h1>
+                      <p className="text-[11px] tracking-wide text-slate-600 font-medium">
+                        MELBOURNE AUSTRALIA · CRICOS Provider No. 00124K
+                      </p>
+                    </div>
+                  </div>
+                  <div className="text-right text-[11px] text-slate-600 leading-tight">
+                    <div>Footscray Park Campus</div>
+                    <div>Melbourne, VIC 3011, Australia</div>
+                  </div>
+                </div>
               ) : (
                 <div className="border-b-2 border-slate-900 pb-4 mb-6 flex justify-between items-center">
                   <div>
@@ -378,6 +398,26 @@ export function AdmissionLetterModal({
                   </p>
                   <p>
                     Welcome to the Harris community. We look forward to seeing the impact you will make in Chicago and around the world.
+                  </p>
+                </div>
+              ) : letterData.sealType === "victoria" ? (
+                <div className="space-y-3.5 text-[12.5px] sm:text-[13px] leading-relaxed text-slate-800 text-justify">
+                  <p>
+                    <b>Congratulations!</b> Victoria University is delighted to offer you admission to the{" "}
+                    <b>{letterData.degreeProgram}</b> program commencing in <b>{letterData.admitTerm}</b>.
+                  </p>
+                  <p>
+                    Victoria University (VU) is globally recognized for the revolutionary VU Block Model®, empowering students to achieve deeper subject mastery and enhanced career outcomes. At our Melbourne campuses, you will engage with world-class faculty and a thriving scholarly community representing over 100 countries.
+                  </p>
+                  <p>
+                    In recognition of your academic excellence, we are pleased to confirm that you have been awarded the{" "}
+                    <b>{letterData.scholarshipTitle}</b> in the amount of <b>{letterData.scholarshipAmount}</b>, to be credited toward your tuition across your enrolled semesters.
+                  </p>
+                  <p>
+                    To accept this offer and reserve your place, please sign and return the enclosed International Student Acceptance Agreement via your VU portal no later than <b>{letterData.responseDeadline}</b>.
+                  </p>
+                  <p>
+                    We look forward to welcoming you to Victoria University and Melbourne, Australia!
                   </p>
                 </div>
               ) : (

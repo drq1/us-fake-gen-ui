@@ -313,6 +313,8 @@ export function ReferenceTemplatesModal({
                             ? "csuf"
                             : lower.includes("temple")
                             ? "temple"
+                            : lower.includes("victoria")
+                            ? "victoria"
                             : undefined
                           saveScrollAndTrigger(() => onGenerateAdmissionLetter(schoolKey))
                         }}

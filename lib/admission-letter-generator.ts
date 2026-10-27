@@ -7,7 +7,7 @@ export interface AdmissionLetterData {
   cityStateZip: string
   phone: string
   website: string
-  sealType: "berkeley" | "mit" | "harvard" | "uchicago" | "csuf" | "temple" | "general"
+  sealType: "berkeley" | "mit" | "harvard" | "uchicago" | "csuf" | "temple" | "victoria" | "general"
   issueDate: string
   recipientName: string
   recipientAddress: string
@@ -44,7 +44,7 @@ interface PresetInstitution {
   cityStateZip: string
   phone: string
   website: string
-  sealType: "berkeley" | "mit" | "harvard" | "uchicago" | "csuf" | "temple" | "general"
+  sealType: "berkeley" | "mit" | "harvard" | "uchicago" | "csuf" | "temple" | "victoria" | "general"
   signatoryName: string
   signatoryTitle: string
   signatoryName2?: string
@@ -128,6 +128,18 @@ export const PRESET_INSTITUTIONS: PresetInstitution[] = [
     signatoryName: "Shawn L. Abbott, Ed.D.",
     signatoryTitle: "Vice Provost for Admissions, Financial Aid & Enrollment",
   },
+  {
+    id: "victoria",
+    name: "Victoria University",
+    schoolCollege: "VU International Admissions & Faculty of Business",
+    addressLine: "Footscray Park Campus, Ballarat Road",
+    cityStateZip: "Melbourne, VIC 3011, Australia",
+    phone: "+61 3 9919 6100",
+    website: "vu.edu.au",
+    sealType: "victoria",
+    signatoryName: "Professor Adam Shoemaker",
+    signatoryTitle: "Vice-Chancellor and President, Victoria University",
+  },
 ]
 
 export function generateAdmissionLetter(
@@ -173,6 +185,8 @@ export function generateAdmissionLetter(
     degreeProgram = "Bachelor of Arts in Business Administration"
   } else if (inst.id === "temple") {
     degreeProgram = "Bachelor of Arts in Film and Media Arts"
+  } else if (inst.id === "victoria") {
+    degreeProgram = "Master of Business Analytics (CRICOS Code: 098421F)"
   } else {
     const programs = [
       "Master of Science in Computer Science & Artificial Intelligence",
