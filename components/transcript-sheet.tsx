@@ -108,19 +108,19 @@ export function TranscriptSheet({
         </div>
 
         {/* 学校官方题头主排版：左官方印章 + 中学校名 + 右学术纹章 */}
-        <div className="flex items-center justify-between gap-3 my-1">
+        <div className="flex items-center justify-between gap-4 my-2">
           {/* 左侧：官方高中印章 / 州教育厅印章 */}
-          <div className="hidden sm:flex items-center gap-2 shrink-0">
+          <div className="flex items-center justify-center shrink-0">
             <img
               src={getHighSchoolLogoUrl(data.schoolName, data.schoolState)}
               alt="High School Official Seal"
-              className="h-16 w-16 object-contain drop-shadow-xs"
+              className="h-24 w-24 sm:h-28 sm:w-28 md:h-32 md:w-32 object-contain drop-shadow-sm"
             />
           </div>
 
           {/* 中间：学校名称与学区信息 */}
-          <div className="flex-1 text-center">
-            <h1 className="text-xl sm:text-2xl lg:text-3xl font-black uppercase tracking-wider text-slate-950 font-serif">
+          <div className="flex-1 text-center px-2">
+            <h1 className="text-xl sm:text-2xl lg:text-3xl font-black uppercase tracking-wider text-slate-950 font-serif leading-tight">
               {isEditable ? (
                 <input
                   type="text"
@@ -133,20 +133,20 @@ export function TranscriptSheet({
               )}
             </h1>
 
-            <p className="text-xs text-slate-700 font-sans font-bold mt-0.5">
+            <p className="text-xs text-slate-800 font-sans font-bold mt-1 tracking-wide">
               {data.districtName}
             </p>
 
-            <p className="text-[10.5px] text-slate-500 font-sans mt-0.5">
+            <p className="text-[11px] text-slate-600 font-sans mt-0.5">
               {data.schoolAddress}, {data.schoolCity}, {data.schoolState} {data.schoolZip} · Tel: {data.schoolPhone}
             </p>
           </div>
 
           {/* 右侧：个性化定制高中学术纹章 */}
-          <div className="hidden sm:flex items-center justify-end shrink-0">
+          <div className="flex items-center justify-center shrink-0">
             <HighSchoolAcademicCrest
               schoolName={data.schoolName}
-              className="h-16 w-16 drop-shadow-xs"
+              className="h-24 w-24 sm:h-28 sm:w-28 md:h-32 md:w-32 drop-shadow-sm"
             />
           </div>
         </div>
@@ -385,7 +385,7 @@ export function TranscriptSheet({
           <div className="flex flex-col items-center justify-center shrink-0">
             <OfficialStateEducationSeal
               stateName={data.schoolState || "STATE"}
-              className="h-20 w-20 drop-shadow-xs"
+              className="h-24 w-24 sm:h-28 sm:w-28 md:h-32 md:w-32 drop-shadow-sm"
               color="#991b1b"
             />
           </div>

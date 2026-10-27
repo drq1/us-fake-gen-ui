@@ -19,6 +19,8 @@ import {
   BerkeleyOfficialSeal,
   CsufOfficialSeal,
   VictoriaUniversityLogo,
+  OfficialStateEducationSeal,
+  getUniversityLogoUrl,
 } from "@/components/brand-logos"
 
 interface AdmissionLetterModalProps {
@@ -171,11 +173,11 @@ export function AdmissionLetterModal({
               {/* 院校 1:1 官方原版题头 */}
               {letterData.sealType === "berkeley" ? (
                 <div className="mb-8">
-                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-                    <div className="flex items-center gap-3.5">
-                      <BerkeleyOfficialSeal className="h-16 w-16 shadow-xs shrink-0" />
+                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                    <div className="flex items-center gap-4">
+                      <BerkeleyOfficialSeal className="h-20 w-20 sm:h-24 sm:w-24 shadow-sm shrink-0" />
                       <div>
-                        <div className="font-serif tracking-widest text-base sm:text-lg font-bold text-slate-900 uppercase">
+                        <div className="font-serif tracking-widest text-lg sm:text-xl font-bold text-slate-900 uppercase">
                           University of California, Berkeley
                         </div>
                         <div className="text-xs font-sans text-slate-600 font-semibold uppercase tracking-wider">
@@ -197,7 +199,7 @@ export function AdmissionLetterModal({
                 <div className="mb-8 border-b-2 border-[#a31f34] pb-4 flex flex-col sm:flex-row items-center justify-between gap-4 font-sans">
                   {/* MIT Sloan 官方权威全彩标识 */}
                   <div className="flex items-center gap-3">
-                    <MitSloanLogo className="h-11 w-auto" />
+                    <MitSloanLogo className="h-14 sm:h-16 w-auto" />
                   </div>
                   {/* MIT Sloan 官方地址 */}
                   <div className="text-right text-[11px] text-slate-600 leading-snug">
@@ -209,8 +211,8 @@ export function AdmissionLetterModal({
                 </div>
               ) : letterData.sealType === "harvard" ? (
                 <div className="mb-8 border-b-2 border-[#a51c30] pb-4 flex items-center justify-between font-serif">
-                  <div className="flex items-center gap-3.5">
-                    <HarvardVeritasShield className="h-14 w-auto shadow-xs" />
+                  <div className="flex items-center gap-4">
+                    <HarvardVeritasShield className="h-18 sm:h-20 w-auto shadow-sm" />
                     <div>
                       <h1 className="text-lg sm:text-xl font-bold tracking-tight text-[#a51c30] uppercase">
                         HARVARD MEDICAL SCHOOL
@@ -228,8 +230,8 @@ export function AdmissionLetterModal({
                 </div>
               ) : letterData.sealType === "uchicago" ? (
                 <div className="mb-8 border-b-2 border-[#800000] pb-4 flex items-center justify-between font-serif">
-                  <div className="flex items-center gap-3">
-                    <UChicagoPhoenixBadge className="h-12 w-auto shadow-xs" />
+                  <div className="flex items-center gap-4">
+                    <UChicagoPhoenixBadge className="h-16 sm:h-18 w-auto shadow-sm" />
                     <div>
                       <h1 className="text-lg sm:text-xl font-bold tracking-tight text-[#800000] uppercase">
                         THE UNIVERSITY OF CHICAGO
@@ -246,8 +248,8 @@ export function AdmissionLetterModal({
                 </div>
               ) : letterData.sealType === "csuf" ? (
                 <div className="mb-8 border-b-2 border-[#00274c] pb-3 flex items-center justify-between font-sans">
-                  <div className="flex items-center gap-3">
-                    <CsufOfficialSeal className="h-14 w-14 shadow-xs shrink-0" />
+                  <div className="flex items-center gap-4">
+                    <CsufOfficialSeal className="h-18 sm:h-20 w-18 sm:w-20 shadow-sm shrink-0" />
                     <div>
                       <h1 className="text-lg sm:text-xl font-black tracking-tight text-[#00274c] uppercase">
                         CALIFORNIA STATE UNIVERSITY, FULLERTON
@@ -264,8 +266,8 @@ export function AdmissionLetterModal({
                 </div>
               ) : letterData.sealType === "temple" ? (
                 <div className="mb-8 border-b-2 border-[#9d2235] pb-3 flex items-center justify-between font-sans">
-                  <div className="flex items-center gap-2.5">
-                    <TempleDiamondT className="h-9 w-auto shadow-xs" />
+                  <div className="flex items-center gap-3">
+                    <TempleDiamondT className="h-14 sm:h-16 w-auto shadow-sm" />
                     <div>
                       <h1 className="text-lg sm:text-xl font-black tracking-tight text-[#9d2235] uppercase">
                         TEMPLE UNIVERSITY
@@ -282,8 +284,8 @@ export function AdmissionLetterModal({
                 </div>
               ) : letterData.sealType === "victoria" ? (
                 <div className="mb-8 border-b-2 border-[#002f6c] pb-3 flex items-center justify-between font-sans">
-                  <div className="flex items-center gap-2.5">
-                    <VictoriaUniversityLogo className="h-10 w-auto shadow-xs" />
+                  <div className="flex items-center gap-3">
+                    <VictoriaUniversityLogo className="h-14 sm:h-16 w-auto shadow-sm" />
                     <div>
                       <h1 className="text-lg sm:text-xl font-black tracking-tight text-[#002f6c] uppercase">
                         VICTORIA UNIVERSITY
@@ -300,8 +302,8 @@ export function AdmissionLetterModal({
                 </div>
               ) : letterData.sealType === "rit" ? (
                 <div className="mb-8 border-b-2 border-[#f76902] pb-3 flex items-center justify-between font-sans">
-                  <div className="flex items-center gap-2.5">
-                    <RitTigerEmblem className="h-9 w-auto shadow-xs" />
+                  <div className="flex items-center gap-3">
+                    <RitTigerEmblem className="h-14 sm:h-16 w-auto shadow-sm" />
                     <div>
                       <h1 className="text-lg sm:text-xl font-black tracking-tight text-slate-900 uppercase">
                         ROCHESTER INSTITUTE OF TECHNOLOGY
@@ -327,9 +329,19 @@ export function AdmissionLetterModal({
                       {letterData.schoolCollege}
                     </p>
                   </div>
-                  <div className="h-12 w-12 rounded-full border-2 border-slate-900 flex items-center justify-center text-xs font-bold font-sans">
-                    SEAL
-                  </div>
+                  {getUniversityLogoUrl(letterData.universityName) ? (
+                    <img
+                      src={getUniversityLogoUrl(letterData.universityName)!}
+                      alt="University Official Seal"
+                      className="h-16 w-16 sm:h-20 sm:w-20 object-contain drop-shadow-sm shrink-0"
+                    />
+                  ) : (
+                    <OfficialStateEducationSeal
+                      stateName={letterData.cityStateZip.split(",")[1]?.trim() || "UNIVERSITY"}
+                      className="h-16 w-16 sm:h-20 sm:w-20 drop-shadow-sm shrink-0"
+                      color="#0f172a"
+                    />
+                  )}
                 </div>
               )}
 

@@ -88,17 +88,16 @@ export function StandardUniversitySheet({
                   <img
                     src={logoUrl}
                     alt="University Official Seal"
-                    className="h-12 w-12 object-contain shrink-0 drop-shadow-xs"
+                    className="h-16 w-16 sm:h-20 sm:w-20 object-contain shrink-0 drop-shadow-sm"
                   />
                 )
               }
               return (
-                <div
-                  className="h-10 w-10 sm:h-12 sm:w-12 rounded-full border-2 flex items-center justify-center font-sans font-bold text-xs sm:text-sm shrink-0"
-                  style={{ borderColor: themeColor, color: themeColor, backgroundColor: `${themeColor}10` }}
-                >
-                  SEAL
-                </div>
+                <OfficialStateEducationSeal
+                  stateName={data.state || "UNIVERSITY"}
+                  className="h-16 w-16 sm:h-20 sm:w-20 object-contain shrink-0 drop-shadow-sm"
+                  color={themeColor}
+                />
               )
             })()}
             <div>
@@ -317,14 +316,14 @@ export function StandardUniversitySheet({
                   <img
                     src={logoUrl}
                     alt="Official University Registrar Seal"
-                    className="h-16 w-16 object-contain shrink-0 drop-shadow-xs"
+                    className="h-22 w-22 sm:h-26 sm:w-26 md:h-28 md:w-28 object-contain shrink-0 drop-shadow-sm"
                   />
                 )
               }
               return (
                 <OfficialStateEducationSeal
                   stateName={data.state || "UNIVERSITY"}
-                  className="h-16 w-16 drop-shadow-xs"
+                  className="h-22 w-22 sm:h-26 sm:w-26 md:h-28 md:w-28 drop-shadow-sm"
                   color={themeColor}
                 />
               )

@@ -50,7 +50,7 @@ export function TexasAmSheet({
       <div className="relative z-1">
         {/* 顶部：德州农工官方抬头 */}
         <div className="border-b-2 border-[#500000] pb-3 mb-3 flex items-center justify-center gap-4 text-center">
-          <img src="/logos/texas_am.svg" alt="Texas A&M Seal" className="h-16 w-16 object-contain shrink-0" />
+          <img src="/logos/texas_am.svg" alt="Texas A&M Seal" className="h-20 w-20 sm:h-24 sm:w-24 object-contain shrink-0 drop-shadow-sm" />
           <div>
             <h1 className="text-2xl sm:text-3xl font-black tracking-widest text-[#500000] uppercase">
               TEXAS A&M UNIVERSITY
@@ -198,8 +198,8 @@ export function TexasAmSheet({
               <div className="text-[10px] text-slate-600">Registrar</div>
             </div>
 
-            {/* 德州农工官方酒红圆形教务印章 */}
-            <TexasAmOfficialSeal className="h-16 w-16 shadow-xs" />
+            {/* 德州农工官方酒红圆形教务印章 (大幅清晰提升) */}
+            <TexasAmOfficialSeal className="h-22 w-22 sm:h-26 sm:w-26 drop-shadow-sm" />
           </div>
         </div>
       </div>

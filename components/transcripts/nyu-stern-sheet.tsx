@@ -46,7 +46,7 @@ export function NyuSternSheet({
       {/* 顶部：纽约大学与教务长抬头 */}
       <div className="border-b-2 border-[#57068c] pb-3 mb-4 flex flex-col sm:flex-row items-center justify-between gap-3">
         <div className="flex items-center gap-3">
-          <NyuTorchBadge className="h-14 w-14 shadow-xs shrink-0" />
+          <NyuTorchBadge className="h-18 w-18 sm:h-22 sm:w-22 shadow-sm shrink-0" />
           <div>
             <h1 className="text-xl sm:text-2xl font-black tracking-tight text-[#57068c] uppercase">
               NEW YORK UNIVERSITY
@@ -209,7 +209,7 @@ export function NyuSternSheet({
             </div>
             <div className="text-[10px] text-slate-500">University Registrar</div>
           </div>
-          <NyuTorchBadge className="h-16 w-16 shadow-xs shrink-0" />
+          <NyuTorchBadge className="h-22 w-22 sm:h-26 sm:w-26 shadow-sm shrink-0" />
         </div>
       </div>
     </div>

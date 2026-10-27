@@ -464,10 +464,22 @@ export function getHighSchoolLogoUrl(schoolName?: string, state?: string): strin
   const n = (schoolName || "").toLowerCase()
   if (n.includes("stuyvesant")) return "/logos/stuyvesant_high.svg"
   
-  const st = (state || "").toUpperCase()
+  const st = (state || "").toUpperCase().trim()
   if (st === "CA" || st === "CALIFORNIA") return "/logos/ca_state_seal.svg"
   if (st === "TX" || st === "TEXAS") return "/logos/tx_state_seal.svg"
   if (st === "NY" || st === "NEW YORK") return "/logos/ny_state_seal.svg"
+  if (st === "KY" || st === "KENTUCKY") return "/logos/ky_state_seal.svg"
+  if (st === "FL" || st === "FLORIDA") return "/logos/fl_state_seal.svg"
+  if (st === "IL" || st === "ILLINOIS") return "/logos/il_state_seal.svg"
+  if (st === "PA" || st === "PENNSYLVANIA") return "/logos/pa_state_seal.svg"
+  if (st === "OH" || st === "OHIO") return "/logos/oh_state_seal.svg"
+  if (st === "MI" || st === "MICHIGAN") return "/logos/mi_state_seal.svg"
+  if (st === "WA" || st === "WASHINGTON") return "/logos/wa_state_seal.svg"
+  if (st === "GA" || st === "GEORGIA") return "/logos/ga_state_seal.svg"
+  if (st === "MA" || st === "MASSACHUSETTS") return "/logos/ma_state_seal.svg"
+  if (st === "NJ" || st === "NEW JERSEY") return "/logos/nj_state_seal.svg"
+  if (st === "NC" || st === "NORTH CAROLINA") return "/logos/nc_state_seal.svg"
+  if (st === "VA" || st === "VIRGINIA") return "/logos/va_state_seal.svg"
   
   return "/logos/us_dept_education_seal.svg"
 }

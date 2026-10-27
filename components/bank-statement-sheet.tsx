@@ -52,9 +52,9 @@ export function BankStatementSheet({
       }`}>
         <div>
           {isUsBank ? (
-            <UsBankLogo className="h-8 w-auto" />
+            <UsBankLogo className="h-10 sm:h-12 w-auto" />
           ) : (
-            <BankOfAmericaLogo className="h-8 w-auto" />
+            <BankOfAmericaLogo className="h-10 sm:h-12 w-auto" />
           )}
           <div className="text-xs text-slate-500 mt-1.5">
             {data.bankAddress} · {data.website}

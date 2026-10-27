@@ -47,7 +47,7 @@ export function SatActScoreSheet({ data, initialType = "SAT" }: SatActScoreSheet
           {/* 顶栏：College Board 标志性官方题头 */}
           <div className="border-b-4 border-[#0077c8] pb-4 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
             <div className="flex items-center gap-3">
-              <CollegeBoardLogo className="h-10 w-auto" />
+              <CollegeBoardLogo className="h-12 sm:h-14 w-auto" />
               <div className="border-l-2 border-slate-300 pl-3">
                 <h1 className="text-xl sm:text-2xl font-black text-slate-900 tracking-tight">
                   SAT® Score Report
@@ -172,7 +172,7 @@ export function SatActScoreSheet({ data, initialType = "SAT" }: SatActScoreSheet
                 valid for undergraduate admissions, scholarship eligibility, and NCAA initial-eligibility clearinghouse.
               </p>
             </div>
-            <CollegeBoardLogo className="h-10 w-auto shrink-0 drop-shadow-xs" />
+            <CollegeBoardLogo className="h-12 w-auto shrink-0 drop-shadow-xs" />
           </div>
         </div>
       )}
@@ -187,7 +187,7 @@ export function SatActScoreSheet({ data, initialType = "SAT" }: SatActScoreSheet
           {/* 顶栏：ACT 标志性官方题头 */}
           <div className="border-b-4 border-[#002f6c] pb-4 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
             <div className="flex items-center gap-3">
-              <ActLogo className="h-10 w-auto shadow-xs" />
+              <ActLogo className="h-12 sm:h-14 w-auto shadow-xs" />
               <div>
                 <h1 className="text-xl sm:text-2xl font-black text-[#002f6c] tracking-tight">
                   ACT® Student Score Report

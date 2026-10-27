@@ -367,7 +367,7 @@ export function VitalRecordsModal({
                     </div>
                     <OfficialStateEducationSeal
                       stateName={birthVariant === "michigan" ? "MICHIGAN" : records.birth.state}
-                      className="h-16 w-16 drop-shadow-xs shrink-0"
+                      className="h-20 w-20 sm:h-24 sm:w-24 drop-shadow-sm shrink-0"
                       color="#92400e"
                     />
                   </div>
@@ -477,7 +477,7 @@ export function VitalRecordsModal({
                       <div className="flex flex-col items-center">
                         <OfficialStateEducationSeal
                           stateName={records.ged.stateBoardName.replace(/Board of Education|Department of Education/i, "").trim() || "STATE"}
-                          className="h-16 w-16 drop-shadow-xs shrink-0"
+                          className="h-20 w-20 sm:h-24 sm:w-24 drop-shadow-sm shrink-0"
                           color="#b45309"
                         />
                       </div>
@@ -527,7 +527,7 @@ export function VitalRecordsModal({
                     <div className="flex flex-col items-center">
                       <OfficialStateEducationSeal
                         stateName={records.marriage.state || "STATE"}
-                        className="h-16 w-16 drop-shadow-xs shrink-0"
+                        className="h-20 w-20 sm:h-24 sm:w-24 drop-shadow-sm shrink-0"
                         color="#78350f"
                       />
                     </div>
