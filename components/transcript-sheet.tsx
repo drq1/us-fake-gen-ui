@@ -3,7 +3,12 @@
 import React from "react"
 import type { StudentTranscript, CourseRecord } from "@/lib/transcript-types"
 import { Award, ShieldCheck, CheckCircle2 } from "lucide-react"
-import { ParchmentLogo, OfficialStateEducationSeal } from "@/components/brand-logos"
+import {
+  ParchmentLogo,
+  OfficialStateEducationSeal,
+  HighSchoolAcademicCrest,
+  getHighSchoolLogoUrl,
+} from "@/components/brand-logos"
 
 interface TranscriptSheetProps {
   data: StudentTranscript
@@ -91,7 +96,7 @@ export function TranscriptSheet({
           </div>
         )}
 
-        <div className="flex items-center justify-between mb-1">
+        <div className="flex items-center justify-between mb-2">
           <div className="flex items-center gap-1.5 text-slate-700 font-sans text-[10px] tracking-wider uppercase font-semibold">
             <ShieldCheck className="h-4 w-4 text-slate-800" />
             <span>Official Academic Document</span>
@@ -102,26 +107,49 @@ export function TranscriptSheet({
           </div>
         </div>
 
-        <h1 className="text-2xl sm:text-3xl font-black uppercase tracking-wider text-slate-950 font-serif">
-          {isEditable ? (
-            <input
-              type="text"
-              value={data.schoolName}
-              onChange={(e) => handleFieldChange("schoolName", e.target.value)}
-              className="w-full text-center bg-transparent border-b border-dashed border-blue-400 focus:outline-none"
+        {/* 学校官方题头主排版：左官方印章 + 中学校名 + 右学术纹章 */}
+        <div className="flex items-center justify-between gap-3 my-1">
+          {/* 左侧：官方高中印章 / 州教育厅印章 */}
+          <div className="hidden sm:flex items-center gap-2 shrink-0">
+            <img
+              src={getHighSchoolLogoUrl(data.schoolName, data.schoolState)}
+              alt="High School Official Seal"
+              className="h-16 w-16 object-contain drop-shadow-xs"
             />
-          ) : (
-            data.schoolName
-          )}
-        </h1>
+          </div>
 
-        <p className="text-xs text-slate-600 font-sans mt-0.5">
-          {data.districtName}
-        </p>
+          {/* 中间：学校名称与学区信息 */}
+          <div className="flex-1 text-center">
+            <h1 className="text-xl sm:text-2xl lg:text-3xl font-black uppercase tracking-wider text-slate-950 font-serif">
+              {isEditable ? (
+                <input
+                  type="text"
+                  value={data.schoolName}
+                  onChange={(e) => handleFieldChange("schoolName", e.target.value)}
+                  className="w-full text-center bg-transparent border-b border-dashed border-blue-400 focus:outline-none"
+                />
+              ) : (
+                data.schoolName
+              )}
+            </h1>
 
-        <p className="text-[10px] text-slate-500 font-sans mt-0.5">
-          {data.schoolAddress}, {data.schoolCity}, {data.schoolState} {data.schoolZip} · Tel: {data.schoolPhone}
-        </p>
+            <p className="text-xs text-slate-700 font-sans font-bold mt-0.5">
+              {data.districtName}
+            </p>
+
+            <p className="text-[10.5px] text-slate-500 font-sans mt-0.5">
+              {data.schoolAddress}, {data.schoolCity}, {data.schoolState} {data.schoolZip} · Tel: {data.schoolPhone}
+            </p>
+          </div>
+
+          {/* 右侧：个性化定制高中学术纹章 */}
+          <div className="hidden sm:flex items-center justify-end shrink-0">
+            <HighSchoolAcademicCrest
+              schoolName={data.schoolName}
+              className="h-16 w-16 drop-shadow-xs"
+            />
+          </div>
+        </div>
 
         <div className="mt-2 inline-block bg-slate-900 text-white px-4 py-0.5 text-xs font-sans font-bold tracking-widest uppercase">
           Official High School Transcript

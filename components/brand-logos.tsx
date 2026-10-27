@@ -358,6 +358,120 @@ export function OfficialStateEducationSeal({
   )
 }
 
+// 20. 权威全美高中学术纹章徽标 (High School Academic Heraldic Crest)
+export function HighSchoolAcademicCrest({
+  schoolName = "High School",
+  className = "h-16 w-16",
+  color = "#1e3a8a",
+  ...props
+}: {
+  schoolName?: string
+  className?: string
+  color?: string
+} & React.SVGProps<SVGSVGElement>) {
+  const clean = (schoolName || "High School").replace(/High\s*School/i, "").trim()
+  const words = clean.split(/\s+/).filter(Boolean)
+  const monogram = words.length === 1
+    ? (words[0].slice(0, 2) + "HS").toUpperCase()
+    : (words.map(w => w[0]).join("") + "HS").toUpperCase().slice(0, 4)
+
+  return (
+    <svg
+      viewBox="0 0 160 180"
+      className={`select-none ${className}`}
+      {...props}
+    >
+      {/* 双层贵族学院盾牌底座 */}
+      <path
+        d="M 10 15 L 150 15 L 150 95 C 150 145 80 172 80 172 C 80 172 10 145 10 95 Z"
+        fill="#f8fafc"
+        stroke={color}
+        strokeWidth="3.5"
+      />
+      <path
+        d="M 18 22 L 142 22 L 142 93 C 142 137 80 162 80 162 C 80 162 18 137 18 93 Z"
+        fill="none"
+        stroke={color}
+        strokeWidth="1.2"
+        strokeDasharray="3 2"
+      />
+
+      {/* 盾徽上半区：深色荣誉横幅 */}
+      <path
+        d="M 18 22 L 142 22 L 142 58 L 18 58 Z"
+        fill={color}
+      />
+
+      {/* 上半区：学者毕业方帽 (Mortarboard Cap) */}
+      <polygon
+        points="80,28 112,38 80,48 48,38"
+        fill="#ffffff"
+      />
+      <polygon
+        points="65,44 65,51 80,55 95,51 95,44 80,48"
+        fill="#e2e8f0"
+      />
+      {/* 金色流苏 (Tassel) */}
+      <path
+        d="M 80 38 Q 98 42 102 49"
+        fill="none"
+        stroke="#f59e0b"
+        strokeWidth="1.5"
+        strokeLinecap="round"
+      />
+      <circle cx="102" cy="50" r="1.5" fill="#f59e0b" />
+
+      {/* 盾徽中心大写校名缩写 Monogram */}
+      <text
+        x="80"
+        y="102"
+        fill={color}
+        fontFamily="Georgia, 'Times New Roman', serif"
+        fontWeight="900"
+        fontSize={monogram.length > 3 ? "24" : "28"}
+        textAnchor="middle"
+        letterSpacing="2"
+      >
+        {monogram}
+      </text>
+
+      {/* 盾徽下半区：展开的书卷与智慧火把 */}
+      <path
+        d="M 64 124 Q 72 121 80 124 Q 88 121 96 124 L 95 136 Q 87 133 80 136 Q 73 133 65 136 Z"
+        fill="none"
+        stroke={color}
+        strokeWidth="1.5"
+      />
+      <line x1="80" y1="124" x2="80" y2="136" stroke={color} strokeWidth="1.5" />
+
+      {/* 三颗荣誉五角星 */}
+      {[-16, 0, 16].map((offset, i) => (
+        <polygon
+          key={i}
+          points={`${80 + offset},142 ${81.5 + offset},146 ${85 + offset},146 ${82.5 + offset},148.5 ${83.5 + offset},152 ${80 + offset},149.5 ${76.5 + offset},152 ${77.5 + offset},148.5 ${75 + offset},146 ${78.5 + offset},146`}
+          fill="#d97706"
+        />
+      ))}
+    </svg>
+  )
+}
+
+/**
+ * 智能高中校徽与教育印章解析器：
+ * 匹配特定名校（如 Stuyvesant）或根据所在州（加州、德州、纽约等）返回官方最高权威公章矢量图
+ */
+export function getHighSchoolLogoUrl(schoolName?: string, state?: string): string {
+  const n = (schoolName || "").toLowerCase()
+  if (n.includes("stuyvesant")) return "/logos/stuyvesant_high.svg"
+  
+  const st = (state || "").toUpperCase()
+  if (st === "CA" || st === "CALIFORNIA") return "/logos/ca_state_seal.svg"
+  if (st === "TX" || st === "TEXAS") return "/logos/tx_state_seal.svg"
+  if (st === "NY" || st === "NEW YORK") return "/logos/ny_state_seal.svg"
+  
+  return "/logos/us_dept_education_seal.svg"
+}
+
 /**
  * 智能高校 Logo 解析器：传入任意大学名称，自动匹配并返回高精官方矢量图路径
  */
