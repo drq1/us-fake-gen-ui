@@ -14,7 +14,7 @@ export interface ReferenceTemplate {
 export const REFERENCE_CATEGORIES = [
   { id: "all", name: "全部资料", count: 39 },
   { id: "transcript", name: "成绩单 / 学业记录", count: 14 },
-  { id: "offer", name: "名校录取通知书", count: 7 },
+  { id: "offer", name: "名校录取通知书", count: 8 },
   { id: "schedule", name: "选课表 / 学费账单", count: 2 },
   { id: "bank", name: "银行对账单 / 流水", count: 2 },
   { id: "act_sat", name: "ACT / SAT 标化考分", count: 2 },
@@ -171,6 +171,18 @@ export const REFERENCE_TEMPLATES: ReferenceTemplate[] = [
     filePath: "/templates/10_Admission_Offer_Letters/Victoria_University_Admission_Offer_Letter.png",
     fileSize: "45 KB",
     description: "Scribd 真实原件：涵盖海外留学生 CRICOS 代码、奖学金资格与分校总监签名。",
+    canGenerate: true,
+  },
+  {
+    id: "offer-8",
+    name: "RIT Institute Admission Offer Letter",
+    chineseName: "罗切斯特理工学院 (RIT) 计算机科学硕士录取通知信",
+    category: "offer",
+    categoryChinese: "录取通知书",
+    fileType: "image",
+    filePath: "/templates/10_Admission_Offer_Letters/RIT_Institute_Admission_Letter.png",
+    fileSize: "105 KB",
+    description: "Scribd 真实原件：罗切斯特理工学院 (RIT) Golisano 计算与信息科学学院官方录取通知信原件，包含研究生院院长签名与虎爪橙标。",
     canGenerate: true,
   },
 

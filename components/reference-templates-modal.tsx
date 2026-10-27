@@ -303,6 +303,8 @@ export function ReferenceTemplatesModal({
                           const lower = item.name.toLowerCase()
                           const schoolKey = lower.includes("berkeley")
                             ? "berkeley"
+                            : lower.includes("rit") || lower.includes("rochester")
+                            ? "rit"
                             : lower.includes("mit")
                             ? "mit"
                             : lower.includes("harvard")
@@ -364,8 +366,12 @@ export function ReferenceTemplatesModal({
                           const lower = item.name.toLowerCase()
                           const isMich = lower.includes("michigan")
                           const isInfo = lower.includes("informational")
+                          const isHosp = lower.includes("hospital")
                           saveScrollAndTrigger(() =>
-                            onGenerateVitalRecord("birth", isMich ? "michigan" : isInfo ? "informational" : "standard")
+                            onGenerateVitalRecord(
+                              "birth",
+                              isMich ? "michigan" : isInfo ? "informational" : isHosp ? "hospital" : "standard"
+                            )
                           )
                         }}
                         className="inline-flex items-center gap-1 px-2.5 py-1 rounded-md text-xs font-bold bg-rose-600 text-white hover:bg-rose-700 shadow-2xs transition-colors shrink-0"

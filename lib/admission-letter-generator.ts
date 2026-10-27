@@ -7,7 +7,7 @@ export interface AdmissionLetterData {
   cityStateZip: string
   phone: string
   website: string
-  sealType: "berkeley" | "mit" | "harvard" | "uchicago" | "csuf" | "temple" | "victoria" | "general"
+  sealType: "berkeley" | "mit" | "harvard" | "uchicago" | "csuf" | "temple" | "victoria" | "rit" | "general"
   issueDate: string
   recipientName: string
   recipientAddress: string
@@ -44,7 +44,7 @@ interface PresetInstitution {
   cityStateZip: string
   phone: string
   website: string
-  sealType: "berkeley" | "mit" | "harvard" | "uchicago" | "csuf" | "temple" | "victoria" | "general"
+  sealType: "berkeley" | "mit" | "harvard" | "uchicago" | "csuf" | "temple" | "victoria" | "rit" | "general"
   signatoryName: string
   signatoryTitle: string
   signatoryName2?: string
@@ -140,6 +140,18 @@ export const PRESET_INSTITUTIONS: PresetInstitution[] = [
     signatoryName: "Professor Adam Shoemaker",
     signatoryTitle: "Vice-Chancellor and President, Victoria University",
   },
+  {
+    id: "rit",
+    name: "Rochester Institute of Technology",
+    schoolCollege: "B. Thomas Golisano College of Computing and Information Sciences",
+    addressLine: "One Lomb Memorial Drive",
+    cityStateZip: "Rochester, NY 14623-5603",
+    phone: "(585) 475-2229",
+    website: "rit.edu/computing",
+    sealType: "rit",
+    signatoryName: "Dr. James J. Myers",
+    signatoryTitle: "Associate Provost and Dean of Graduate Education",
+  },
 ]
 
 export function generateAdmissionLetter(
@@ -187,6 +199,8 @@ export function generateAdmissionLetter(
     degreeProgram = "Bachelor of Arts in Film and Media Arts"
   } else if (inst.id === "victoria") {
     degreeProgram = "Master of Business Analytics (CRICOS Code: 098421F)"
+  } else if (inst.id === "rit") {
+    degreeProgram = "Master of Science in Computer Science"
   } else {
     const programs = [
       "Master of Science in Computer Science & Artificial Intelligence",

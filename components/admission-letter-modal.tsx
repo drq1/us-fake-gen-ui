@@ -295,6 +295,27 @@ export function AdmissionLetterModal({
                     <div>Melbourne, VIC 3011, Australia</div>
                   </div>
                 </div>
+              ) : letterData.sealType === "rit" ? (
+                <div className="mb-8 border-b-2 border-[#f76902] pb-3 flex items-center justify-between font-sans">
+                  <div className="flex items-center gap-2.5">
+                    <div className="h-9 px-2 bg-[#f76902] text-white flex items-center justify-center font-black text-xl rounded-sm shadow-xs">
+                      RIT
+                    </div>
+                    <div>
+                      <h1 className="text-lg sm:text-xl font-black tracking-tight text-slate-900 uppercase">
+                        ROCHESTER INSTITUTE OF TECHNOLOGY
+                      </h1>
+                      <p className="text-[11px] tracking-wide text-[#f76902] font-bold">
+                        B. Thomas Golisano College of Computing and Information Sciences
+                      </p>
+                    </div>
+                  </div>
+                  <div className="text-right text-[11px] text-slate-600 leading-tight font-sans">
+                    <div className="font-semibold text-slate-800">Office of Graduate Enrollment</div>
+                    <div>One Lomb Memorial Drive</div>
+                    <div>Rochester, NY 14623-5603</div>
+                  </div>
+                </div>
               ) : (
                 <div className="border-b-2 border-slate-900 pb-4 mb-6 flex justify-between items-center">
                   <div>
@@ -418,6 +439,24 @@ export function AdmissionLetterModal({
                   </p>
                   <p>
                     We look forward to welcoming you to Victoria University and Melbourne, Australia!
+                  </p>
+                </div>
+              ) : letterData.sealType === "rit" ? (
+                <div className="space-y-3.5 text-[12.5px] sm:text-[13px] leading-relaxed text-slate-800 text-justify">
+                  <p>
+                    <b>Congratulations!</b> It is a pleasure to inform you of your acceptance to Rochester Institute of Technology in the <b>{letterData.degreeProgram}</b> program at the <b>{letterData.schoolCollege}</b> for <b>{letterData.admitTerm}</b>.
+                  </p>
+                  <p>
+                    Your academic credentials, technical innovation, and career ambitions distinguish you as an outstanding candidate. As an RIT graduate student, you will learn from renowned faculty pioneers in computing, artificial intelligence, and cybersecurity while collaborating in world-class laboratories.
+                  </p>
+                  <p>
+                    In recognition of your academic excellence, we are pleased to award you the <b>{letterData.scholarshipTitle}</b> in the amount of <b>{letterData.scholarshipAmount}</b>, distributed evenly across your semesters of graduate study.
+                  </p>
+                  <p>
+                    To secure your enrollment and reserve your graduate assistantship or scholarship, please submit your acceptance confirmation and enrollment deposit through the RIT Graduate Portal by <b>{letterData.responseDeadline}</b>.
+                  </p>
+                  <p>
+                    Welcome to the RIT Tiger community! We look forward to your arrival on campus and your contributions to technological innovation.
                   </p>
                 </div>
               ) : (

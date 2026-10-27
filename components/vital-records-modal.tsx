@@ -27,7 +27,7 @@ export function VitalRecordsModal({
   onBackToTemplates,
 }: VitalRecordsModalProps) {
   const [docType, setDocType] = useState<"birth" | "ged" | "marriage" | "skill">(defaultDocType)
-  const [birthVariant, setBirthVariant] = useState<"standard" | "michigan" | "informational">("standard")
+  const [birthVariant, setBirthVariant] = useState<"standard" | "hospital" | "michigan" | "informational">("standard")
   const [gedVariant, setGedVariant] = useState<"diploma" | "transcript">("diploma")
   const [skillVariant, setSkillVariant] = useState<"cpr" | "trainer">("cpr")
   const [records, setRecords] = useState<VitalRecordsData | null>(null)
@@ -40,7 +40,7 @@ export function VitalRecordsModal({
 
   useEffect(() => {
     if (defaultVariant && open) {
-      if (defaultVariant === "michigan" || defaultVariant === "informational" || defaultVariant === "standard") {
+      if (defaultVariant === "michigan" || defaultVariant === "informational" || defaultVariant === "standard" || defaultVariant === "hospital") {
         setBirthVariant(defaultVariant)
       } else if (defaultVariant === "transcript" || defaultVariant === "diploma") {
         setGedVariant(defaultVariant)
@@ -143,10 +143,11 @@ export function VitalRecordsModal({
               {docType === "birth" && (
                 <select
                   value={birthVariant}
-                  onChange={(e) => setBirthVariant(e.target.value as "standard" | "michigan" | "informational")}
+                  onChange={(e) => setBirthVariant(e.target.value as "standard" | "hospital" | "michigan" | "informational")}
                   className="h-8 text-xs font-semibold bg-white border border-slate-300 rounded-md px-2 focus:outline-hidden"
                 >
                   <option value="standard">标准县级官方出生证明 (County Vital Record)</option>
+                  <option value="hospital">医院活产医学证明·附脚印 (Hospital Certificate & Footprints)</option>
                   <option value="michigan">密歇根州官方出生证明 (State of Michigan)</option>
                   <option value="informational">加注 Informational 备案副本 (Informational Copy)</option>
                 </select>
@@ -190,6 +191,96 @@ export function VitalRecordsModal({
             <div className="mx-auto w-full max-w-[800px] bg-amber-50/40 rounded-xl shadow-lg border-8 border-double border-amber-800/60 p-6 sm:p-10 font-serif print:shadow-none print:border-black print:m-0 print:p-6 text-slate-800 relative">
               {/* 1. 出生证明 */}
               {docType === "birth" && (
+                birthVariant === "hospital" ? (
+                  <div>
+                    <div className="text-center border-b-2 border-slate-800 pb-3 mb-5">
+                      <div className="flex items-center justify-center gap-2 text-rose-700 mb-1">
+                        <Baby className="h-6 w-6" />
+                      </div>
+                      <div className="text-xs uppercase font-sans tracking-widest text-slate-700 font-bold">
+                        {records.birth.facilityName.toUpperCase()}
+                      </div>
+                      <h1 className="text-2xl sm:text-3xl font-black text-slate-900 tracking-wider uppercase mt-1">
+                        Hospital Certificate of Birth
+                      </h1>
+                      <p className="text-xs font-mono text-slate-600 mt-1">
+                        DEPARTMENT OF OBSTETRICS & NEONATOLOGY · REG NO: <b className="text-slate-900">HOSP-{records.birth.certificateNumber.replace(/\D/g, "").slice(0, 7) || "9482015"}</b>
+                      </p>
+                    </div>
+
+                    <div className="text-center my-4 font-serif text-sm leading-relaxed text-slate-800">
+                      <p className="italic text-slate-600">This certifies that</p>
+                      <h2 className="text-2xl sm:text-3xl font-black text-slate-950 font-serif my-2 tracking-wide underline decoration-rose-300 underline-offset-8">
+                        {records.birth.childFullName}
+                      </h2>
+                      <p className="text-xs font-sans text-slate-700 max-w-lg mx-auto">
+                        was born at <b>{records.birth.facilityName}</b> in <b>{records.birth.cityOfBirth}, {records.birth.state}</b> at <b>{records.birth.timeOfBirth}</b> on <b>{records.birth.dateOfBirth}</b>.
+                      </p>
+                    </div>
+
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 my-5 font-sans text-xs">
+                      {/* 父母与生理指征 */}
+                      <div className="bg-white/90 p-3.5 rounded border border-amber-300/80 space-y-2">
+                        <div className="font-bold text-slate-900 border-b border-slate-100 pb-1 text-[11px] uppercase tracking-wider">
+                          Parentage & Vital Signs
+                        </div>
+                        <div>
+                          <span className="text-[10px] text-slate-400 uppercase block font-semibold">Father / Parent Full Name</span>
+                          <span className="font-bold text-slate-900">{records.birth.fatherName}</span>
+                        </div>
+                        <div>
+                          <span className="text-[10px] text-slate-400 uppercase block font-semibold">Mother / Maiden Name</span>
+                          <span className="font-bold text-slate-900">{records.birth.motherMaidenName}</span>
+                        </div>
+                        <div className="pt-1">
+                          <span className="text-[10px] text-slate-400 uppercase block font-semibold">Infant Physical Metrics</span>
+                          <span className="font-mono font-bold text-slate-800">Weight: 7 lbs 8 oz (3,400 g) · Length: 20.5 in · Sex: {records.birth.sex}</span>
+                        </div>
+                      </div>
+
+                      {/* 新生儿足印框 (1:1 还原 Birth_Certificate_Standard_Hospital.jpeg) */}
+                      <div className="bg-white/90 p-3.5 rounded border-2 border-dashed border-slate-400 flex flex-col items-center justify-between text-center min-h-[140px]">
+                        <span className="text-[10px] font-bold uppercase tracking-wider text-slate-500">
+                          Baby's Footprints (Newborn Imprint)
+                        </span>
+                        <div className="flex items-center justify-center gap-6 my-2 text-slate-800">
+                          {/* 左脚印 SVG */}
+                          <svg className="w-10 h-14 fill-slate-800/80 transform -rotate-6" viewBox="0 0 100 150">
+                            <ellipse cx="50" cy="110" rx="28" ry="32" />
+                            <circle cx="32" cy="50" r="14" />
+                            <circle cx="48" cy="38" r="9" />
+                            <circle cx="64" cy="34" r="8" />
+                            <circle cx="78" cy="38" r="7" />
+                            <circle cx="88" cy="48" r="6" />
+                          </svg>
+                          {/* 右脚印 SVG */}
+                          <svg className="w-10 h-14 fill-slate-800/80 transform rotate-6" viewBox="0 0 100 150">
+                            <ellipse cx="50" cy="110" rx="28" ry="32" />
+                            <circle cx="68" cy="50" r="14" />
+                            <circle cx="52" cy="38" r="9" />
+                            <circle cx="36" cy="34" r="8" />
+                            <circle cx="22" cy="38" r="7" />
+                            <circle cx="12" cy="48" r="6" />
+                          </svg>
+                        </div>
+                        <span className="text-[9px] font-mono text-slate-400">
+                          CERTIFIED CLINICAL HOSPITAL REGISTRATION
+                        </span>
+                      </div>
+                    </div>
+
+                    <div className="mt-6 pt-4 border-t border-slate-300 flex items-center justify-between text-xs font-sans">
+                      <div>
+                        <span className="text-[10px] text-slate-400 uppercase block">Attending Obstetrician / Physician</span>
+                        <span className="font-serif italic text-sm font-bold text-slate-900">Dr. Sarah Jenkins, M.D. - FACOG</span>
+                      </div>
+                      <div className="text-right">
+                        <span className="text-[10px] text-slate-400 uppercase block">Hospital Administrator</span>
+                        <span className="font-bold text-slate-900">Registered Nurse, Obstetrics Admin</span>
+                      </div>
+                    </div>
+                  </div>
+                ) : (
                 <div className="relative">
                   {/* Informational 水印 */}
                   {birthVariant === "informational" && (
@@ -270,6 +361,7 @@ export function VitalRecordsModal({
                     </div>
                   </div>
                 </div>
+                )
               )}
 
               {/* 2. GED 文凭证书与全科成绩单 (1:1 还原 GED_Equivalency_Diploma 与 GED_Official_Test_Results) */}
