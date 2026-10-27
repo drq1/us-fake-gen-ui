@@ -10,6 +10,13 @@ import {
   PRESET_INSTITUTIONS,
   type AdmissionLetterData,
 } from "@/lib/admission-letter-generator"
+import {
+  HarvardVeritasShield,
+  MitStripesLogo,
+  UChicagoPhoenixBadge,
+  TempleDiamondT,
+  RitTigerEmblem,
+} from "@/components/brand-logos"
 
 interface AdmissionLetterModalProps {
   open: boolean
@@ -181,14 +188,8 @@ export function AdmissionLetterModal({
                       <div className="text-[10px] tracking-[0.25em] font-bold text-slate-700 uppercase -mt-1">MANAGEMENT</div>
                     </div>
                   </div>
-                  {/* MIT 经典五条杠条纹几何标 */}
-                  <div className="flex items-end gap-1.5 h-7">
-                    <div className="w-1.5 h-7 bg-[#a31f34]" />
-                    <div className="w-1.5 h-4.5 bg-[#a31f34]" />
-                    <div className="w-1.5 h-7 bg-[#a31f34]" />
-                    <div className="w-1.5 h-5 bg-[#a31f34]" />
-                    <div className="w-1.5 h-7 bg-[#a31f34]" />
-                  </div>
+                  {/* MIT 经典条纹标 */}
+                  <MitStripesLogo className="h-7 w-auto" />
                   {/* MIT Sloan 官方地址 */}
                   <div className="text-right text-[11px] text-slate-600 leading-snug">
                     <div className="font-bold text-slate-900">Massachusetts Institute of Technology</div>
@@ -199,12 +200,8 @@ export function AdmissionLetterModal({
                 </div>
               ) : letterData.sealType === "harvard" ? (
                 <div className="mb-8 border-b-2 border-[#a51c30] pb-4 flex items-center justify-between font-serif">
-                  <div className="flex items-center gap-3">
-                    <div className="h-12 w-10 bg-[#a51c30] text-white flex flex-col items-center justify-center rounded-b-md shadow-xs p-1">
-                      <span className="text-[9px] font-bold tracking-widest uppercase">VE</span>
-                      <span className="text-[9px] font-bold tracking-widest uppercase">RI</span>
-                      <span className="text-[8px] font-bold tracking-widest uppercase">TAS</span>
-                    </div>
+                  <div className="flex items-center gap-3.5">
+                    <HarvardVeritasShield className="h-14 w-auto shadow-xs" />
                     <div>
                       <h1 className="text-lg sm:text-xl font-bold tracking-tight text-[#a51c30] uppercase">
                         HARVARD MEDICAL SCHOOL
@@ -223,9 +220,7 @@ export function AdmissionLetterModal({
               ) : letterData.sealType === "uchicago" ? (
                 <div className="mb-8 border-b-2 border-[#800000] pb-4 flex items-center justify-between font-serif">
                   <div className="flex items-center gap-3">
-                    <div className="h-11 w-11 rounded-full border-2 border-[#800000] flex items-center justify-center bg-stone-50 text-[#800000] font-bold text-xs">
-                      PHOENIX
-                    </div>
+                    <UChicagoPhoenixBadge className="h-12 w-auto shadow-xs" />
                     <div>
                       <h1 className="text-lg sm:text-xl font-bold tracking-tight text-[#800000] uppercase">
                         THE UNIVERSITY OF CHICAGO
@@ -258,9 +253,7 @@ export function AdmissionLetterModal({
               ) : letterData.sealType === "temple" ? (
                 <div className="mb-8 border-b-2 border-[#9d2235] pb-3 flex items-center justify-between font-sans">
                   <div className="flex items-center gap-2.5">
-                    <div className="h-9 w-9 bg-[#9d2235] text-white flex items-center justify-center font-bold text-xl rounded-sm">
-                      T
-                    </div>
+                    <TempleDiamondT className="h-9 w-auto shadow-xs" />
                     <div>
                       <h1 className="text-lg sm:text-xl font-black tracking-tight text-[#9d2235] uppercase">
                         TEMPLE UNIVERSITY
@@ -298,9 +291,7 @@ export function AdmissionLetterModal({
               ) : letterData.sealType === "rit" ? (
                 <div className="mb-8 border-b-2 border-[#f76902] pb-3 flex items-center justify-between font-sans">
                   <div className="flex items-center gap-2.5">
-                    <div className="h-9 px-2 bg-[#f76902] text-white flex items-center justify-center font-black text-xl rounded-sm shadow-xs">
-                      RIT
-                    </div>
+                    <RitTigerEmblem className="h-9 w-auto shadow-xs" />
                     <div>
                       <h1 className="text-lg sm:text-xl font-black tracking-tight text-slate-900 uppercase">
                         ROCHESTER INSTITUTE OF TECHNOLOGY

@@ -3,6 +3,7 @@
 import React, { useState } from "react"
 import type { SatActReportData } from "@/lib/sat-act-types"
 import { Award, CheckCircle2, TrendingUp, Check } from "lucide-react"
+import { CollegeBoardLogo, ActLogo } from "@/components/brand-logos"
 
 interface SatActScoreSheetProps {
   data: SatActReportData
@@ -43,17 +44,12 @@ export function SatActScoreSheet({ data, initialType = "SAT" }: SatActScoreSheet
           className="relative bg-white text-slate-900 shadow-2xl rounded-sm p-6 sm:p-10 border border-slate-300 font-sans leading-tight selection:bg-blue-100 print:shadow-none print:border-none print:p-6"
           style={{ minHeight: "1100px" }}
         >
-          {/* 顶栏：College Board 标志性蓝色长条题头 */}
+          {/* 顶栏：College Board 标志性官方题头 */}
           <div className="border-b-4 border-[#0077c8] pb-4 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
             <div className="flex items-center gap-3">
-              <div className="h-10 w-10 bg-[#0077c8] rounded flex items-center justify-center text-white font-black text-xl">
-                CB
-              </div>
-              <div>
-                <div className="text-xs uppercase tracking-widest text-[#0077c8] font-black">
-                  CollegeBoard
-                </div>
-                <h1 className="text-2xl font-black text-slate-900 tracking-tight">
+              <CollegeBoardLogo className="h-10 w-auto" />
+              <div className="border-l-2 border-slate-300 pl-3">
+                <h1 className="text-xl sm:text-2xl font-black text-slate-900 tracking-tight">
                   SAT® Score Report
                 </h1>
               </div>
@@ -192,14 +188,12 @@ export function SatActScoreSheet({ data, initialType = "SAT" }: SatActScoreSheet
           className="relative bg-white text-slate-900 shadow-2xl rounded-sm p-6 sm:p-10 border border-slate-300 font-sans leading-tight selection:bg-blue-100 print:shadow-none print:border-none print:p-6"
           style={{ minHeight: "1100px" }}
         >
-          {/* 顶栏：ACT 标志性题头 */}
+          {/* 顶栏：ACT 标志性官方题头 */}
           <div className="border-b-4 border-[#002f6c] pb-4 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
             <div className="flex items-center gap-3">
-              <div className="h-10 w-12 bg-[#002f6c] rounded flex items-center justify-center text-white font-black text-xl italic tracking-tighter">
-                ACT
-              </div>
+              <ActLogo className="h-10 w-auto shadow-xs" />
               <div>
-                <h1 className="text-2xl font-black text-[#002f6c] tracking-tight">
+                <h1 className="text-xl sm:text-2xl font-black text-[#002f6c] tracking-tight">
                   ACT® Student Score Report
                 </h1>
                 <div className="text-xs uppercase tracking-wider text-slate-600 font-bold">

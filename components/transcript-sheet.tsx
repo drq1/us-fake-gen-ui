@@ -3,6 +3,7 @@
 import React from "react"
 import type { StudentTranscript, CourseRecord } from "@/lib/transcript-types"
 import { Award, ShieldCheck, CheckCircle2 } from "lucide-react"
+import { ParchmentLogo } from "@/components/brand-logos"
 
 interface TranscriptSheetProps {
   data: StudentTranscript
@@ -68,12 +69,10 @@ export function TranscriptSheet({
 
       {/* Parchment 官方电子交付题头 (1:1 还原 High_School_Official_Record_Parchment.pdf) */}
       {styleVariant === "parchment" && (
-        <div className="bg-[#003865] text-white p-2.5 mb-3 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 text-xs font-sans rounded-xs shadow-xs">
-          <div className="flex items-center gap-2">
-            <span className="font-bold tracking-wider text-sm bg-white text-[#003865] px-1.5 py-0.2 rounded-xs">
-              parchment
-            </span>
-            <span className="text-[10px] text-blue-100 font-medium">
+        <div className="bg-[#003865] text-white px-3 py-2 mb-3 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 text-xs font-sans rounded-xs shadow-xs">
+          <div className="flex items-center gap-3">
+            <ParchmentLogo className="h-6 w-auto" />
+            <span className="text-[10.5px] text-blue-100 font-medium">
               Official Secure Electronic Document Delivery
             </span>
           </div>

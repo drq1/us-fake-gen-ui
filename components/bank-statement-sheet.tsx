@@ -3,6 +3,7 @@
 import React from "react"
 import type { BankStatementData } from "@/lib/bank-statement-generator"
 import { Building2, ShieldCheck, CheckCircle2 } from "lucide-react"
+import { BankOfAmericaLogo, UsBankLogo } from "@/components/brand-logos"
 
 interface BankStatementSheetProps {
   data: BankStatementData
@@ -51,41 +52,11 @@ export function BankStatementSheet({
       }`}>
         <div>
           {isUsBank ? (
-            <div className="flex items-center gap-2.5">
-              <div className="h-7 w-7 rounded-sm bg-[#0c2340] flex items-center justify-center relative shadow-xs">
-                <div className="w-3 h-3 bg-[#d9272e] rounded-2xs" />
-              </div>
-              <div>
-                <span className="text-xl sm:text-2xl font-black tracking-tight text-[#0c2340] font-sans lowercase">
-                  us<span className="text-[#d9272e]">bank</span>
-                </span>
-                <span className="text-[9px] text-slate-500 block uppercase font-bold tracking-widest -mt-0.5">
-                  National Association
-                </span>
-              </div>
-            </div>
+            <UsBankLogo className="h-8 w-auto" />
           ) : (
-            <div className="flex items-center gap-3">
-              <div className="flex flex-col gap-0.5">
-                <div className="flex gap-0.5">
-                  <div className="w-2.5 h-1.5 bg-[#e31837]" />
-                  <div className="w-2 h-1.5 bg-[#002d72]" />
-                </div>
-                <div className="flex gap-0.5">
-                  <div className="w-3.5 h-1.5 bg-[#e31837]" />
-                  <div className="w-1.5 h-1.5 bg-[#002d72]" />
-                </div>
-                <div className="flex gap-0.5">
-                  <div className="w-2 h-1.5 bg-[#e31837]" />
-                  <div className="w-3 h-1.5 bg-[#002d72]" />
-                </div>
-              </div>
-              <span className="text-xl sm:text-2xl font-black tracking-tight text-[#002d72] font-sans">
-                Bank of America
-              </span>
-            </div>
+            <BankOfAmericaLogo className="h-8 w-auto" />
           )}
-          <div className="text-xs text-slate-500 mt-1">
+          <div className="text-xs text-slate-500 mt-1.5">
             {data.bankAddress} · {data.website}
           </div>
         </div>

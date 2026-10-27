@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button"
 import { Printer, IdCard, Star, Heart, ArrowLeft, RotateCw, Download, ShieldCheck, User } from "lucide-react"
 import type { PersonData } from "@/lib/types"
 import { generateDriverLicense, type DriverLicenseData } from "@/lib/driver-license-generator"
+import { RealIdStarBadge } from "@/components/brand-logos"
 
 interface DriverLicenseModalProps {
   open: boolean
@@ -164,9 +165,7 @@ export function DriverLicenseModal({
                     </div>
 
                     {/* REAL ID 金星 */}
-                    <div className="h-7 w-7 rounded-full bg-amber-400 text-amber-950 flex items-center justify-center shadow-xs shrink-0 border border-amber-300">
-                      <Star className="h-4 w-4 fill-amber-950" />
-                    </div>
+                    <RealIdStarBadge className="h-7 w-7 shrink-0 shadow-xs" />
                   </div>
 
                   {/* 卡面主体内容 */}

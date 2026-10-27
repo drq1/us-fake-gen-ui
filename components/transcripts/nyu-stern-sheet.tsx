@@ -3,6 +3,7 @@
 import React from "react"
 import type { UniversityTranscriptData } from "@/lib/university-transcript-types"
 import { Award, CheckCircle2 } from "lucide-react"
+import { NyuTorchBadge } from "@/components/brand-logos"
 
 interface NyuSternSheetProps {
   data: UniversityTranscriptData
@@ -45,9 +46,7 @@ export function NyuSternSheet({
       {/* 顶部：纽约大学与教务长抬头 */}
       <div className="border-b-2 border-[#57068c] pb-3 mb-4 flex flex-col sm:flex-row items-center justify-between gap-3">
         <div className="flex items-center gap-3">
-          <div className="h-12 w-12 rounded-sm bg-[#57068c] text-white flex flex-col items-center justify-center font-serif font-black text-xs shadow-xs shrink-0">
-            <span>NYU</span>
-          </div>
+          <NyuTorchBadge className="h-12 w-auto shadow-xs shrink-0" />
           <div>
             <h1 className="text-xl sm:text-2xl font-black tracking-tight text-[#57068c] uppercase">
               NEW YORK UNIVERSITY

@@ -3,6 +3,7 @@
 import React from "react"
 import type { UniversityTranscriptData } from "@/lib/university-transcript-types"
 import { Award, ShieldCheck } from "lucide-react"
+import { TexasAmOfficialSeal } from "@/components/brand-logos"
 
 interface TexasAmSheetProps {
   data: UniversityTranscriptData
@@ -199,11 +200,7 @@ export function TexasAmSheet({
             </div>
 
             {/* 德州农工官方酒红圆形教务印章 */}
-            <div className="h-16 w-16 rounded-full border-2 border-double border-[#500000] flex flex-col items-center justify-center p-1 bg-rose-50 text-[#500000] font-serif shadow-xs">
-              <Award className="h-5 w-5 mb-0.5 text-[#500000]" />
-              <span className="text-[7px] font-black uppercase tracking-tighter">TEXAS A&M</span>
-              <span className="text-[6px] tracking-widest uppercase">REGISTRAR</span>
-            </div>
+            <TexasAmOfficialSeal className="h-16 w-16 shadow-xs" />
           </div>
         </div>
       </div>
